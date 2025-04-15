@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-lg mx-auto py-8">
+  <div class="max-w-lg mx-auto py-8 mt-5">
     <h1 class="text-2xl font-bold mb-6 text-center">Rejestracja</h1>
 
     <auth-form

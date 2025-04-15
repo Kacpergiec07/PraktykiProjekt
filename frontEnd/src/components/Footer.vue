@@ -20,13 +20,17 @@ const currentYear = new Date().getFullYear();
   color: white;
   padding: 1rem 0;
   font-size: 0.9rem;
+  background-color: #18795b;
+  /* display: flex;
+  justify-content: space-between; */
 }
 
 .footer-content {
   display: flex;
-  flex-direction: column;
+  justify-content: space-evenly;
   align-items: center;
   gap: 0.5rem;
+  margin: 0, auto;
 }
 
 .footer-links {

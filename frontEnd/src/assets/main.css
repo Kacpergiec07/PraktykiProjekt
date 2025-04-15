@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Hurricane&display=swap");
+
 /* Custom global styles */
 body {
   background-color: #f5f7fa;
@@ -12,10 +14,64 @@ button:disabled {
   cursor: not-allowed;
 }
 
+nav .container a {
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  gap: 10px;
+}
+
+.logo_txt::before {
+  content: "";
+  aspect-ratio: 1/1;
+  height: 40px;
+  background: url(slonce.png);
+  display: inline-block;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.nav-item::before {
+  content: "";
+  transition: 0.5s;
+  position: absolute;
+  width: 0px;
+  height: 4px;
+  background: white;
+  transform: translateY(15px) translateX(-1px);
+}
+
+.nav-item:hover::before {
+  width: 33px;
+}
+
+.nav-item:nth-of-type(2):hover::before {
+  width: 83px;
+}
+.nav-item:nth-of-type(3):hover::before {
+  width: 85px;
+}
+
+.nav-item {
+  display: flex;
+  justify-content: end !important;
+  transition: 0.5s !important;
+}
+
+.nav-item:hover {
+  justify-content: start !important;
+}
+
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 1rem;
+}
+
+@theme {
+  --color-mint: #18795b;
+  --color-lightmint: #268f6f;
 }
 
 /* Animation for loading spinner */

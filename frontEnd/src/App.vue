@@ -12,6 +12,7 @@
 import NavBar from "./components/NavBar.vue";
 import { mapActions } from "vuex";
 import Footer from "./components/Footer.vue";
+import "./assets/App.css";
 
 export default {
   name: "App",

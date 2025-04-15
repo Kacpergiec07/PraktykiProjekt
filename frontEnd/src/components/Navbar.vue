@@ -1,10 +1,14 @@
 <template>
-  <nav class="bg-blue-600 text-white p-4">
+  <nav class="text-white p-4 bg-mint">
     <div class="container mx-auto flex justify-between items-center">
-      <router-link to="/" class="text-xl font-bold">API Apteka</router-link>
+      <router-link to="/" class="text-xl font-bold logo_txt font-primary"
+        >API Apteka</router-link
+      >
 
       <div class="flex space-x-4">
-        <router-link to="/drugs" class="hover:text-blue-200">Leki</router-link>
+        <router-link to="/drugs" class="hover:text-blue-200 nav-item"
+          >Leki</router-link
+        >
 
         <!-- Authenticated user links -->
         <template v-if="isAuthenticated">
@@ -24,10 +28,10 @@
 
         <!-- Non-authenticated user links -->
         <template v-else>
-          <router-link to="/login" class="hover:text-blue-200"
+          <router-link to="/login" class="hover:text-blue-200 nav-item"
             >Logowanie</router-link
           >
-          <router-link to="/register" class="hover:text-blue-200"
+          <router-link to="/register" class="hover:text-blue-200 nav-item"
             >Rejestracja</router-link
           >
         </template>
