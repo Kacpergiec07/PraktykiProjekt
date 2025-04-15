@@ -8,6 +8,8 @@ import DrugDetailView from "../views/DrugDetailview.vue";
 import OrderHistoryView from "../views/Orderhistoryview.vue";
 import AdminView from "../views/Adminview.vue";
 import store from "../store";
+import About from "../components/About.vue";
+import Kontakt from "../components/Kontakt.vue";
 
 // Route guard for authenticated routes
 const requireAuth = (to, from, next) => {
@@ -75,6 +77,16 @@ const routes = [
     name: "admin",
     component: AdminView,
     beforeEnter: requireAdmin,
+  },
+  {
+    path: "/about",
+    name: "about",
+    component: About,
+  },
+  {
+    path: "/kontakt",
+    name: "kontakt",
+    component: Kontakt,
   },
 ];
 

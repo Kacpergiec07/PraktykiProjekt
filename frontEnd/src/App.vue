@@ -4,17 +4,20 @@
     <main class="container mx-auto px-4 py-6">
       <router-view />
     </main>
+    <Footer></Footer>
   </div>
 </template>
 
 <script>
 import NavBar from "./components/NavBar.vue";
 import { mapActions } from "vuex";
+import Footer from "./components/Footer.vue";
 
 export default {
   name: "App",
   components: {
     NavBar,
+    Footer,
   },
   methods: {
     ...mapActions("auth", ["checkAuth"]),

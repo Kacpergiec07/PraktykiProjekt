@@ -13,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "leaflet": "^1.9.4",
     "vue-router": "^4.5.0"
   }
 }
