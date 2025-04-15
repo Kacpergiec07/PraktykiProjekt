@@ -1,0 +1,65 @@
+# ======================
+# GLOBAL IGNORE
+# ======================
+
+# OS pliki
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependency directories
+**/node_modules/
+node_modules/
+# Build outputs
+**/dist/
+**/build/
+
+# Env files
+**/.env
+**/.env.*.local
+**/.env.local
+
+# IDE / Editor files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Test output
+coverage/
+**/coverage/
+
+# Optional npm cache directory
+.npm/
+
+# Optional yarn cache
+.yarn/
+
+# Mac system files
+*.DS_Store
+
+# Windows system files
+ehthumbs.db
+Icon?
+Desktop.ini
+
+# ===============
+# FRONTEND (Vue.js)
+# ===============
+frontEnd/.output/
+frontEnd/.vitepress/
+frontEnd/.nuxt/
+frontEnd/.turbo/
+frontnd/public/pwa-*.json
+
+# ===============
+# BACKEND (Node.js / Express)
+# ===============
+backend/tmp/
+backend/pids/
+backend/logs/
