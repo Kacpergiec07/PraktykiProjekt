@@ -5,7 +5,7 @@
 
       <div class="grid md:grid-cols-2 gap-12 items-center">
         <div>
-          <img src="" alt="Zespół apteki" class="rounded-2xl shadow-lg" />
+          <img src="C:\Users\brode\OneDrive\Pulpit\PraktykiProjekt\frontEnd\src\assets\zespol_onas.jpg" alt="Zespół apteki" class="rounded-2xl shadow-lg" />
         </div>
 
         <div>
