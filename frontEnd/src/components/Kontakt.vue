@@ -1,10 +1,19 @@
 <template>
   <div class="min-h-screen bg-gray-50 py-12 px-6">
-    <section class="max-w-4xl mx-auto bg-white p-8 rounded-2xl shadow-md">
-      <h1 class="text-4xl font-bold text-center mb-8">Skontaktuj się z nami</h1>
+    <section
+      class="max-w-4xl mx-auto bg-white p-8 rounded-2xl shadow-md animate-fade-in"
+    >
+      <h1
+        class="text-4xl font-bold text-center mb-8 animate-fade-in-up delay-100"
+      >
+        Skontaktuj się z nami
+      </h1>
 
-      <form @submit.prevent="submitForm" class="space-y-6">
-        <div>
+      <form
+        @submit.prevent="submitForm"
+        class="space-y-6 animate-fade-in-up delay-200"
+      >
+        <div class="animate-fade-in-up delay-300">
           <label class="block text-sm font-medium mb-1" for="name"
             >Imię i nazwisko</label
           >
@@ -17,7 +26,7 @@
           />
         </div>
 
-        <div>
+        <div class="animate-fade-in-up delay-400">
           <label class="block text-sm font-medium mb-1" for="email"
             >E-mail</label
           >
@@ -30,7 +39,7 @@
           />
         </div>
 
-        <div>
+        <div class="animate-fade-in-up delay-500">
           <label class="block text-sm font-medium mb-1" for="message"
             >Wiadomość</label
           >
@@ -45,19 +54,21 @@
 
         <button
           type="submit"
-          class="bg-blue-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-700 transition"
+          class="bg-blue-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-700 transition animate-fade-in-up delay-600"
         >
           Wyślij wiadomość
         </button>
       </form>
 
-      <div class="mt-10 text-center text-gray-600 space-y-2">
+      <div
+        class="mt-10 text-center text-gray-600 space-y-2 animate-fade-in-up delay-700"
+      >
         <p><strong>Adres:</strong> ul. Zdrowa 12, 00-123 Warszawa</p>
         <p><strong>Telefon:</strong> +48 123 456 789</p>
         <p><strong>Email:</strong> kontakt@apteka.pl</p>
       </div>
 
-      <div class="mt-8">
+      <div class="mt-8 animate-fade-in-up delay-800">
         <iframe
           width="100%"
           height="400"
@@ -99,4 +110,35 @@ const submitForm = () => {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* klasy animacji */
+.animate-fade-in {
+  animation: fade-in 0.8s ease-out forwards;
+  opacity: 0;
+}
+.animate-fade-in-up {
+  animation: fade-in-up 0.8s ease-out forwards;
+  opacity: 0;
+}
+
+/* Tailwindowe klasy delay-* wystarczą, jeśli masz plugin animate lub core delay utilities */
+</style>

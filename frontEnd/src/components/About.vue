@@ -1,16 +1,22 @@
 <template>
   <div class="min-h-screen bg-gray-50 text-gray-800">
     <section class="max-w-6xl mx-auto px-6 py-12">
-      <h1 class="text-4xl font-bold text-center mb-8">O nas</h1>
+      <h1 class="text-4xl font-bold text-center mb-8 animate-fade-in">O nas</h1>
 
       <div class="grid md:grid-cols-2 gap-12 items-center">
+        <!-- Obrazek -->
         <div>
-          <img src="C:\Users\brode\OneDrive\Pulpit\PraktykiProjekt\frontEnd\src\assets\zespol_onas.jpg" alt="Zespół apteki" class="rounded-2xl shadow-lg" />
+          <img
+            :src="zespolImg"
+            alt="Zespół"
+            class="max-w-md rounded-xl shadow-lg transition-transform duration-300 hover:scale-105 hover:shadow-2xl animate-fade-in"
+          />
         </div>
 
-        <div>
-          <h2 class="text-2xl font-semibold mb-4">Kim jesteśmy?</h2>
-          <p class="text-lg mb-4 leading-relaxed">
+        <!-- Tekst -->
+        <div class="space-y-4 animate-fade-in-up delay-100">
+          <h2 class="text-2xl font-semibold">Kim jesteśmy?</h2>
+          <p class="text-lg leading-relaxed">
             Jesteśmy zespołem pasjonatów farmacji i nowoczesnych technologii,
             którzy wierzą, że dostęp do leków i informacji zdrowotnych powinien
             być szybki, łatwy i bezpieczny.
@@ -23,9 +29,10 @@
         </div>
       </div>
 
+      <!-- Karty -->
       <div class="mt-16 grid md:grid-cols-3 gap-8 text-center">
         <div
-          class="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl transition"
+          class="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl transition animate-fade-in-up delay-150"
         >
           <h3 class="text-xl font-bold mb-2">Zaufanie</h3>
           <p class="text-gray-600">
@@ -34,7 +41,7 @@
         </div>
 
         <div
-          class="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl transition"
+          class="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl transition animate-fade-in-up delay-300"
         >
           <h3 class="text-xl font-bold mb-2">Wiedza</h3>
           <p class="text-gray-600">
@@ -43,7 +50,7 @@
         </div>
 
         <div
-          class="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl transition"
+          class="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl transition animate-fade-in-up delay-500"
         >
           <h3 class="text-xl font-bold mb-2">Technologia</h3>
           <p class="text-gray-600">
@@ -56,9 +63,23 @@
 </template>
 
 <script setup>
-// Nie potrzebujemy JS do statycznego widoku, ale możesz tu dodać meta dane lub dane z API
+import zespolImg from "../assets/zespol_onas.jpg";
 </script>
 
 <style scoped>
-/* Możesz dodać dodatkowe efekty animacji, jeśli chcesz */
+@keyframes fade-in-up {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.8s ease-out forwards;
+  opacity: 0;
+}
 </style>

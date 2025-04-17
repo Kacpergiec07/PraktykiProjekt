@@ -9,7 +9,7 @@
     </div>
   </footer>
 </template>
-<!-- dokonczyc strone o nas, kontakt oraz polityka prywatności -->
+
 <script setup>
 const currentYear = new Date().getFullYear();
 </script>
@@ -21,8 +21,6 @@ const currentYear = new Date().getFullYear();
   padding: 1rem 0;
   font-size: 0.9rem;
   background-color: #18795b;
-  /* display: flex;
-  justify-content: space-between; */
 }
 
 .footer-content {
