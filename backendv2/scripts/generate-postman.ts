@@ -1,0 +1,706 @@
+import * as fs from "fs";
+import * as path from "path";
+
+/**
+ * Script to generate a Postman collection for the Pharmacy API
+ */
+
+const collection = {
+  info: {
+    _postman_id: "random-id-" + Date.now(),
+    name: "Pharmacy API",
+    description: "A collection for testing the Pharmacy API endpoints",
+    schema:
+      "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+  },
+  variable: [
+    {
+      key: "baseUrl",
+      value: "http://localhost:5000/api",
+      type: "string",
+    },
+    {
+      key: "accessToken",
+      value: "",
+      type: "string",
+    },
+    {
+      key: "refreshToken",
+      value: "",
+      type: "string",
+    },
+  ],
+  item: [
+    {
+      name: "Authentication",
+      item: [
+        {
+          name: "Register",
+          request: {
+            method: "POST",
+            header: [
+              {
+                key: "Content-Type",
+                value: "application/json",
+              },
+            ],
+            body: {
+              mode: "raw",
+              raw: JSON.stringify(
+                {
+                  email: "user@example.com",
+                  password: "Password123!",
+                  firstName: "John",
+                  lastName: "Doe",
+                },
+                null,
+                2
+              ),
+              options: {
+                raw: {
+                  language: "json",
+                },
+              },
+            },
+            url: {
+              raw: "{{baseUrl}}/auth/register",
+              host: ["{{baseUrl}}"],
+              path: ["auth", "register"],
+            },
+            description: "Register a new user",
+          },
+          response: [],
+        },
+        {
+          name: "Login",
+          request: {
+            method: "POST",
+            header: [
+              {
+                key: "Content-Type",
+                value: "application/json",
+              },
+            ],
+            body: {
+              mode: "raw",
+              raw: JSON.stringify(
+                {
+                  email: "user@example.com",
+                  password: "Password123!",
+                },
+                null,
+                2
+              ),
+              options: {
+                raw: {
+                  language: "json",
+                },
+              },
+            },
+            url: {
+              raw: "{{baseUrl}}/auth/login",
+              host: ["{{baseUrl}}"],
+              path: ["auth", "login"],
+            },
+            description: "Login to get access and refresh tokens",
+          },
+          response: [],
+          event: [
+            {
+              listen: "test",
+              script: {
+                exec: [
+                  "const response = pm.response.json();",
+                  'if (response.status === "success") {',
+                  '    pm.environment.set("accessToken", response.data.accessToken);',
+                  '    pm.environment.set("refreshToken", response.data.refreshToken);',
+                  '    console.log("Tokens set successfully");',
+                  "}",
+                ],
+                type: "text/javascript",
+              },
+            },
+          ],
+        },
+        {
+          name: "Refresh Token",
+          request: {
+            method: "POST",
+            header: [
+              {
+                key: "Content-Type",
+                value: "application/json",
+              },
+            ],
+            body: {
+              mode: "raw",
+              raw: JSON.stringify(
+                {
+                  refreshToken: "{{refreshToken}}",
+                },
+                null,
+                2
+              ),
+              options: {
+                raw: {
+                  language: "json",
+                },
+              },
+            },
+            url: {
+              raw: "{{baseUrl}}/auth/refresh-token",
+              host: ["{{baseUrl}}"],
+              path: ["auth", "refresh-token"],
+            },
+            description: "Refresh the access token",
+          },
+          response: [],
+          event: [
+            {
+              listen: "test",
+              script: {
+                exec: [
+                  "const response = pm.response.json();",
+                  'if (response.status === "success") {',
+                  '    pm.environment.set("accessToken", response.data.accessToken);',
+                  '    console.log("Access token refreshed successfully");',
+                  "}",
+                ],
+                type: "text/javascript",
+              },
+            },
+          ],
+        },
+        {
+          name: "Get Current User",
+          request: {
+            method: "GET",
+            header: [
+              {
+                key: "Authorization",
+                value: "Bearer {{accessToken}}",
+              },
+            ],
+            url: {
+              raw: "{{baseUrl}}/auth/me",
+              host: ["{{baseUrl}}"],
+              path: ["auth", "me"],
+            },
+            description: "Get information about the current user",
+          },
+          response: [],
+        },
+        {
+          name: "Logout",
+          request: {
+            method: "POST",
+            header: [
+              {
+                key: "Content-Type",
+                value: "application/json",
+              },
+            ],
+            body: {
+              mode: "raw",
+              raw: JSON.stringify(
+                {
+                  refreshToken: "{{refreshToken}}",
+                },
+                null,
+                2
+              ),
+              options: {
+                raw: {
+                  language: "json",
+                },
+              },
+            },
+            url: {
+              raw: "{{baseUrl}}/auth/logout",
+              host: ["{{baseUrl}}"],
+              path: ["auth", "logout"],
+            },
+            description: "Logout and invalidate the refresh token",
+          },
+          response: [],
+          event: [
+            {
+              listen: "test",
+              script: {
+                exec: [
+                  'pm.environment.unset("accessToken");',
+                  'pm.environment.unset("refreshToken");',
+                  'console.log("Tokens cleared");',
+                ],
+                type: "text/javascript",
+              },
+            },
+          ],
+        },
+      ],
+    },
+    {
+      name: "Drugs",
+      item: [
+        {
+          name: "Get All Drugs",
+          request: {
+            method: "GET",
+            header: [
+              {
+                key: "Authorization",
+                value: "Bearer {{accessToken}}",
+              },
+            ],
+            url: {
+              raw: "{{baseUrl}}/drugs?page=0&limit=10&sortBy=name&sortOrder=asc",
+              host: ["{{baseUrl}}"],
+              path: ["drugs"],
+              query: [
+                {
+                  key: "page",
+                  value: "0",
+                },
+                {
+                  key: "limit",
+                  value: "10",
+                },
+                {
+                  key: "sortBy",
+                  value: "name",
+                },
+                {
+                  key: "sortOrder",
+                  value: "asc",
+                },
+              ],
+            },
+            description: "Get a paginated list of all drugs",
+          },
+          response: [],
+        },
+        {
+          name: "Get Drug by ID",
+          request: {
+            method: "GET",
+            header: [
+              {
+                key: "Authorization",
+                value: "Bearer {{accessToken}}",
+              },
+            ],
+            url: {
+              raw: "{{baseUrl}}/drugs/:id",
+              host: ["{{baseUrl}}"],
+              path: ["drugs", ":id"],
+              variable: [
+                {
+                  key: "id",
+                  value: "drug_id_here",
+                  description: "The ID of the drug",
+                },
+              ],
+            },
+            description: "Get a specific drug by ID",
+          },
+          response: [],
+        },
+        {
+          name: "Create Drug",
+          request: {
+            method: "POST",
+            header: [
+              {
+                key: "Authorization",
+                value: "Bearer {{accessToken}}",
+              },
+              {
+                key: "Content-Type",
+                value: "application/json",
+              },
+            ],
+            body: {
+              mode: "raw",
+              raw: JSON.stringify(
+                {
+                  name: "New Drug",
+                  dose: 100,
+                  price: 9.99,
+                  type: "tablet",
+                  companyName: "Pharma Co",
+                  amount: 50,
+                },
+                null,
+                2
+              ),
+              options: {
+                raw: {
+                  language: "json",
+                },
+              },
+            },
+            url: {
+              raw: "{{baseUrl}}/drugs",
+              host: ["{{baseUrl}}"],
+              path: ["drugs"],
+            },
+            description:
+              "Create a new drug (requires PHARMACIST or ADMIN role)",
+          },
+          response: [],
+        },
+        {
+          name: "Update Drug",
+          request: {
+            method: "PATCH",
+            header: [
+              {
+                key: "Authorization",
+                value: "Bearer {{accessToken}}",
+              },
+              {
+                key: "Content-Type",
+                value: "application/json",
+              },
+            ],
+            body: {
+              mode: "raw",
+              raw: JSON.stringify(
+                {
+                  price: 10.99,
+                  amount: 75,
+                },
+                null,
+                2
+              ),
+              options: {
+                raw: {
+                  language: "json",
+                },
+              },
+            },
+            url: {
+              raw: "{{baseUrl}}/drugs/:id",
+              host: ["{{baseUrl}}"],
+              path: ["drugs", ":id"],
+              variable: [
+                {
+                  key: "id",
+                  value: "drug_id_here",
+                  description: "The ID of the drug to update",
+                },
+              ],
+            },
+            description:
+              "Update an existing drug (requires PHARMACIST or ADMIN role)",
+          },
+          response: [],
+        },
+        {
+          name: "Delete Drug",
+          request: {
+            method: "DELETE",
+            header: [
+              {
+                key: "Authorization",
+                value: "Bearer {{accessToken}}",
+              },
+            ],
+            url: {
+              raw: "{{baseUrl}}/drugs/:id",
+              host: ["{{baseUrl}}"],
+              path: ["drugs", ":id"],
+              variable: [
+                {
+                  key: "id",
+                  value: "drug_id_here",
+                  description: "The ID of the drug to delete",
+                },
+              ],
+            },
+            description: "Delete a drug (requires PHARMACIST or ADMIN role)",
+          },
+          response: [],
+        },
+      ],
+    },
+    {
+      name: "Orders",
+      item: [
+        {
+          name: "Create Order",
+          request: {
+            method: "POST",
+            header: [
+              {
+                key: "Authorization",
+                value: "Bearer {{accessToken}}",
+              },
+              {
+                key: "Content-Type",
+                value: "application/json",
+              },
+            ],
+            body: {
+              mode: "raw",
+              raw: JSON.stringify(
+                {
+                  items: [
+                    {
+                      drugId: "drug_id_1",
+                      quantity: 2,
+                    },
+                    {
+                      drugId: "drug_id_2",
+                      quantity: 1,
+                    },
+                  ],
+                },
+                null,
+                2
+              ),
+              options: {
+                raw: {
+                  language: "json",
+                },
+              },
+            },
+            url: {
+              raw: "{{baseUrl}}/orders",
+              host: ["{{baseUrl}}"],
+              path: ["orders"],
+            },
+            description: "Create a new order",
+          },
+          response: [],
+        },
+        {
+          name: "Get User Orders",
+          request: {
+            method: "GET",
+            header: [
+              {
+                key: "Authorization",
+                value: "Bearer {{accessToken}}",
+              },
+            ],
+            url: {
+              raw: "{{baseUrl}}/orders?page=0&limit=10",
+              host: ["{{baseUrl}}"],
+              path: ["orders"],
+              query: [
+                {
+                  key: "page",
+                  value: "0",
+                },
+                {
+                  key: "limit",
+                  value: "10",
+                },
+              ],
+            },
+            description: "Get all orders for the current user",
+          },
+          response: [],
+        },
+        {
+          name: "Get Order by ID",
+          request: {
+            method: "GET",
+            header: [
+              {
+                key: "Authorization",
+                value: "Bearer {{accessToken}}",
+              },
+            ],
+            url: {
+              raw: "{{baseUrl}}/orders/:id",
+              host: ["{{baseUrl}}"],
+              path: ["orders", ":id"],
+              variable: [
+                {
+                  key: "id",
+                  value: "order_id_here",
+                  description: "The ID of the order",
+                },
+              ],
+            },
+            description: "Get a specific order by ID",
+          },
+          response: [],
+        },
+        {
+          name: "Cancel Order",
+          request: {
+            method: "POST",
+            header: [
+              {
+                key: "Authorization",
+                value: "Bearer {{accessToken}}",
+              },
+            ],
+            url: {
+              raw: "{{baseUrl}}/orders/:id/cancel",
+              host: ["{{baseUrl}}"],
+              path: ["orders", ":id", "cancel"],
+              variable: [
+                {
+                  key: "id",
+                  value: "order_id_here",
+                  description: "The ID of the order to cancel",
+                },
+              ],
+            },
+            description: "Cancel a pending order",
+          },
+          response: [],
+        },
+      ],
+    },
+    {
+      name: "Admin",
+      item: [
+        {
+          name: "Get All Orders",
+          request: {
+            method: "GET",
+            header: [
+              {
+                key: "Authorization",
+                value: "Bearer {{accessToken}}",
+              },
+            ],
+            url: {
+              raw: "{{baseUrl}}/admin/orders?page=0&limit=10",
+              host: ["{{baseUrl}}"],
+              path: ["admin", "orders"],
+              query: [
+                {
+                  key: "page",
+                  value: "0",
+                },
+                {
+                  key: "limit",
+                  value: "10",
+                },
+              ],
+            },
+            description:
+              "Get all orders in the system (requires EMPLOYEE, PHARMACIST, or ADMIN role)",
+          },
+          response: [],
+        },
+        {
+          name: "Update Order Status",
+          request: {
+            method: "PATCH",
+            header: [
+              {
+                key: "Authorization",
+                value: "Bearer {{accessToken}}",
+              },
+              {
+                key: "Content-Type",
+                value: "application/json",
+              },
+            ],
+            body: {
+              mode: "raw",
+              raw: JSON.stringify(
+                {
+                  status: "COMPLETED",
+                },
+                null,
+                2
+              ),
+              options: {
+                raw: {
+                  language: "json",
+                },
+              },
+            },
+            url: {
+              raw: "{{baseUrl}}/admin/orders/:id/status",
+              host: ["{{baseUrl}}"],
+              path: ["admin", "orders", ":id", "status"],
+              variable: [
+                {
+                  key: "id",
+                  value: "order_id_here",
+                  description: "The ID of the order",
+                },
+              ],
+            },
+            description:
+              "Update the status of an order (requires EMPLOYEE, PHARMACIST, or ADMIN role)",
+          },
+          response: [],
+        },
+        {
+          name: "Get Revenue Statistics",
+          request: {
+            method: "GET",
+            header: [
+              {
+                key: "Authorization",
+                value: "Bearer {{accessToken}}",
+              },
+            ],
+            url: {
+              raw: "{{baseUrl}}/admin/orders/stats/revenue",
+              host: ["{{baseUrl}}"],
+              path: ["admin", "orders", "stats", "revenue"],
+              query: [
+                {
+                  key: "fromDate",
+                  value: "2023-01-01",
+                  disabled: true,
+                },
+                {
+                  key: "toDate",
+                  value: "2023-12-31",
+                  disabled: true,
+                },
+              ],
+            },
+            description:
+              "Get revenue statistics (requires EMPLOYEE, PHARMACIST, or ADMIN role)",
+          },
+          response: [],
+        },
+      ],
+    },
+    {
+      name: "System",
+      item: [
+        {
+          name: "Health Check",
+          request: {
+            method: "GET",
+            header: [],
+            url: {
+              raw: "http://localhost:5000/health",
+              protocol: "http",
+              host: ["localhost"],
+              port: "5000",
+              path: ["health"],
+            },
+            description: "Check if the API is running properly",
+          },
+          response: [],
+        },
+      ],
+    },
+  ],
+};
+
+// Write to file
+const outputDir = path.resolve(__dirname, "../docs");
+if (!fs.existsSync(outputDir)) {
+  fs.mkdirSync(outputDir, { recursive: true });
+}
+
+const outputPath = path.join(outputDir, "Pharmacy_API.postman_collection.json");
+fs.writeFileSync(outputPath, JSON.stringify(collection, null, 2));
+
+console.log(`Postman collection created at: ${outputPath}`);

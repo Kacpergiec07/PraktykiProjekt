@@ -3,41 +3,63 @@ import api from "./api";
 class DrugService {
   /**
    * Get all drugs with pagination
-   * @param {number} page - Page number
+   * @param {number} page - Page number (starts from 0)
+   * @param {number} limit - Results per page
+   * @param {string} name - Filter by name
+   * @param {string} companyName - Filter by company name
+   * @param {string} type - Filter by type
+   * @param {number} minPrice - Minimum price
+   * @param {number} maxPrice - Maximum price
+   * @param {string} sortBy - Field to sort by
+   * @param {string} sortOrder - Sort direction (asc or desc)
    * @returns {Promise} - API response
    */
-  getDrugs(page = 0) {
-    return api
-      .post("/api/v1/listDrugs", {
-        page: page,
-        limit: 15,
-        orderBy: "idDrug",
-        descending: false,
-      })
-      .then((response) => {
-        if (response.data && response.data.status === "success") {
-          return {
-            data: {
-              drugs: response.data.data,
-              totalPages: response.data.metadata.pageCount,
-              currentPage: response.data.metadata.currentPage,
-            },
-          };
-        }
-        return response;
-      });
-  }
+  getDrugs(
+    page = 0,
+    limit = 15,
+    name,
+    companyName,
+    type,
+    minPrice,
+    maxPrice,
+    sortBy = "createdAt",
+    sortOrder = "desc"
+  ) {
+    const params = {
+      page,
+      limit,
+      sortBy,
+      sortOrder,
+    };
 
-  /**
-   * Get a drug by ID
-   * @param {number} id - Drug ID
-   * @returns {Promise} - API response
-   */
-  getDrugById(id) {
-    return api.get(`/api/v1/getDrug?drugId=${id}`).then((response) => {
-      if (response.data && response.data.status === "success") {
+    // Add optional filters if provided
+    if (name) params.name = name;
+    if (companyName) params.companyName = companyName;
+    if (type) params.type = type;
+    if (minPrice !== undefined) params.minPrice = minPrice;
+    if (maxPrice !== undefined) params.maxPrice = maxPrice;
+
+    return api.get("/drugs", { params }).then((response) => {
+      if (response.data.status === "success") {
+        const drugs = response.data.data.map((drug) => ({
+          // Map API fields to match frontend expectations
+          idDrug: drug.id,
+          name: drug.name,
+          dose: drug.dose,
+          price: drug.price,
+          type: drug.type,
+          companyName: drug.companyName,
+          amount: drug.amount,
+          createdAt: drug.createdAt,
+          updatedAt: drug.updatedAt,
+        }));
+
         return {
-          data: response.data.data,
+          data: {
+            drugs,
+            totalPages: response.data.meta.totalPages,
+            currentPage: response.data.meta.page,
+          },
         };
       }
       return response;
@@ -45,28 +67,30 @@ class DrugService {
   }
 
   /**
-   * Update a drug
-   * @param {number} id - Drug ID
-   * @param {string} field - Field to update
-   * @param {any} value - New value
+   * Get a drug by ID
+   * @param {string} id - Drug ID
    * @returns {Promise} - API response
    */
-  updateDrug(id, field, value) {
-    const updateData = {
-      drugId: id,
-    };
-    updateData[field] = value;
-
-    return api.patch("/api/v1/updateDrug", updateData);
-  }
-
-  /**
-   * Remove a drug
-   * @param {number} id - Drug ID
-   * @returns {Promise} - API response
-   */
-  removeDrug(id) {
-    return api.post("/api/v1/removeDrug", { drugId: id });
+  getDrugById(id) {
+    return api.get(`/drugs/${id}`).then((response) => {
+      if (response.data.status === "success") {
+        const drug = response.data.data;
+        return {
+          data: {
+            idDrug: drug.id, // Map id to idDrug for frontend compatibility
+            name: drug.name,
+            dose: drug.dose,
+            price: drug.price,
+            type: drug.type,
+            companyName: drug.companyName,
+            amount: drug.amount,
+            createdAt: drug.createdAt,
+            updatedAt: drug.updatedAt,
+          },
+        };
+      }
+      return response;
+    });
   }
 
   /**
@@ -75,7 +99,31 @@ class DrugService {
    * @returns {Promise} - API response
    */
   addDrug(drugData) {
-    return api.post("/api/v1/addDrug", drugData);
+    return api.post("/drugs", drugData);
+  }
+
+  /**
+   * Update a drug
+   * @param {string} id - Drug ID
+   * @param {string} field - Field to update
+   * @param {any} value - New value
+   * @returns {Promise} - API response
+   */
+  updateDrug(id, field, value) {
+    // Create update data object with only the field to update
+    const updateData = {};
+    updateData[field] = value;
+
+    return api.patch(`/drugs/${id}`, updateData);
+  }
+
+  /**
+   * Remove a drug
+   * @param {string} id - Drug ID
+   * @returns {Promise} - API response
+   */
+  removeDrug(id) {
+    return api.delete(`/drugs/${id}`);
   }
 }
 

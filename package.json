@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "xd?",
   "scripts": {
-    "start": "concurrently \"npm --prefix backend run dev\" \"npm --prefix frontEnd run dev\"",
-    "start:backend": "npm --prefix backend run dev",
+    "start": "concurrently \"npm --prefix backendv2 run dev\" \"npm --prefix frontEnd run dev\"",
+    "start:backend": "npm --prefix backendv2 run dev",
     "start:frontend": "npm --prefix frontEnd run dev"
   },
   "devDependencies": {

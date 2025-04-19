@@ -47,16 +47,29 @@ export default {
     },
   },
   actions: {
-    async addDrug({ commit, dispatch, state }, drugData) {
+    async addDrug({ commit, dispatch }, drugData) {
       try {
         dispatch("setLoading", true, { root: true });
         const response = await drugService.addDrug(drugData);
+
         if (response.data && response.data.status === "success") {
+          // Create a transformed drug object for frontend
+          const newDrug = {
+            idDrug: response.data.data.id,
+            name: response.data.data.name,
+            dose: response.data.data.dose,
+            price: response.data.data.price,
+            type: response.data.data.type,
+            companyName: response.data.data.companyName,
+            amount: response.data.data.amount,
+            createdAt: response.data.data.createdAt,
+            updatedAt: response.data.data.updatedAt,
+          };
+
           // If there's an array of drugs, add the new drug
-          if (state.drugs.length > 0) {
-            commit("UPDATE_DRUG", response.data.data);
-          }
+          commit("UPDATE_DRUG", newDrug);
         }
+
         return response.data;
       } catch (error) {
         dispatch(
@@ -116,7 +129,6 @@ export default {
         const response = await drugService.updateDrug(id, field, value);
 
         // Create an updated drug object to update the state
-        // This is a workaround since the API might not return the updated drug
         if (response.data && response.data.status === "success") {
           const currentDrug = state.currentDrug
             ? { ...state.currentDrug }

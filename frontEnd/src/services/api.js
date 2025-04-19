@@ -4,7 +4,7 @@ import router from "../router";
 
 // Create axios instance with base URL
 const api = axios.create({
-  baseURL: "http://localhost:3000", // Update with your API base URL
+  baseURL: "http://localhost:5000/api", // Updated to match new API
   headers: {
     "Content-Type": "application/json",
   },
@@ -15,7 +15,8 @@ api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token") || store.state.auth.token;
     if (token) {
-      config.headers["Authorization"] = token;
+      // Updated to use Bearer token format
+      config.headers["Authorization"] = `Bearer ${token}`;
     }
     return config;
   },
@@ -25,16 +26,7 @@ api.interceptors.request.use(
 // Response interceptor for handling common errors
 api.interceptors.response.use(
   (response) => {
-    // Format successful responses if needed
-    if (response.data && response.data.status === "error") {
-      return Promise.reject({
-        response: {
-          data: {
-            message: response.data.data || "An error occurred",
-          },
-        },
-      });
-    }
+    // The new API returns data with success status
     return response;
   },
   (error) => {

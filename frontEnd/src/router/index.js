@@ -7,31 +7,9 @@ import DrugsView from "../views/Drugsview.vue";
 import DrugDetailView from "../views/DrugDetailview.vue";
 import OrderHistoryView from "../views/Orderhistoryview.vue";
 import AdminView from "../views/Adminview.vue";
-import store from "../store";
 import About from "../components/About.vue";
 import Kontakt from "../components/Kontakt.vue";
-
-// Route guard for authenticated routes
-const requireAuth = (to, from, next) => {
-  if (!store.getters["auth/isAuthenticated"]) {
-    next({ name: "login", query: { redirect: to.fullPath } });
-  } else {
-    next();
-  }
-};
-
-// Route guard for admin/pharmacist only routes
-const requireAdmin = (to, from, next) => {
-  const permission = store.getters["auth/userPermission"];
-  if (!store.getters["auth/isAuthenticated"]) {
-    next({ name: "login", query: { redirect: to.fullPath } });
-  } else if (permission < 2) {
-    // Assuming 0=client, 1=?, 2=pharmacist, 3=admin
-    next({ name: "home" });
-  } else {
-    next();
-  }
-};
+import { requireAuth, requireRole } from "../utils/authguard";
 
 const routes = [
   {
@@ -76,7 +54,7 @@ const routes = [
     path: "/admin",
     name: "admin",
     component: AdminView,
-    beforeEnter: requireAdmin,
+    beforeEnter: requireRole(["ADMIN", "PHARMACIST"]),
   },
   {
     path: "/about",

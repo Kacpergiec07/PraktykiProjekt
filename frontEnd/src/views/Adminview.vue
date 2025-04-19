@@ -25,6 +25,28 @@
                 Raporty zamówień
               </button>
               <button
+                @click="currentTab = 'orderManagement'"
+                class="w-full text-left px-4 py-2 rounded transition-colors"
+                :class="
+                  currentTab === 'orderManagement'
+                    ? 'bg-blue-100 text-blue-700'
+                    : 'hover:bg-gray-100'
+                "
+              >
+                Zarządzanie zamówieniami
+              </button>
+              <button
+                @click="currentTab = 'revenueStats'"
+                class="w-full text-left px-4 py-2 rounded transition-colors"
+                :class="
+                  currentTab === 'revenueStats'
+                    ? 'bg-blue-100 text-blue-700'
+                    : 'hover:bg-gray-100'
+                "
+              >
+                Statystyki przychodów
+              </button>
+              <button
                 @click="currentTab = 'drugManagement'"
                 class="w-full text-left px-4 py-2 rounded transition-colors"
                 :class="
@@ -58,6 +80,16 @@
               @filter-change="applyReportFilters"
             />
           </div>
+        </div>
+
+        <!-- Order Management Tab -->
+        <div v-else-if="currentTab === 'orderManagement'">
+          <order-status-manager />
+        </div>
+
+        <!-- Revenue Statistics Tab -->
+        <div v-else-if="currentTab === 'revenueStats'">
+          <revenue-stats />
         </div>
 
         <!-- Drug Management Tab -->
@@ -186,12 +218,17 @@
 import { mapGetters, mapActions, mapState } from "vuex";
 import OrderHistory from "../components/Orderhistory.vue";
 import DrugsList from "../components/Drugslist.vue";
+import RevenueStats from "../components/RevenueStats.vue";
+import OrderStatusManager from "../components/OrderStatusManager.vue";
+import notification from "../utils/notification";
 
 export default {
   name: "AdminView",
   components: {
     OrderHistory,
     DrugsList,
+    RevenueStats,
+    OrderStatusManager,
   },
   data() {
     return {
@@ -303,10 +340,17 @@ export default {
         // Hide form
         this.showAddDrugForm = false;
 
+        // Show success notification
+        notification.success("Lek został dodany pomyślnie");
+
         // Reload drugs list
         this.loadDrugs();
       } catch (error) {
         console.error("Failed to add drug:", error);
+        notification.error(
+          "Nie udało się dodać leku: " +
+            (error.response?.data?.message || error.message)
+        );
       } finally {
         this.addDrugLoading = false;
       }
@@ -317,7 +361,7 @@ export default {
     this.fetchOrderReports({
       page: 0,
       descending: true,
-      orderBy: "date",
+      orderBy: "orderDate",
     });
 
     this.loadDrugs();

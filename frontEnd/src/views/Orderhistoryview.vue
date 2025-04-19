@@ -66,7 +66,7 @@ export default {
     this.fetchOrderHistory({
       page: 0,
       descending: true,
-      orderBy: "date",
+      orderBy: "orderDate",
     });
   },
   beforeUnmount() {

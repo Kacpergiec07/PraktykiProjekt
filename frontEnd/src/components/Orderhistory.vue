@@ -13,10 +13,9 @@
           <div>
             <label class="block mb-1">Sortuj według</label>
             <select v-model="orderBy" class="w-full px-3 py-2 border rounded">
-              <option value="purchase_date">Data</option>
-              <option value="purchase_amount">Ilość</option>
-              <option value="companyName">Producent</option>
-              <option value="drug_name">Nazwa leku</option>
+              <option value="orderDate">Data zamowienia</option>
+              <option value="status">Status</option>
+              <option value="createdAt">Data utworzenia</option>
             </select>
           </div>
 
