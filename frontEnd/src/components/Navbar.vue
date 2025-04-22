@@ -40,6 +40,10 @@
 </template>
 
 <script>
+// czarny motyw test bartek
+
+//
+
 import { mapGetters, mapActions } from "vuex";
 
 export default {
