@@ -63,7 +63,7 @@
 </template>
 
 <script setup>
-import zespolImg from "./assets/zespol_onas.jpg";
+import zespolImg from "../assets/zespol_onas.jpg";
 </script>
 
 <style scoped>
