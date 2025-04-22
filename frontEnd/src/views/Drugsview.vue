@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="flex justify-between items-center mb-6">
+    <div class="flex justify-between items-center mb-6 mt-10">
       <h1 class="text-2xl font-bold">Dostępne leki</h1>
       <div class="flex space-x-2">
         <button

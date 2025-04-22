@@ -1,5 +1,7 @@
 <template>
-  <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
+  <div
+    class="border rounded-lg p-4 hover:shadow-md transition-shadow hover:bg-gray-200"
+  >
     <div class="flex justify-between items-start">
       <div>
         <h3 class="text-lg font-semibold">{{ drug.name }}</h3>

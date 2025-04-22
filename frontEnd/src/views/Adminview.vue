@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mt-5">
     <h1 class="text-2xl font-bold mb-6">Panel administracyjny</h1>
 
     <!-- Error display -->

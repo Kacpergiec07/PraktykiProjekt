@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="mb-6">
+    <div class="mb-6 mt-5">
       <h2 class="text-xl font-bold">
         {{ isReport ? "Raport zamówień" : "Historia zamówień" }}
       </h2>

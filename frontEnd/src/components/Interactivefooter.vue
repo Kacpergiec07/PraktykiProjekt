@@ -48,18 +48,37 @@
       <div
         class="mt-12 pt-4 border-t border-white/20 flex flex-col md:flex-row justify-between items-center"
       >
-        <p class="text-sm text-center md:text-left">
-          &copy; {{ currentYear }} API Apteka. Wszelkie prawa zastrzeżone.
-        </p>
+        <div class="footerP">
+          <p class="text-sm text-center md:text-left">
+            &copy; {{ currentYear }} API Apteka. Wszelkie prawa zastrzeżone.
+          </p>
+        </div>
+        <div class="dock-list">
+          <div
+            class="dock-container flex flex-col md:flex-row md:space-x-6 space-y-2 md:space-y-0 text-center mr-30"
+          >
+            <a
+              href="https://github.com/Kacpergiec07/PraktykiProjekt"
+              class="dock-item"
+              target="_blank"
+              ><img
+                src="../assets/github-logo.png"
+                alt=""
+                class="w-8 h-8 object-contain rounded-full filter invert"
+            /></a>
+
+            <a href="/" class="dock-item"
+              ><img
+                src="../assets/home.png"
+                alt=""
+                class="w-8 h-8 object-contain filter invert"
+            /></a>
+          </div>
+        </div>
         <div class="mt-4 md:mt-0">
           <ul
             class="flex flex-col md:flex-row md:space-x-6 space-y-2 md:space-y-0 text-center"
           >
-            <li>
-              <router-link to="/" class="hover:text-white/70 transition-colors"
-                >Strona główna</router-link
-              >
-            </li>
             <li>
               <router-link
                 to="/drugs"
@@ -89,6 +108,10 @@
 </template>
 
 <script>
+// --test--
+
+// -----
+
 export default {
   name: "InteractiveFooter",
   data() {

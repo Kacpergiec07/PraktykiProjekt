@@ -6,22 +6,21 @@
       >
 
       <div class="flex space-x-4">
-        <router-link to="/drugs" class="hover:text-blue-200 nav-item"
-          >Leki</router-link
-        >
+        <router-link to="/drugs" class="nav-item">Leki</router-link>
 
         <!-- Authenticated user links -->
         <template v-if="isAuthenticated">
-          <router-link to="/history" class="hover:text-blue-200"
+          <router-link to="/history" class="nav-item-admin"
             >Historia zamówień</router-link
           >
-          <router-link v-if="isAdmin" to="/admin" class="hover:text-blue-200"
+          <router-link v-if="isAdmin" to="/admin" class="nav-item-admin"
             >Panel administracyjny</router-link
           >
-          <router-link to="/profile" class="hover:text-blue-200"
-            >Profil</router-link
+          <router-link to="/profile" class="nav-item-admin">Profil</router-link>
+          <button
+            @click="handleLogout"
+            class="hover:text-red-500 hover:cursor-pointer"
           >
-          <button @click="handleLogout" class="hover:text-blue-200">
             Wyloguj
           </button>
         </template>
