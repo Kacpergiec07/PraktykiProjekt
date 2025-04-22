@@ -1,6 +1,6 @@
 <template>
   <footer
-    class="interactive-footer bg-mint text-white py-8 relative overflow-hidden"
+    class="interactive-footer bg-mint text-white py-4 relative overflow-hidden"
   >
     <!-- Interactive line animation -->
     <div class="relative w-full h-px mb-5">
@@ -22,7 +22,7 @@
     </div>
 
     <!-- Footer content -->
-    <div class="container mx-auto px-4">
+    <div class="container mx-auto px-4 margin-bottom:200px">
       <div class="flex flex-col md:flex-row justify-between">
         <!-- Company info -->
         <div class="mb-8 md:mb-0 md:w-2/5">
@@ -31,17 +31,6 @@
             Łączymy nowoczesną technologię z tradycyjną apteką, aby dostarczyć
             Ci najlepsze produkty i usługi farmaceutyczne online.
           </p>
-          <div class="flex space-x-4">
-            <a href="#" class="hover:text-white/70 transition-colors">
-              <i class="fab fa-facebook-f"></i>
-            </a>
-            <a href="#" class="hover:text-white/70 transition-colors">
-              <i class="fab fa-twitter"></i>
-            </a>
-            <a href="#" class="hover:text-white/70 transition-colors">
-              <i class="fab fa-instagram"></i>
-            </a>
-          </div>
         </div>
       </div>
 
