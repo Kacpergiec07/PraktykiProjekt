@@ -63,3 +63,4 @@ frontnd/public/pwa-*.json
 backend/tmp/
 backend/pids/
 backend/logs/
+backendv2/prisma/dev.db
