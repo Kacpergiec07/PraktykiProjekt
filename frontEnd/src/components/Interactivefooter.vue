@@ -1,17 +1,17 @@
 <template>
   <footer
-    class="interactive-footer bg-mint text-white py-8 relative overflow-hidden"
+    class="interactive-footer bg-mint text-white py-4 relative overflow-hidden"
   >
-    <!-- Interactive line animation -->
-    <div class="relative w-full h-px mb-5">
+    <!-- Interactive line animation - zmniejszona wysokość -->
+    <div class="relative w-full h-px mb-2">
       <div
         @mouseenter="manageMouseEnter"
         @mousemove="manageMouseMove"
         @mouseleave="manageMouseLeave"
-        class="relative z-10 h-10 w-full top-[-40px]"
+        class="relative z-10 h-6 w-full top-[-24px]"
       ></div>
       <svg
-        class="absolute w-full h-[200px] top-[-100px]"
+        class="absolute w-full h-[100px] top-[-50px]"
         style="pointer-events: none"
       >
         <path
@@ -21,13 +21,13 @@
       </svg>
     </div>
 
-    <!-- Footer content -->
+    <!-- Footer content - zmniejszone marginesy i padding -->
     <div class="container mx-auto px-4">
       <div class="flex flex-col md:flex-row justify-between">
-        <!-- Company info -->
-        <div class="mb-8 md:mb-0 md:w-2/5">
-          <h2 class="text-2xl font-bold mb-4">API Apteka</h2>
-          <p class="text-white/80 mb-6">
+        <!-- Company info - zmniejszone marginesy -->
+        <div class="mb-4 md:mb-0 md:w-2/5">
+          <h2 class="text-xl font-bold mb-2">API Apteka</h2>
+          <p class="text-white/80 mb-3 text-sm">
             Łączymy nowoczesną technologię z tradycyjną apteką, aby dostarczyć
             Ci najlepsze produkty i usługi farmaceutyczne online.
           </p>
@@ -46,14 +46,14 @@
       </div>
 
       <div
-        class="mt-12 pt-4 border-t border-white/20 flex flex-col md:flex-row justify-between items-center"
+        class="mt-4 pt-2 border-t border-white/20 flex flex-col md:flex-row justify-between items-center"
       >
-        <p class="text-sm text-center md:text-left">
+        <p class="text-xs text-center md:text-left">
           &copy; {{ currentYear }} API Apteka. Wszelkie prawa zastrzeżone.
         </p>
-        <div class="mt-4 md:mt-0">
+        <div class="mt-2 md:mt-0">
           <ul
-            class="flex flex-col md:flex-row md:space-x-6 space-y-2 md:space-y-0 text-center"
+            class="flex flex-col md:flex-row md:space-x-6 space-y-1 md:space-y-0 text-center text-sm"
           >
             <li>
               <router-link to="/" class="hover:text-white/70 transition-colors"
@@ -123,7 +123,7 @@ export default {
         this.$refs.path.setAttributeNS(
           null,
           "d",
-          `M0 100 Q${width * this.x} ${100 + progress}, ${width} 100`
+          `M0 50 Q${width * this.x} ${50 + progress}, ${width} 50`
         );
       }
     },

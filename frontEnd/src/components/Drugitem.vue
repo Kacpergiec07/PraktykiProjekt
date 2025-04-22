@@ -1,5 +1,5 @@
 <template>
-  <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
+  <div class="border rounded-lg p-4 hover:shadow-md transition-shadow ">
     <div class="flex justify-between items-start">
       <div>
         <h3 class="text-lg font-semibold">{{ drug.name }}</h3>
@@ -22,37 +22,36 @@
       </div>
     </div>
 
-    <div class="mt-4 flex space-x-2 justify-end">
-      <router-link
+        <div class="mt-4 grid grid-cols-2 gap-2 max-w-xs mx-auto text-center   ">
+      <template v-if="isAdmin">
+        <button
+          @click="$emit('edit')"
+          class="w-full px-2 py-1 bg-yellow-100 text-yellow-700 rounded hover:bg-yellow-200"
+        >
+          Edytuj
+        </button>
+        <router-link
         :to="`/drugs/${drug.idDrug}`"
-        class="px-3 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200"
+        class="w-full px-2 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200"
       >
         Szczegóły
       </router-link>
 
+      </template>
       <button
-        v-if="drug.amount > 0 && isAuthenticated"
-        @click="$emit('order')"
-        class="px-3 py-1 bg-green-100 text-green-700 rounded hover:bg-green-200"
-      >
-        Zamów
-      </button>
-
-      <template v-if="isAdmin">
-        <button
-          @click="$emit('edit')"
-          class="px-3 py-1 bg-yellow-100 text-yellow-700 rounded hover:bg-yellow-200"
-        >
-          Edytuj
-        </button>
-
-        <button
           @click="$emit('remove')"
-          class="px-3 py-1 bg-red-100 text-red-700 rounded hover:bg-red-200"
+          class="w-full px-2 py-1 bg-red-100 text-red-700 rounded hover:bg-red-200"
         >
           Usuń
         </button>
-      </template>
+
+      <button
+        v-if="drug.amount > 0 && isAuthenticated"
+        @click="$emit('order')"
+        class="w-full px-2 py-1 bg-green-100 text-green-700 rounded hover:bg-green-200"
+      >
+        Zamów
+      </button>
     </div>
   </div>
 </template>

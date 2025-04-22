@@ -12,52 +12,36 @@
         <div class="sticky top-4">
           <div class="bg-white p-4 rounded-lg shadow-md mb-4">
             <h2 class="text-lg font-semibold mb-3">Menu</h2>
-            <nav class="space-y-2">
-              <button
-                @click="currentTab = 'orderReports'"
-                class="w-full text-left px-4 py-2 rounded transition-colors"
-                :class="
-                  currentTab === 'orderReports'
-                    ? 'bg-blue-100 text-blue-700'
-                    : 'hover:bg-gray-100'
-                "
-              >
-                Raporty zamówień
-              </button>
-              <button
-                @click="currentTab = 'orderManagement'"
-                class="w-full text-left px-4 py-2 rounded transition-colors"
-                :class="
-                  currentTab === 'orderManagement'
-                    ? 'bg-blue-100 text-blue-700'
-                    : 'hover:bg-gray-100'
-                "
-              >
-                Zarządzanie zamówieniami
-              </button>
-              <button
-                @click="currentTab = 'revenueStats'"
-                class="w-full text-left px-4 py-2 rounded transition-colors"
-                :class="
-                  currentTab === 'revenueStats'
-                    ? 'bg-blue-100 text-blue-700'
-                    : 'hover:bg-gray-100'
-                "
-              >
-                Statystyki przychodów
-              </button>
-              <button
-                @click="currentTab = 'drugManagement'"
-                class="w-full text-left px-4 py-2 rounded transition-colors"
-                :class="
-                  currentTab === 'drugManagement'
-                    ? 'bg-blue-100 text-blue-700'
-                    : 'hover:bg-gray-100'
-                "
-              >
-                Zarządzanie lekami
-              </button>
-            </nav>
+            
+            <!-- Menu z płynną animacją -->
+            <div class="relative">
+              <!-- Fixed background for all tabs -->
+              <div class="absolute inset-0 bg-gray-50 rounded"></div>
+              
+              <!-- Tło animowanego przełącznika -->
+              <div
+                class="absolute rounded bg-indigo-100 transition-all duration-400 ease-out"
+                :style="{
+                  height: '40px', 
+                  width: '100%',
+                  top: `${activeTabIndex * 40}px`,
+                  left: '0'
+                }"
+              ></div>
+              
+              <!-- Przyciski menu - wszystkie z dokładnie taką samą wysokością -->
+              <div class="relative z-10">
+                <button
+                  v-for="(tab, index) in tabs"
+                  :key="index"
+                  @click="setCurrentTab(tab.value)"
+                  class="w-full text-left px-4 py-2 h-10 mb-0 block transition-colors"
+                  :class="currentTab === tab.value ? 'text-indigo-700 font-medium' : 'text-gray-700 hover:text-indigo-600'"
+                >
+                  {{ tab.label }}
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -130,7 +114,7 @@
                     <input
                       type="number"
                       v-model="newDrug.dose"
-                      step="0.01"
+                      step="1"
                       min="0"
                       class="w-full px-3 py-2 border rounded"
                       required
@@ -142,7 +126,7 @@
                     <input
                       type="number"
                       v-model="newDrug.price"
-                      step="0.01"
+                      step="1"
                       min="0"
                       class="w-full px-3 py-2 border rounded"
                       required
@@ -174,7 +158,7 @@
                     <input
                       type="number"
                       v-model="newDrug.amount"
-                      step="0.01"
+                      step="1"
                       min="0"
                       class="w-full px-3 py-2 border rounded"
                       required
@@ -244,6 +228,12 @@ export default {
       },
       addDrugLoading: false,
       drugsLoading: false,
+      tabs: [
+        { label: "Raporty zamówień", value: "orderReports" },
+        { label: "Zarządzanie zamówieniami", value: "orderManagement" },
+        { label: "Statystyki przychodów", value: "revenueStats" },
+        { label: "Zarządzanie lekami", value: "drugManagement" },
+      ]
     };
   },
   computed: {
@@ -265,11 +255,19 @@ export default {
     drugs() {
       return this.allDrugs;
     },
+    
+    activeTabIndex() {
+      return this.tabs.findIndex(tab => tab.value === this.currentTab);
+    }
   },
   methods: {
     ...mapActions("orders", ["fetchOrderReports"]),
     ...mapActions("drugs", ["fetchDrugs", "addDrug"]),
     ...mapActions(["clearError"]),
+
+    setCurrentTab(tabValue) {
+      this.currentTab = tabValue;
+    },
 
     async applyReportFilters({ page, limit, filter, descending, orderBy }) {
       try {
