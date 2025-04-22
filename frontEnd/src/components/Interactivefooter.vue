@@ -21,8 +21,13 @@
       </svg>
     </div>
 
+<<<<<<< HEAD
     <!-- Footer content - zmniejszone marginesy i padding -->
     <div class="container mx-auto px-4">
+=======
+    <!-- Footer content -->
+    <div class="container mx-auto px-4 margin-bottom:200px">
+>>>>>>> 5b6e23a42e667416403b8d95443a6ac2540eb32f
       <div class="flex flex-col md:flex-row justify-between">
         <!-- Company info - zmniejszone marginesy -->
         <div class="mb-4 md:mb-0 md:w-2/5">
@@ -31,35 +36,50 @@
             Łączymy nowoczesną technologię z tradycyjną apteką, aby dostarczyć
             Ci najlepsze produkty i usługi farmaceutyczne online.
           </p>
-          <div class="flex space-x-4">
-            <a href="#" class="hover:text-white/70 transition-colors">
-              <i class="fab fa-facebook-f"></i>
-            </a>
-            <a href="#" class="hover:text-white/70 transition-colors">
-              <i class="fab fa-twitter"></i>
-            </a>
-            <a href="#" class="hover:text-white/70 transition-colors">
-              <i class="fab fa-instagram"></i>
-            </a>
-          </div>
         </div>
       </div>
 
       <div
         class="mt-4 pt-2 border-t border-white/20 flex flex-col md:flex-row justify-between items-center"
       >
+<<<<<<< HEAD
         <p class="text-xs text-center md:text-left">
           &copy; {{ currentYear }} API Apteka. Wszelkie prawa zastrzeżone.
         </p>
         <div class="mt-2 md:mt-0">
+=======
+        <div class="footerP">
+          <p class="text-sm text-center md:text-left">
+            &copy; {{ currentYear }} API Apteka. Wszelkie prawa zastrzeżone.
+          </p>
+        </div>
+        <div class="dock-list">
+          <div
+            class="dock-container flex flex-col md:flex-row md:space-x-6 space-y-2 md:space-y-0 text-center mr-30"
+          >
+            <a
+              href="https://github.com/Kacpergiec07/PraktykiProjekt"
+              class="dock-item"
+              target="_blank"
+              ><img
+                src="../assets/github-logo.png"
+                alt=""
+                class="w-8 h-8 object-contain rounded-full filter invert"
+            /></a>
+
+            <a href="/" class="dock-item"
+              ><img
+                src="../assets/home.png"
+                alt=""
+                class="w-8 h-8 object-contain filter invert"
+            /></a>
+          </div>
+        </div>
+        <div class="mt-4 md:mt-0">
+>>>>>>> 5b6e23a42e667416403b8d95443a6ac2540eb32f
           <ul
             class="flex flex-col md:flex-row md:space-x-6 space-y-1 md:space-y-0 text-center text-sm"
           >
-            <li>
-              <router-link to="/" class="hover:text-white/70 transition-colors"
-                >Strona główna</router-link
-              >
-            </li>
             <li>
               <router-link
                 to="/drugs"
@@ -89,6 +109,10 @@
 </template>
 
 <script>
+// --test--
+
+// -----
+
 export default {
   name: "InteractiveFooter",
   data() {
