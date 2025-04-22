@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="bg-blue-100 p-8 rounded-lg text-center mb-8">
+    <div class="bg-blue-100 p-8 rounded-lg text-center mb-8 mt-5">
       <h1 class="text-3xl font-bold mb-4">Witaj w systemie API Apteka</h1>
       <p class="text-lg mb-6">
         System do zarządzania lekami i zamówieniami aptecznymi.
@@ -9,7 +9,7 @@
       <div class="flex justify-center space-x-4">
         <router-link
           to="/drugs"
-          class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+          class="px-6 py-3 bg-mint text-white rounded-lg hover:bg-lightmint"
         >
           Przeglądaj leki
         </router-link>

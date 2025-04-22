@@ -63,6 +63,36 @@ nav .container a {
   justify-content: start !important;
 }
 
+.nav-item-admin::before {
+  content: "";
+  transition: 0.5s;
+  position: absolute;
+  width: 0px;
+  height: 4px;
+  background: white;
+  transform: translateY(15px) translateX(-1px);
+}
+
+.nav-item-admin:hover::before {
+  width: 140px;
+}
+.nav-item-admin:nth-of-type(3):hover::before {
+  width: 165px;
+}
+.nav-item-admin:nth-of-type(4):hover::before {
+  width: 42px;
+}
+
+.nav-item-admin {
+  display: flex;
+  justify-content: end !important;
+  transition: 0.5s !important;
+}
+
+.nav-item-admin:hover {
+  justify-content: start !important;
+}
+
 .container {
   max-width: 1200px;
   margin: 0 auto;

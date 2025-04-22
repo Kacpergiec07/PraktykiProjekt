@@ -4,7 +4,7 @@ import LoginView from "../views/Loginview.vue";
 import RegisterView from "../views/Registerview.vue";
 import ProfileView from "../views/Profileview.vue";
 import DrugsView from "../views/Drugsview.vue";
-import DrugDetailView from "../views/Drugdetailview.vue";
+import DrugDetailView from "../views/DrugDetailview.vue";
 import OrderHistoryView from "../views/Orderhistoryview.vue";
 import AdminView from "../views/AdminView.vue";
 import About from "../components/About.vue";
