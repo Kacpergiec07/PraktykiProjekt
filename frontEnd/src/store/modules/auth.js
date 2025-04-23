@@ -19,7 +19,7 @@ export default {
       state.token = token;
       state.refreshToken = refreshToken;
       state.user = user;
-      // Store in localStorage
+
       localStorage.setItem("token", token);
       if (refreshToken) localStorage.setItem("refreshToken", refreshToken);
       localStorage.setItem("user", JSON.stringify(user));
@@ -28,7 +28,7 @@ export default {
       state.token = null;
       state.refreshToken = null;
       state.user = null;
-      // Remove from localStorage
+
       localStorage.removeItem("token");
       localStorage.removeItem("refreshToken");
       localStorage.removeItem("user");
@@ -39,7 +39,6 @@ export default {
     },
   },
   actions: {
-    // Register a new user
     async register({ commit, dispatch }, userData) {
       try {
         dispatch("setLoading", true, { root: true });
@@ -60,7 +59,6 @@ export default {
       }
     },
 
-    // Login a user
     async login({ commit, dispatch }, credentials) {
       try {
         dispatch("setLoading", true, { root: true });
@@ -80,7 +78,6 @@ export default {
       }
     },
 
-    // Logout a user
     async logout({ commit, dispatch }) {
       try {
         await authService.logout();
@@ -91,7 +88,6 @@ export default {
       }
     },
 
-    // Refresh the access token
     async refreshToken({ commit, dispatch, state }) {
       if (!state.refreshToken) return;
 
@@ -109,7 +105,6 @@ export default {
 
         return response;
       } catch (error) {
-        // Token might be invalid or expired
         commit("CLEAR_AUTH");
         throw error;
       } finally {
@@ -117,7 +112,6 @@ export default {
       }
     },
 
-    // Check if the user is authenticated
     async checkAuth({ commit, dispatch, state }) {
       if (!state.token) return;
 
@@ -125,16 +119,13 @@ export default {
         dispatch("setLoading", true, { root: true });
         const response = await authService.getUserInfo();
 
-        // Update user data
         if (response.data) {
           commit("SET_USER", response.data);
         }
       } catch (error) {
-        // Token might be invalid or expired, try to refresh
         try {
           await dispatch("refreshToken");
         } catch (refreshError) {
-          // If refresh fails, clear authentication
           commit("CLEAR_AUTH");
         }
       } finally {

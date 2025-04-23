@@ -53,7 +53,6 @@ export default {
         const response = await drugService.addDrug(drugData);
 
         if (response.data && response.data.status === "success") {
-          // Create a transformed drug object for frontend
           const newDrug = {
             idDrug: response.data.data.id,
             name: response.data.data.name,
@@ -66,7 +65,6 @@ export default {
             updatedAt: response.data.data.updatedAt,
           };
 
-          // If there's an array of drugs, add the new drug
           commit("UPDATE_DRUG", newDrug);
         }
 
@@ -128,7 +126,6 @@ export default {
         dispatch("setLoading", true, { root: true });
         const response = await drugService.updateDrug(id, field, value);
 
-        // Create an updated drug object to update the state
         if (response.data && response.data.status === "success") {
           const currentDrug = state.currentDrug
             ? { ...state.currentDrug }
@@ -138,7 +135,6 @@ export default {
             commit("UPDATE_DRUG", currentDrug);
           }
 
-          // Also update in the drugs list if it exists there
           const drugInList = state.drugs.find((d) => d.idDrug === id);
           if (drugInList) {
             const updatedDrug = { ...drugInList, [field]: value };

@@ -2,7 +2,6 @@
   <div class="bg-white p-6 rounded-lg shadow-md">
     <h2 class="text-xl font-semibold mb-4">Statystyki przychodów</h2>
 
-    <!-- Filter options -->
     <div class="mb-6 p-4 bg-gray-50 rounded border">
       <h3 class="text-lg font-semibold mb-3">Filtry</h3>
 
@@ -37,22 +36,18 @@
       </div>
     </div>
 
-    <!-- Loading state -->
     <div v-if="loading" class="flex justify-center p-8">
       <div
         class="animate-spin h-10 w-10 border-4 border-blue-500 border-t-transparent rounded-full"
       ></div>
     </div>
 
-    <!-- Error message -->
     <div v-else-if="error" class="p-4 bg-red-100 text-red-700 rounded">
       {{ error }}
     </div>
 
-    <!-- Revenue display -->
     <div v-else class="mt-6">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <!-- Total revenue card -->
         <div class="bg-blue-50 p-6 rounded-lg border border-blue-200">
           <h3 class="text-lg font-semibold mb-2">Całkowity przychód</h3>
           <div class="text-3xl font-bold text-blue-700">
@@ -63,7 +58,6 @@
           </p>
         </div>
 
-        <!-- Revenue visualization -->
         <div class="bg-green-50 p-6 rounded-lg border border-green-200">
           <h3 class="text-lg font-semibold mb-2">Średni dzienny przychód</h3>
           <div class="text-3xl font-bold text-green-700">
@@ -75,7 +69,6 @@
         </div>
       </div>
 
-      <!-- Additional information -->
       <div class="mt-6 p-4 bg-yellow-50 rounded border border-yellow-200">
         <h3 class="text-lg font-semibold mb-2">Informacje dodatkowe</h3>
         <p>
@@ -113,7 +106,6 @@ export default {
       this.loading = true;
 
       try {
-        // Validate date range
         if (this.fromDate && this.toDate) {
           const fromDateObj = new Date(this.fromDate);
           const toDateObj = new Date(this.toDate);
@@ -171,13 +163,12 @@ export default {
     calculateDailyAverage() {
       if (!this.totalRevenue) return 0;
 
-      let days = 1; // Default to 1 to avoid division by zero
+      let days = 1;
 
       if (this.fromDate && this.toDate) {
         const fromDateObj = new Date(this.fromDate);
         const toDateObj = new Date(this.toDate);
 
-        // Calculate difference in days
         const diffTime = Math.abs(toDateObj - fromDateObj);
         days = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) || 1;
       }
@@ -186,14 +177,12 @@ export default {
     },
   },
   mounted() {
-    // Set default date range to current month
     const today = new Date();
     const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
 
     this.fromDate = firstDay.toISOString().split("T")[0];
     this.toDate = today.toISOString().split("T")[0];
 
-    // Fetch revenue on component mount
     this.fetchRevenue();
   },
   beforeUnmount() {

@@ -3,7 +3,6 @@
     <h1 class="text-2xl font-bold mb-6">Profil użytkownika</h1>
 
     <div v-if="user" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <!-- User Information -->
       <div class="bg-white p-6 rounded-lg shadow-md col-span-1">
         <h2 class="text-lg font-semibold mb-4">Dane osobowe</h2>
 
@@ -28,7 +27,6 @@
         </div>
       </div>
 
-      <!-- Recent Orders -->
       <div class="bg-white p-6 rounded-lg shadow-md col-span-2">
         <div class="flex justify-between items-center mb-4">
           <h2 class="text-lg font-semibold">Ostatnie zamówienia</h2>
@@ -99,7 +97,6 @@ export default {
     },
 
     permissionLabel() {
-      // Get permission as a number from store getter
       const permission = this.userPermission;
 
       switch (permission) {

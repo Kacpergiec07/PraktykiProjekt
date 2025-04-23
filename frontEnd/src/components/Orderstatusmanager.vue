@@ -2,7 +2,6 @@
   <div class="bg-white p-6 rounded-lg shadow-md">
     <h2 class="text-xl font-semibold mb-4">Zarządzanie statusami zamówień</h2>
 
-    <!-- Order filter -->
     <div class="mb-6 p-4 bg-gray-50 rounded border">
       <h3 class="text-lg font-semibold mb-3">Filtry zamówień</h3>
 
@@ -41,19 +40,16 @@
       </div>
     </div>
 
-    <!-- Loading state -->
     <div v-if="loading" class="flex justify-center p-8">
       <div
         class="animate-spin h-10 w-10 border-4 border-blue-500 border-t-transparent rounded-full"
       ></div>
     </div>
 
-    <!-- Error message -->
     <div v-else-if="error" class="p-4 bg-red-100 text-red-700 rounded">
       {{ error }}
     </div>
 
-    <!-- Orders table -->
     <div v-else-if="orders.length === 0" class="text-center p-8">
       <p class="text-gray-500">Brak zamówień do wyświetlenia</p>
     </div>
@@ -117,7 +113,6 @@
         </table>
       </div>
 
-      <!-- Pagination -->
       <div v-if="totalPages > 1" class="flex justify-center mt-6">
         <div class="flex space-x-1">
           <button
@@ -137,7 +132,6 @@
       </div>
     </div>
 
-    <!-- Order details modal -->
     <div
       v-if="detailsModal"
       class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
@@ -241,7 +235,6 @@
       </div>
     </div>
 
-    <!-- Status change modal -->
     <div
       v-if="statusModal"
       class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
@@ -302,7 +295,6 @@ export default {
       loading: false,
       error: null,
 
-      // Modals
       detailsModal: false,
       statusModal: false,
       selectedOrder: null,
@@ -318,7 +310,6 @@ export default {
       this.error = null;
 
       try {
-        // Prepare query parameters
         const params = {
           page,
           limit: 10,
@@ -326,12 +317,10 @@ export default {
           sortOrder: this.descending ? "desc" : "asc",
         };
 
-        // Add status filter if selected
         if (this.statusFilter) {
           params.status = this.statusFilter;
         }
 
-        // Fetch orders
         const response = await orderService.getOrderReports(
           params.page,
           params.limit,
@@ -340,17 +329,13 @@ export default {
           this.sortBy
         );
 
-        // Update state
         if (response && response.data) {
-          // Group by order ID (since we flattened the nested structure in service)
           const orderMap = new Map();
 
-          // Process the flattened orders
           response.data.orders.forEach((item) => {
             const orderId = item.orderId;
 
             if (!orderMap.has(orderId)) {
-              // Create new order entry
               orderMap.set(orderId, {
                 id: orderId,
                 status: item.status,
@@ -364,10 +349,9 @@ export default {
               });
             }
 
-            // Add item to order
             const order = orderMap.get(orderId);
             order.orderItems.push({
-              id: item.id.split("_")[1], // Extract item ID from combined ID
+              id: item.id.split("_")[1],
               drugId: item.drugId || "",
               quantity: item.amount,
               price: item.price || 0,
@@ -378,7 +362,6 @@ export default {
             });
           });
 
-          // Convert map to array
           this.orders = Array.from(orderMap.values());
           this.totalPages = response.data.totalPages;
           this.currentPage = page;
@@ -407,16 +390,13 @@ export default {
           this.newStatus
         );
 
-        // Update the order in the local list
         const order = this.orders.find((o) => o.id === this.selectedOrder.id);
         if (order) {
           order.status = this.newStatus;
         }
 
-        // Close modal
         this.statusModal = false;
 
-        // Show success notification
         notification.success(
           `Status zamówienia został zmieniony na "${this.translateStatus(
             this.newStatus
@@ -487,7 +467,6 @@ export default {
     },
   },
   created() {
-    // Fetch orders on component creation
     this.fetchOrders();
   },
 };
