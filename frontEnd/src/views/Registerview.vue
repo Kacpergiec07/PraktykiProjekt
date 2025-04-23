@@ -60,7 +60,6 @@ export default {
     },
   },
   created() {
-    // If already authenticated, redirect
     if (this.isAuthenticated) {
       this.$router.push(this.redirect);
     }

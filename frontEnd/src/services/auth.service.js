@@ -11,7 +11,6 @@ class AuthService {
    * @returns {Promise} - API response
    */
   register(userData) {
-    // Map to new API field names
     const requestData = {
       email: userData.email,
       password: userData.password,
@@ -21,7 +20,6 @@ class AuthService {
 
     return api.post("/auth/register", requestData).then((response) => {
       if (response.data.status === "success") {
-        // Store the tokens
         const { accessToken, refreshToken, user } = response.data.data;
         localStorage.setItem("token", accessToken);
         localStorage.setItem("refreshToken", refreshToken);
@@ -32,7 +30,7 @@ class AuthService {
             refreshToken: refreshToken,
             user: {
               ...user,
-              // Map role to permission level for compatibility
+
               permission: this.mapRoleToPermission(user.role),
             },
           },
@@ -52,7 +50,6 @@ class AuthService {
   login(credentials) {
     return api.post("/auth/login", credentials).then((response) => {
       if (response.data.status === "success") {
-        // Store the tokens
         const { accessToken, refreshToken, user } = response.data.data;
         localStorage.setItem("token", accessToken);
         localStorage.setItem("refreshToken", refreshToken);
@@ -63,7 +60,7 @@ class AuthService {
             refreshToken: refreshToken,
             user: {
               ...user,
-              // Map role to permission level for compatibility
+
               permission: this.mapRoleToPermission(user.role),
             },
           },
@@ -109,7 +106,6 @@ class AuthService {
       });
     }
 
-    // If no refresh token, just clear local storage
     localStorage.removeItem("token");
     localStorage.removeItem("refreshToken");
     return Promise.resolve({ success: true });
@@ -126,10 +122,10 @@ class AuthService {
         return {
           data: {
             ...userData,
-            // Keep these field names for compatibility
+
             name: userData.firstName,
             surname: userData.lastName,
-            // Map role to permission level for compatibility
+
             permission: this.mapRoleToPermission(userData.role),
           },
         };

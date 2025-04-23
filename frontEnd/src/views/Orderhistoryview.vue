@@ -2,7 +2,6 @@
   <div>
     <h1 class="text-2xl font-bold mb-6 mt-5">Historia zamówień</h1>
 
-    <!-- Error display -->
     <div v-if="error" class="mb-6 p-4 bg-red-100 text-red-700 rounded">
       {{ error }}
     </div>
@@ -52,7 +51,6 @@ export default {
           orderBy,
         });
 
-        // Scroll to top on page change
         if (page !== this.currentPage) {
           window.scrollTo({ top: 0, behavior: "smooth" });
         }
@@ -62,7 +60,6 @@ export default {
     },
   },
   created() {
-    // Load initial data
     this.fetchOrderHistory({
       page: 0,
       descending: true,

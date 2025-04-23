@@ -36,7 +36,6 @@ class OrderService {
     descending = true,
     orderBy = "createdAt"
   ) {
-    // Prepare query parameters
     const params = {
       page,
       limit,
@@ -44,7 +43,6 @@ class OrderService {
       sortOrder: descending ? "desc" : "asc",
     };
 
-    // Add status filter if present
     if (filter && filter.length > 0) {
       filter.forEach((f) => {
         const key = Object.keys(f)[0];
@@ -53,15 +51,12 @@ class OrderService {
         if (key === "status") {
           params.status = value;
         }
-        // You can add more filter mappings here
       });
     }
 
     return api.get("/orders", { params }).then((response) => {
       if (response.data.status === "success") {
-        // Transform the data to match frontend expectations
         const orders = response.data.data.map((order) => {
-          // Flatten the nested structure for compatibility
           const items = order.orderItems || [];
 
           return items.map((item) => ({
@@ -78,7 +73,6 @@ class OrderService {
           }));
         });
 
-        // Flatten the array of arrays
         const flattenedOrders = [].concat(...orders);
 
         return {
@@ -127,7 +121,6 @@ class OrderService {
     descending = true,
     orderBy = "createdAt"
   ) {
-    // Prepare query parameters
     const params = {
       page,
       limit,
@@ -135,7 +128,6 @@ class OrderService {
       sortOrder: descending ? "desc" : "asc",
     };
 
-    // Add status filter if present
     if (filter && filter.length > 0) {
       filter.forEach((f) => {
         const key = Object.keys(f)[0];
@@ -144,15 +136,12 @@ class OrderService {
         if (key === "status") {
           params.status = value;
         }
-        // You can add more filter mappings here
       });
     }
 
     return api.get("/admin/orders", { params }).then((response) => {
       if (response.data.status === "success") {
-        // Transform the data to match frontend expectations
         const orders = response.data.data.map((order) => {
-          // Flatten the nested structure for compatibility
           const items = order.orderItems || [];
 
           return items.map((item) => ({
@@ -170,7 +159,6 @@ class OrderService {
           }));
         });
 
-        // Flatten the array of arrays
         const flattenedOrders = [].concat(...orders);
 
         return {
@@ -220,7 +208,6 @@ class OrderService {
       purchase_amount: "orderItems.quantity",
       drug_name: "orderItems.drug.name",
       companyName: "orderItems.drug.companyName",
-      // Add more mappings as needed
     };
 
     return fieldMap[field] || field;

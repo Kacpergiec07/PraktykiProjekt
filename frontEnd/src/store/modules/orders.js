@@ -28,7 +28,7 @@ export default {
       state.currentPage = currentPage;
     },
     ADD_ORDER(state, order) {
-      state.orders.unshift(order); // Add to beginning of array
+      state.orders.unshift(order);
     },
     SET_ORDER_DETAILS(state, order) {
       state.orderDetails = order;
@@ -117,7 +117,6 @@ export default {
         if (response.data && response.data.status === "success") {
           const orderData = response.data.data;
 
-          // Extract the relevant order item info
           const orderItems = orderData.orderItems || [];
           if (orderItems.length > 0) {
             const item = orderItems[0];
@@ -133,7 +132,6 @@ export default {
 
             commit("ADD_ORDER", newOrder);
           } else {
-            // Fallback if no order items found
             const newOrder = {
               id: orderData.id,
               orderId: orderData.id,
@@ -146,9 +144,8 @@ export default {
             commit("ADD_ORDER", newOrder);
           }
         } else {
-          // Fallback for old API structure or unexpected response
           const newOrder = {
-            id: Date.now(), // Temporary ID
+            id: Date.now(),
             name: "Ordered medication",
             amount: amount,
             date: new Date().toISOString(),
@@ -157,7 +154,6 @@ export default {
           commit("ADD_ORDER", newOrder);
         }
 
-        // Update the drug quantity in the drugs store
         dispatch("drugs/fetchDrugById", id, { root: true });
         return response.data;
       } catch (error) {
@@ -199,7 +195,6 @@ export default {
         dispatch("setLoading", true, { root: true });
         const response = await orderService.cancelOrder(id);
 
-        // Refresh order history after cancellation
         dispatch("fetchOrderHistory", {
           page: 0,
           descending: true,
@@ -224,7 +219,6 @@ export default {
         dispatch("setLoading", true, { root: true });
         const response = await orderService.updateOrderStatus(id, status);
 
-        // Refresh reports after status update
         dispatch("fetchOrderReports", {
           page: 0,
           descending: true,

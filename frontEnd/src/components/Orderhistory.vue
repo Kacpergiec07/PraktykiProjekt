@@ -5,14 +5,15 @@
         {{ isReport ? "Raport zamówień" : "Historia zamówień" }}
       </h2>
 
-      <!-- Filters -->
       <div class="mt-4 p-4 bg-gray-50 rounded border">
         <h3 class="text-lg font-semibold mb-3">Filtry</h3>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <div>
             <label class="block mb-1">Sortuj według</label>
-            <select v-model="orderBy" class="w-full px-3 py-2 border rounded">
+            <select 
+             v-model="orderBy"
+             class="w-full px-3 py-2 border rounded ">
               <option value="orderDate">Data zamowienia</option>
               <option value="status">Status</option>
               <option value="createdAt">Data utworzenia</option>
@@ -41,7 +42,6 @@
           </div>
         </div>
 
-        <!-- Advanced filters -->
         <div class="mt-4">
           <div class="flex items-center space-x-2 mb-3">
             <h4 class="font-medium">Dodatkowe filtry</h4>
@@ -106,7 +106,7 @@
     </div>
 
     <div v-else>
-      <div class="overflow-x-auto">
+      <div class="overflow-x-auto mb-10">
         <table class="w-full border-collapse">
           <thead>
             <tr class="bg-gray-100">
@@ -135,7 +135,6 @@
         </table>
       </div>
 
-      <!-- Pagination -->
       <div v-if="totalPages > 1" class="flex justify-center mt-6">
         <div class="flex space-x-1">
           <button
@@ -184,7 +183,7 @@ export default {
   },
   data() {
     return {
-      orderBy: "purchase_date",
+      orderBy: "orderDate",
       descending: true,
       limit: 15,
       filters: [],
@@ -212,13 +211,12 @@ export default {
     },
 
     applyFilters() {
-      // Construct filter array in the format expected by the API
       const filterArray = this.filters
         .filter((f) => f.value.trim() !== "")
         .map((f) => ({ [f.field]: f.value.trim() }));
 
       this.$emit("filter-change", {
-        page: 0, // Reset to first page
+        page: 0,
         limit: this.limit,
         orderBy: this.orderBy,
         descending: this.descending,
@@ -227,7 +225,6 @@ export default {
     },
 
     changePage(page) {
-      // Construct filter array
       const filterArray = this.filters
         .filter((f) => f.value.trim() !== "")
         .map((f) => ({ [f.field]: f.value.trim() }));

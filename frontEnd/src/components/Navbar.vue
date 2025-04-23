@@ -8,7 +8,6 @@
       <div class="flex space-x-4">
         <router-link to="/drugs" class="nav-item">Leki</router-link>
 
-        <!-- Authenticated user links -->
         <template v-if="isAuthenticated">
           <router-link to="/history" class="nav-item-admin"
             >Historia zamówień</router-link
@@ -25,7 +24,6 @@
           </button>
         </template>
 
-        <!-- Non-authenticated user links -->
         <template v-else>
           <router-link to="/login" class="hover:text-blue-200 nav-item"
             >Logowanie</router-link
@@ -40,10 +38,6 @@
 </template>
 
 <script>
-// czarny motyw test bartek
-
-//
-
 import { mapGetters, mapActions } from "vuex";
 
 export default {
@@ -51,9 +45,8 @@ export default {
   computed: {
     ...mapGetters("auth", ["isAuthenticated", "userPermission"]),
     isAdmin() {
-      // Get permission as a number from store getter
       const permission = this.userPermission;
-      return permission >= 2; // Assuming 2 is pharmacist and 3 is admin
+      return permission >= 2;
     },
   },
   methods: {
