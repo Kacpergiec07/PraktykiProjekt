@@ -2,7 +2,7 @@
   <footer
     class="interactive-footer bg-mint text-white py-4 relative overflow-hidden"
   >
-    <!-- Interactive line animation - zmniejszona wysokość -->
+    <!-- Interactive line animation -->
     <div class="relative w-full h-px mb-2">
       <div
         @mouseenter="manageMouseEnter"
@@ -21,15 +21,10 @@
       </svg>
     </div>
 
-<<<<<<< HEAD
-    <!-- Footer content - zmniejszone marginesy i padding -->
-    <div class="container mx-auto px-4">
-=======
     <!-- Footer content -->
-    <div class="container mx-auto px-4 margin-bottom:200px">
->>>>>>> 5b6e23a42e667416403b8d95443a6ac2540eb32f
+    <div class="container mx-auto px-4">
       <div class="flex flex-col md:flex-row justify-between">
-        <!-- Company info - zmniejszone marginesy -->
+        <!-- Company info -->
         <div class="mb-4 md:mb-0 md:w-2/5">
           <h2 class="text-xl font-bold mb-2">API Apteka</h2>
           <p class="text-white/80 mb-3 text-sm">
@@ -42,12 +37,6 @@
       <div
         class="mt-4 pt-2 border-t border-white/20 flex flex-col md:flex-row justify-between items-center"
       >
-<<<<<<< HEAD
-        <p class="text-xs text-center md:text-left">
-          &copy; {{ currentYear }} API Apteka. Wszelkie prawa zastrzeżone.
-        </p>
-        <div class="mt-2 md:mt-0">
-=======
         <div class="footerP">
           <p class="text-sm text-center md:text-left">
             &copy; {{ currentYear }} API Apteka. Wszelkie prawa zastrzeżone.
@@ -76,7 +65,6 @@
           </div>
         </div>
         <div class="mt-4 md:mt-0">
->>>>>>> 5b6e23a42e667416403b8d95443a6ac2540eb32f
           <ul
             class="flex flex-col md:flex-row md:space-x-6 space-y-1 md:space-y-0 text-center text-sm"
           >
@@ -109,10 +97,6 @@
 </template>
 
 <script>
-// --test--
-
-// -----
-
 export default {
   name: "InteractiveFooter",
   data() {
