@@ -1,8 +1,8 @@
 <template>
-  <div class="bg-gradient-to-br from-blue-50 to-indigo-100 p-6 rounded-x1 shadow-sm mb-20 ">
+  <div class=" from-blue-50 to-indigo-100 p-6 rounded-x1 mb-20">
     <!-- Loading state -->
     <div v-if="loading" class="flex justify-center p-12">
-      <div class="animate-spin h-12 w-12 border-4 border-blue-500 border-t-transparent rounded-full shadow-lg"></div>
+      <div class="animate-spin h-12 w-12 rounded-full shadow-lg"></div>
     </div>
 
     <!-- Empty state -->

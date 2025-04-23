@@ -1,49 +1,57 @@
 <template>
   <div>
-    <div class="flex justify-between items-center mb-6 mt-10">
-      <h1 class="text-2xl font-bold">Dostępne leki</h1>
-      <div class="flex space-x-2">
-        <button
-          @click="refresh"
-          class="px-4 py-2 bg-blue-100 text-blue-700 rounded hover:bg-blue-200"
-        >
-          Odśwież
-        </button>
+    <div class="fixed inset-0 -z-10">
+      <ThreeBackground />
+    </div>
+
+    <!-- Główna treść aplikacji -->
+    <div class="relative z-10 ">
+      <div class="flex justify-between items-center mb-6 mt-10">
+        <h1 class="text-2xl font-bold">Dostępne leki</h1>
+        <div class="flex space-x-2">
+          <button
+            @click="refresh"
+            class="px-4 py-2 bg-blue-100 text-blue-700 rounded hover:bg-blue-200"
+          >
+            Odśwież
+          </button>
+        </div>
       </div>
-    </div>
 
-    <!-- Global error display -->
-    <div v-if="error" class="mb-6 p-4 bg-red-100 text-red-700 rounded">
-      {{ error }}
-    </div>
+      <div v-if="error" class="mb-6 p-4 bg-red-100 text-red-700 rounded">
+        {{ error }}
+      </div>
 
-    <!-- Success message -->
-    <div
-      v-if="successMessage"
-      class="mb-6 p-4 bg-green-100 text-green-700 rounded"
-    >
-      {{ successMessage }}
-    </div>
+      <div
+        v-if="successMessage"
+        class="mb-6 p-4 bg-green-100 text-green-700 rounded"
+      >
+        {{ successMessage }}
+      </div>
 
-    <drugs-list
-      :drugs="drugs"
-      :loading="loading"
-      :total-pages="totalPages"
-      :current-page="currentPage"
-      @refresh="refresh"
-      @page-change="changePage"
-    />
+      <drugs-list
+        :drugs="drugs"
+        :loading="loading"
+        :total-pages="totalPages"
+        :current-page="currentPage"
+        @refresh="refresh"
+        @page-change="changePage"
+        class="bg-opacity-65"
+      />
+    </div>
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions, mapState } from "vuex";
 import DrugsList from "../components/DrugsList.vue";
+import ThreeBackground from "../components/ThreeBackground.vue";
 
 export default {
   name: "DrugsView",
   components: {
     DrugsList,
+    ThreeBackground,
   },
   data() {
     return {
@@ -86,7 +94,6 @@ export default {
     showSuccessMessage(message) {
       this.successMessage = message;
 
-      // Clear the message after 3 seconds
       if (this.timer) clearTimeout(this.timer);
       this.timer = setTimeout(() => {
         this.successMessage = "";

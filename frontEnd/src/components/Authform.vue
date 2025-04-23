@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
+  <div class="m-[5px] w-[calc(100%-10px)] max-w-full bg-white p-6 rounded-lg">
     <slot name="header"></slot>
 
     <div v-if="error" class="mb-4 p-3 bg-red-100 text-red-700 rounded">
