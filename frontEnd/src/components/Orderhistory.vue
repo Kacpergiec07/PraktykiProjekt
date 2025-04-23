@@ -12,7 +12,9 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <div>
             <label class="block mb-1">Sortuj według</label>
-            <select v-model="orderBy" class="w-full px-3 py-2 border rounded">
+            <select 
+             v-model="orderBy"
+             class="w-full px-3 py-2 border rounded ">
               <option value="orderDate">Data zamowienia</option>
               <option value="status">Status</option>
               <option value="createdAt">Data utworzenia</option>
@@ -184,7 +186,7 @@ export default {
   },
   data() {
     return {
-      orderBy: "purchase_date",
+      orderBy: "orderDate",
       descending: true,
       limit: 15,
       filters: [],
