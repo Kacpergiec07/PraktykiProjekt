@@ -12,23 +12,23 @@
         <div class="sticky top-4">
           <div class="bg-white p-4 rounded-lg shadow-md mb-4">
             <h2 class="text-lg font-semibold mb-3">Menu</h2>
-            
+
             <!-- Menu z płynną animacją -->
             <div class="relative">
               <!-- Fixed background for all tabs -->
               <div class="absolute inset-0 bg-gray-50 rounded"></div>
-              
+
               <!-- Tło animowanego przełącznika -->
               <div
                 class="absolute rounded bg-indigo-100 transition-all duration-400 ease-out"
                 :style="{
-                  height: '40px', 
+                  height: '40px',
                   width: '100%',
                   top: `${activeTabIndex * 40}px`,
-                  left: '0'
+                  left: '0',
                 }"
               ></div>
-              
+
               <!-- Przyciski menu - wszystkie z dokładnie taką samą wysokością -->
               <div class="relative z-10">
                 <button
@@ -36,7 +36,11 @@
                   :key="index"
                   @click="setCurrentTab(tab.value)"
                   class="w-full text-left px-4 py-2 h-10 mb-0 block transition-colors"
-                  :class="currentTab === tab.value ? 'text-indigo-700 font-medium' : 'text-gray-700 hover:text-indigo-600'"
+                  :class="
+                    currentTab === tab.value
+                      ? 'text-indigo-700 font-medium'
+                      : 'text-gray-700 hover:text-indigo-600'
+                  "
                 >
                   {{ tab.label }}
                 </button>
@@ -193,6 +197,11 @@
             </div>
           </div>
         </div>
+
+        <!-- AI Assistant Config Tab -->
+        <div v-else-if="currentTab === 'aiAssistant'">
+          <ai-agent-config />
+        </div>
       </div>
     </div>
   </div>
@@ -204,6 +213,7 @@ import OrderHistory from "../components/Orderhistory.vue";
 import DrugsList from "../components/Drugslist.vue";
 import RevenueStats from "../components/RevenueStats.vue";
 import OrderStatusManager from "../components/OrderStatusManager.vue";
+import AiAgentConfig from "../components/AiAgentConfig.vue";
 import notification from "../utils/notification";
 
 export default {
@@ -213,6 +223,7 @@ export default {
     DrugsList,
     RevenueStats,
     OrderStatusManager,
+    AiAgentConfig,
   },
   data() {
     return {
@@ -233,7 +244,8 @@ export default {
         { label: "Zarządzanie zamówieniami", value: "orderManagement" },
         { label: "Statystyki przychodów", value: "revenueStats" },
         { label: "Zarządzanie lekami", value: "drugManagement" },
-      ]
+        { label: "Asystent AI", value: "aiAssistant" }, // New tab for AI assistant configuration
+      ],
     };
   },
   computed: {
@@ -255,10 +267,10 @@ export default {
     drugs() {
       return this.allDrugs;
     },
-    
+
     activeTabIndex() {
-      return this.tabs.findIndex(tab => tab.value === this.currentTab);
-    }
+      return this.tabs.findIndex((tab) => tab.value === this.currentTab);
+    },
   },
   methods: {
     ...mapActions("orders", ["fetchOrderReports"]),

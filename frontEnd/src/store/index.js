@@ -2,6 +2,7 @@ import { createStore } from "vuex";
 import auth from "./modules/auth";
 import drugs from "./modules/drugs";
 import orders from "./modules/orders";
+import ai from "./modules/ai"; // Add the AI module
 
 export default createStore({
   state: {
@@ -38,5 +39,6 @@ export default createStore({
     auth,
     drugs,
     orders,
+    ai, // Add the AI module to the store
   },
 });
