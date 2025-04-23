@@ -24,7 +24,6 @@ export default {
     ...mapActions("auth", ["checkAuth"]),
   },
   created() {
-    // Check if there's a stored token and validate it
     this.checkAuth();
   },
 };

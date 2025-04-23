@@ -2,7 +2,6 @@
   <footer
     class="interactive-footer bg-mint text-white py-4 relative overflow-hidden"
   >
-    <!-- Interactive line animation -->
     <div class="relative w-full h-px mb-2">
       <div
         @mouseenter="manageMouseEnter"
@@ -21,10 +20,8 @@
       </svg>
     </div>
 
-    <!-- Footer content -->
     <div class="container mx-auto px-4">
       <div class="flex flex-col md:flex-row justify-between">
-        <!-- Company info -->
         <div class="mb-4 md:mb-0 md:w-2/5">
           <h2 class="text-xl font-bold mb-2">API Apteka</h2>
           <p class="text-white/80 mb-3 text-sm">
@@ -111,11 +108,9 @@ export default {
   mounted() {
     this.setPath(this.progress);
 
-    // Add resize event listener
     window.addEventListener("resize", this.handleResize);
   },
   beforeUnmount() {
-    // Cleanup animation and event listener
     if (this.reqId) {
       cancelAnimationFrame(this.reqId);
     }
@@ -123,10 +118,8 @@ export default {
   },
   methods: {
     setPath(progress) {
-      // Get the width of the footer
       const width = window.innerWidth;
 
-      // Set the "d" attribute of the SVG path element using a quadratic Bézier curve
       if (this.$refs.path) {
         this.$refs.path.setAttributeNS(
           null,
@@ -136,13 +129,11 @@ export default {
       }
     },
 
-    // Linear interpolation function
     lerp(x, y, a) {
       return x * (1 - a) + y * a;
     },
 
     manageMouseEnter() {
-      // If there is an animation frame request, cancel it and reset the animation
       if (this.reqId) {
         cancelAnimationFrame(this.reqId);
         this.resetAnimation();
@@ -150,13 +141,10 @@ export default {
     },
 
     manageMouseMove(e) {
-      // Get the movementY and clientX properties from the event
       const { movementY, clientX } = e;
 
-      // Get the bounding rectangle of the SVG path element
       const pathBound = this.$refs.path?.getBoundingClientRect();
 
-      // If the bounding rectangle exists, update x and progress and set the path
       if (pathBound) {
         this.x = (clientX - pathBound.left) / pathBound.width;
         this.progress += movementY;
@@ -165,25 +153,18 @@ export default {
     },
 
     manageMouseLeave() {
-      // Start animating out
       this.animateOut();
     },
 
     animateOut() {
-      // Calculate newProgress using sine of time
       const newProgress = this.progress * Math.sin(this.time);
 
-      // Update progress using linear interpolation towards zero
       this.progress = this.lerp(this.progress, 0, 0.025);
 
-      // Increment time by 0.2
       this.time += 0.2;
 
-      // Set the path using newProgress
       this.setPath(newProgress);
 
-      // If progress is greater than a threshold, request another animation frame,
-      // otherwise reset the animation.
       if (Math.abs(this.progress) > 0.75) {
         this.reqId = requestAnimationFrame(this.animateOut);
       } else {
@@ -198,7 +179,6 @@ export default {
     },
 
     handleResize() {
-      // Reset and update the path when window is resized
       this.resetAnimation();
     },
   },

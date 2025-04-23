@@ -130,7 +130,6 @@ const submitForm = () => {
   }
 }
 
-/* klasy animacji */
 .animate-fade-in {
   animation: fade-in 0.8s ease-out forwards;
   opacity: 0;
@@ -139,6 +138,4 @@ const submitForm = () => {
   animation: fade-in-up 0.8s ease-out forwards;
   opacity: 0;
 }
-
-/* Tailwindowe klasy delay-* wystarczą, jeśli masz plugin animate lub core delay utilities */
 </style>

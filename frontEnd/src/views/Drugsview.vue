@@ -12,12 +12,10 @@
       </div>
     </div>
 
-    <!-- Global error display -->
     <div v-if="error" class="mb-6 p-4 bg-red-100 text-red-700 rounded">
       {{ error }}
     </div>
 
-    <!-- Success message -->
     <div
       v-if="successMessage"
       class="mb-6 p-4 bg-green-100 text-green-700 rounded"
@@ -86,7 +84,6 @@ export default {
     showSuccessMessage(message) {
       this.successMessage = message;
 
-      // Clear the message after 3 seconds
       if (this.timer) clearTimeout(this.timer);
       this.timer = setTimeout(() => {
         this.successMessage = "";

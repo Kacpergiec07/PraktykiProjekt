@@ -32,7 +32,6 @@ class DrugService {
       sortOrder,
     };
 
-    // Add optional filters if provided
     if (name) params.name = name;
     if (companyName) params.companyName = companyName;
     if (type) params.type = type;
@@ -42,7 +41,6 @@ class DrugService {
     return api.get("/drugs", { params }).then((response) => {
       if (response.data.status === "success") {
         const drugs = response.data.data.map((drug) => ({
-          // Map API fields to match frontend expectations
           idDrug: drug.id,
           name: drug.name,
           dose: drug.dose,
@@ -77,7 +75,7 @@ class DrugService {
         const drug = response.data.data;
         return {
           data: {
-            idDrug: drug.id, // Map id to idDrug for frontend compatibility
+            idDrug: drug.id,
             name: drug.name,
             dose: drug.dose,
             price: drug.price,
@@ -110,7 +108,6 @@ class DrugService {
    * @returns {Promise} - API response
    */
   updateDrug(id, field, value) {
-    // Create update data object with only the field to update
     const updateData = {};
     updateData[field] = value;
 

@@ -3,7 +3,6 @@
  */
 class NotificationService {
   constructor() {
-    // Set up a container for notifications if it doesn't exist
     if (!document.getElementById("notification-container")) {
       this.container = document.createElement("div");
       this.container.id = "notification-container";
@@ -66,10 +65,8 @@ class NotificationService {
    * @private
    */
   showNotification(message, type, duration) {
-    // Create notification element
     const notification = document.createElement("div");
 
-    // Set styles based on type
     const baseStyles = `
       padding: 12px 16px;
       border-radius: 8px;
@@ -123,21 +120,17 @@ class NotificationService {
       <button style="background: none; border: none; cursor: pointer; font-size: 16px; padding: 0 0 0 10px;">×</button>
     `;
 
-    // Add close button functionality
     const closeButton = notification.querySelector("button");
     closeButton.addEventListener("click", () => {
       this.closeNotification(notification);
     });
 
-    // Add to container
     this.container.appendChild(notification);
 
-    // Trigger animation
     setTimeout(() => {
       notification.style.opacity = "1";
     }, 10);
 
-    // Auto-close after duration
     setTimeout(() => {
       this.closeNotification(notification);
     }, duration);
@@ -160,5 +153,4 @@ class NotificationService {
   }
 }
 
-// Export as singleton
 export default new NotificationService();

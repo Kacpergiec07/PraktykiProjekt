@@ -1,13 +1,11 @@
 <template>
   <div class="relative h-full">
-    <!-- Tło przy powiększeniu -->
     <div
       v-if="open"
       class="fixed inset-0 bg-white/60 backdrop-blur-sm z-40"
       @click="toggleOpen"
     ></div>
 
-    <!-- Karta leku -->
     <div
       ref="card"
       class="border rounded-lg p-4 bg-white transition-all duration-500 ease-in-out transform cursor-pointer h-full flex flex-col justify-between"
@@ -40,7 +38,6 @@
         </div>
       </div>
 
-      <!-- Sekcja przycisków - zmodyfikowany odstęp -->
       <div :class="{ 'mt-auto': !open, 'mt-2': open }">
         <div class="grid grid-cols-2 gap-2 max-w-xs mx-auto text-center w-full">
           <template v-if="isAdmin">
@@ -84,7 +81,6 @@
       </div>
     </div>
 
-    <!-- Placeholder do zachowania miejsca w układzie -->
     <div v-if="open" class="invisible" :style="placeholderStyle"></div>
   </div>
 </template>
@@ -141,7 +137,6 @@ export default {
   methods: {
     toggleOpen() {
       if (!this.open) {
-        // Zapisz oryginalne wymiary karty przed otwarciem
         const rect = this.$refs.card.getBoundingClientRect();
         this.originalDimensions = {
           width: rect.width,
@@ -153,7 +148,6 @@ export default {
     },
   },
   mounted() {
-    // Zapisz początkowe wymiary karty
     this.$nextTick(() => {
       const rect = this.$refs.card.getBoundingClientRect();
       this.originalDimensions = {
