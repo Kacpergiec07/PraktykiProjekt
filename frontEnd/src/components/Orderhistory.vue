@@ -104,7 +104,7 @@
     </div>
 
     <div v-else>
-      <div class="overflow-x-auto">
+      <div class="overflow-x-auto mb-10">
         <table class="w-full border-collapse">
           <thead>
             <tr class="bg-gray-100">
