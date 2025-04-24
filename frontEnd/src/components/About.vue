@@ -4,7 +4,6 @@
       <h1 class="text-4xl font-bold text-center mb-8 animate-fade-in">O nas</h1>
 
       <div class="grid md:grid-cols-2 gap-12 items-center">
-        <!-- Obrazek -->
         <div>
           <img
             :src="zespolImg"
@@ -13,7 +12,6 @@
           />
         </div>
 
-        <!-- Tekst -->
         <div class="space-y-4 animate-fade-in-up delay-100">
           <h2 class="text-2xl font-semibold">Kim jesteśmy?</h2>
           <p class="text-lg leading-relaxed">
@@ -29,7 +27,6 @@
         </div>
       </div>
 
-      <!-- Karty -->
       <div class="mt-16 grid md:grid-cols-3 gap-8 text-center">
         <div
           class="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl transition animate-fade-in-up delay-150"

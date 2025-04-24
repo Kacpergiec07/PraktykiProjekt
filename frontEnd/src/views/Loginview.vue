@@ -75,6 +75,7 @@ export default {
       e.currentTarget.style.setProperty("--mouse-y", `${y}px`);
     },
   },
+<<<<<<< HEAD
   mounted() {
     const container = this.$el.querySelector(".magic-border");
     if (container) {
@@ -85,6 +86,11 @@ export default {
     const container = this.$el.querySelector(".magic-border");
     if (container) {
       container.removeEventListener("mousemove", this.setMouseCoords);
+=======
+  created() {
+    if (this.isAuthenticated) {
+      this.$router.push(this.redirect);
+>>>>>>> 277295599ff10c4857053e573e5d8e6d7d1865be
     }
   },
 };

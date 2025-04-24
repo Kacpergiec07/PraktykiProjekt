@@ -7,7 +7,6 @@
     </div>
 
     <form @submit.prevent="submitForm">
-      <!-- Registration fields -->
       <template v-if="isRegister">
         <div class="mb-4">
           <label class="block mb-1" for="name">Imię</label>
@@ -38,7 +37,6 @@
         </div>
       </template>
 
-      <!-- Common fields for both login and register -->
       <div class="mb-4">
         <label class="block mb-1" for="email">Email</label>
         <input

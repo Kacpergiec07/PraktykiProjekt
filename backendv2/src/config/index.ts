@@ -42,4 +42,7 @@ export const config = {
       process.env.ALLOWED_ORIGINS || "http://localhost:5173"
     ).split(","),
   },
+  mistralAi: {
+    apiKey: process.env.MISTRAL_API_KEY || "",
+  },
 };

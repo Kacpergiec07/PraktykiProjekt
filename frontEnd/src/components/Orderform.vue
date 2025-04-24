@@ -75,7 +75,6 @@ export default {
   },
   watch: {
     drug() {
-      // Reset amount when drug changes
       this.orderAmount = 1;
     },
   },
@@ -96,7 +95,6 @@ export default {
           amount: this.orderAmount,
         });
 
-        // Reset form
         this.orderAmount = 1;
       } catch (error) {
         this.$emit("error", error);

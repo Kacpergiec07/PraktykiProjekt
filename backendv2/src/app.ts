@@ -8,6 +8,7 @@ import { adminOrderRouter } from "./routes/admin.routes";
 import { authRouter } from "./routes/auth.routes";
 import { drugRouter } from "./routes/drug.routes";
 import { orderRouter } from "./routes/order.routes";
+import { aiRouter } from "./routes/ai.routes"; // Add AI routes
 import { logger } from "./uttils/logger";
 import { config } from "./config";
 
@@ -53,6 +54,7 @@ app.use(`${config.apiPrefix}/auth`, authRouter);
 app.use(`${config.apiPrefix}/drugs`, drugRouter);
 app.use(`${config.apiPrefix}/orders`, orderRouter);
 app.use(`${config.apiPrefix}/admin/orders`, adminOrderRouter);
+app.use(`${config.apiPrefix}/ai`, aiRouter); // Add the AI routes
 
 // Health check endpoint
 app.get("/health", (req, res) => {

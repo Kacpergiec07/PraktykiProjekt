@@ -2,7 +2,6 @@
   <div class="mt-5">
     <h1 class="text-2xl font-bold mb-6">Panel administracyjny</h1>
 
-    <!-- Error display -->
     <div v-if="error" class="mb-6 p-4 bg-red-100 text-red-700 rounded">
       {{ error }}
     </div>
@@ -12,31 +11,43 @@
         <div class="sticky top-4">
           <div class="bg-white p-4 rounded-lg shadow-md mb-4">
             <h2 class="text-lg font-semibold mb-3">Menu</h2>
-            
+
+<<<<<<< HEAD
             <!-- Menu z płynną animacją -->
+=======
+>>>>>>> 0cf7bfdb860e86d0be3a215a54c9964458bed94f
             <div class="relative">
-              <!-- Fixed background for all tabs -->
               <div class="absolute inset-0 bg-gray-50 rounded"></div>
-              
+
+<<<<<<< HEAD
               <!-- Tło animowanego przełącznika -->
+=======
+>>>>>>> 0cf7bfdb860e86d0be3a215a54c9964458bed94f
               <div
                 class="absolute rounded bg-indigo-100 transition-all duration-400 ease-out"
                 :style="{
-                  height: '40px', 
+                  height: '40px',
                   width: '100%',
                   top: `${activeTabIndex * 40}px`,
-                  left: '0'
+                  left: '0',
                 }"
               ></div>
-              
+
+<<<<<<< HEAD
               <!-- Przyciski menu - wszystkie z dokładnie taką samą wysokością -->
+=======
+>>>>>>> 0cf7bfdb860e86d0be3a215a54c9964458bed94f
               <div class="relative z-10">
                 <button
                   v-for="(tab, index) in tabs"
                   :key="index"
                   @click="setCurrentTab(tab.value)"
                   class="w-full text-left px-4 py-2 h-10 mb-0 block transition-colors"
-                  :class="currentTab === tab.value ? 'text-indigo-700 font-medium' : 'text-gray-700 hover:text-indigo-600'"
+                  :class="
+                    currentTab === tab.value
+                      ? 'text-indigo-700 font-medium'
+                      : 'text-gray-700 hover:text-indigo-600'
+                  "
                 >
                   {{ tab.label }}
                 </button>
@@ -47,7 +58,6 @@
       </div>
 
       <div class="lg:col-span-3">
-        <!-- Order Reports Tab -->
         <div v-if="currentTab === 'orderReports'">
           <div class="bg-white p-6 rounded-lg shadow-md">
             <h2 class="text-xl font-semibold mb-4">Raporty zamówień</h2>
@@ -66,17 +76,14 @@
           </div>
         </div>
 
-        <!-- Order Management Tab -->
         <div v-else-if="currentTab === 'orderManagement'">
           <order-status-manager />
         </div>
 
-        <!-- Revenue Statistics Tab -->
         <div v-else-if="currentTab === 'revenueStats'">
           <revenue-stats />
         </div>
 
-        <!-- Drug Management Tab -->
         <div v-else-if="currentTab === 'drugManagement'">
           <div class="bg-white p-6 rounded-lg shadow-md">
             <h2 class="text-xl font-semibold mb-4">Zarządzanie lekami</h2>
@@ -90,7 +97,6 @@
               </button>
             </div>
 
-            <!-- Add Drug Form -->
             <div
               v-if="showAddDrugForm"
               class="mb-8 p-4 bg-gray-50 rounded border"
@@ -178,7 +184,6 @@
               </form>
             </div>
 
-            <!-- Manage Existing Drugs -->
             <div>
               <h3 class="text-lg font-semibold mb-3">Istniejące leki</h3>
 
@@ -193,6 +198,11 @@
             </div>
           </div>
         </div>
+
+        <!-- AI Assistant Config Tab -->
+        <div v-else-if="currentTab === 'aiAssistant'">
+          <ai-agent-config />
+        </div>
       </div>
     </div>
   </div>
@@ -204,6 +214,7 @@ import OrderHistory from "../components/Orderhistory.vue";
 import DrugsList from "../components/Drugslist.vue";
 import RevenueStats from "../components/RevenueStats.vue";
 import OrderStatusManager from "../components/OrderStatusManager.vue";
+import AiAgentConfig from "../components/AiAgentConfig.vue";
 import notification from "../utils/notification";
 
 export default {
@@ -213,6 +224,7 @@ export default {
     DrugsList,
     RevenueStats,
     OrderStatusManager,
+    AiAgentConfig,
   },
   data() {
     return {
@@ -233,7 +245,11 @@ export default {
         { label: "Zarządzanie zamówieniami", value: "orderManagement" },
         { label: "Statystyki przychodów", value: "revenueStats" },
         { label: "Zarządzanie lekami", value: "drugManagement" },
-      ]
+<<<<<<< HEAD
+        { label: "Asystent AI", value: "aiAssistant" }, // New tab for AI assistant configuration
+=======
+>>>>>>> 0cf7bfdb860e86d0be3a215a54c9964458bed94f
+      ],
     };
   },
   computed: {
@@ -255,10 +271,10 @@ export default {
     drugs() {
       return this.allDrugs;
     },
-    
+
     activeTabIndex() {
-      return this.tabs.findIndex(tab => tab.value === this.currentTab);
-    }
+      return this.tabs.findIndex((tab) => tab.value === this.currentTab);
+    },
   },
   methods: {
     ...mapActions("orders", ["fetchOrderReports"]),
@@ -279,7 +295,6 @@ export default {
           orderBy,
         });
 
-        // Scroll to top on page change
         if (page !== this.currentPage) {
           window.scrollTo({ top: 0, behavior: "smooth" });
         }
@@ -325,7 +340,6 @@ export default {
 
         await this.addDrug(drugData);
 
-        // Reset form
         this.newDrug = {
           name: "",
           dose: "",
@@ -335,13 +349,10 @@ export default {
           amount: "",
         };
 
-        // Hide form
         this.showAddDrugForm = false;
 
-        // Show success notification
         notification.success("Lek został dodany pomyślnie");
 
-        // Reload drugs list
         this.loadDrugs();
       } catch (error) {
         console.error("Failed to add drug:", error);
@@ -355,7 +366,6 @@ export default {
     },
   },
   created() {
-    // Load initial data
     this.fetchOrderReports({
       page: 0,
       descending: true,

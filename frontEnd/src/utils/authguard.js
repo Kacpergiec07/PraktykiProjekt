@@ -7,22 +7,19 @@ import store from "../store";
  * @param {Function} next - Function to resolve the hook
  */
 export const requireAuth = async (to, from, next) => {
-  // Check if user is authenticated
   if (!store.getters["auth/isAuthenticated"]) {
-    // Redirect to login with return URL
     return next({
       name: "login",
       query: { redirect: to.fullPath },
     });
   }
 
-  // If we have a token but no user data, try to fetch the user
   if (!store.getters["auth/getCurrentUser"]) {
     try {
       await store.dispatch("auth/checkAuth");
     } catch (err) {
       console.error("Auth check failed:", err);
-      // If auth check fails, redirect to login
+
       return next({
         name: "login",
         query: { redirect: to.fullPath },
@@ -30,7 +27,6 @@ export const requireAuth = async (to, from, next) => {
     }
   }
 
-  // User is authenticated, proceed
   next();
 };
 
@@ -41,7 +37,6 @@ export const requireAuth = async (to, from, next) => {
  */
 export const requireRole = (roles) => {
   return async (to, from, next) => {
-    // First check if user is authenticated
     if (!store.getters["auth/isAuthenticated"]) {
       return next({
         name: "login",
@@ -49,7 +44,6 @@ export const requireRole = (roles) => {
       });
     }
 
-    // If we have a token but no user data, try to fetch the user
     if (!store.getters["auth/getCurrentUser"]) {
       try {
         await store.dispatch("auth/checkAuth");
@@ -62,14 +56,11 @@ export const requireRole = (roles) => {
       }
     }
 
-    // Get current user and check role
     const user = store.getters["auth/getCurrentUser"];
 
-    // Check if user's role is in the required roles
     if (user && roles.includes(user.role)) {
-      next(); // Role is allowed, proceed
+      next();
     } else {
-      // Map permission level to role for backward compatibility
       const permission = store.getters["auth/userPermission"];
 
       if (
@@ -77,9 +68,8 @@ export const requireRole = (roles) => {
         (permission >= 2 && roles.includes("PHARMACIST")) ||
         (permission >= 1 && roles.includes("EMPLOYEE"))
       ) {
-        next(); // Permission level is sufficient, proceed
+        next();
       } else {
-        // Not authorized, redirect to home
         next({ name: "home" });
       }
     }

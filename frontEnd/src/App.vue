@@ -5,6 +5,9 @@
       <router-view />
     </main>
     <InteractiveFooter />
+
+    <!-- Add the AI Agent component -->
+    <AiAgent />
   </div>
 </template>
 
@@ -24,7 +27,6 @@ export default {
     ...mapActions("auth", ["checkAuth"]),
   },
   created() {
-    // Check if there's a stored token and validate it
     this.checkAuth();
   },
 };
