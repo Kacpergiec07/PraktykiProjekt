@@ -11,7 +11,8 @@ export default {
   setup() {
     const container = ref(null);
     const mousePosition = ref({ x: 0, y: 0 });
-    
+   
+
     let scene, camera, renderer;
     let pills = [];
     let animationFrameId = null;
@@ -86,10 +87,11 @@ export default {
         floatIntensity: 0.2 + Math.random() * 0.1,
         time: Math.random() * 100,
         rotationSpeed: new THREE.Vector3(
-          (Math.random() - 0.5) * 1, 
-          (Math.random() - 0.5) * 1,
-          (Math.random() - 0.5) * 1
-        )
+          (Math.random() - 0.5) * 0.5, 
+          (Math.random() - 0.5) * 0.5,
+          (Math.random() - 0.5) * 0.5
+        ),
+        
       };
       
       scene.add(group);
@@ -130,9 +132,7 @@ export default {
             mousePosition.value.y * 5, 
             0
           );
-          pill.group.rotation.x += pill.rotationSpeed.x;
-          pill.group.rotation.y += pill.rotationSpeed.y;
-          pill.group.rotation.z += pill.rotationSpeed.z;
+          
           
           // Tworzenie wektora kierunku od obiektu do kursora
           const direction = new THREE.Vector3();
@@ -186,20 +186,18 @@ export default {
       scene.add(directionalLight);
       
       // Dodawanie tabletek
-      const pillsData = [
-      ...Array.from({ length: 220 }, () => {
-    const randomX = Math.random() * 10 - 5;
-    const randomY = Math.random() * 4 - 2;
-    const randomZ = Math.random() * -2 + -0.5;
-    const colors = ["#ff6b6b", "#4ecdc4", "#ffbe0b", "#8a2be2", "#3a86ff", "#fb5607", "#06d6a0", "#ff9f1c", "#2ec4b6", "#e71d36", "#ff70a6", "#70d6ff", "#ffd670", "#e9ff70", "#a1ff70", "#70ffa3", "#bc70ff", "#ff70e9", "#ff7070", "#ffffff", "#cccccc"];
-    const types = ["round", "capsule", "oval", "diamond"];
-    return {
-      position: new THREE.Vector3(randomX, randomY, randomZ),
-      color: colors[Math.floor(Math.random() * colors.length)],
-      pillType: types[Math.floor(Math.random() * types.length)],
-    };
-  }),
-      ];
+      const pillsData = Array.from({ length: 200 }, () => {
+  const sideX = Math.random() > 0.5 ? -5 : 5;
+  const randomY = Math.random() * 4 - 2;
+  const randomZ = Math.random() * -2 + -0.5;
+  const colors = ["#ff6b6b", "#4ecdc4", "#ffbe0b", "#8a2be2", "#3a86ff", "#fb5607", "#06d6a0", "#ff9f1c", "#2ec4b6", "#e71d36", "#ff70a6", "#70d6ff", "#ffd670", "#e9ff70", "#a1ff70", "#70ffa3", "#bc70ff", "#ff70e9", "#ff7070", "#ffffff", "#cccccc"];
+  const types = ["round", "capsule", "oval", "diamond"];
+  return {
+    position: new THREE.Vector3(sideX, randomY, randomZ),
+    color: colors[Math.floor(Math.random() * colors.length)],
+    pillType: types[Math.floor(Math.random() * types.length)],
+  };
+});
       
       pillsData.forEach(data => {
         createPillShape(data.position, data.color, data.pillType);
@@ -245,7 +243,7 @@ export default {
       camera = null;
       renderer = null;
     });
-
+      
     return {
       container
     };
