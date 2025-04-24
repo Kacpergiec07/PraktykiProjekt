@@ -84,7 +84,12 @@ export default {
         initialPosition: new THREE.Vector3().copy(position),
         floatSpeed: 1 + Math.random() * 0.5,
         floatIntensity: 0.2 + Math.random() * 0.1,
-        time: Math.random() * 100
+        time: Math.random() * 100,
+        rotationSpeed: new THREE.Vector3(
+          (Math.random() - 0.5) * 1, 
+          (Math.random() - 0.5) * 1,
+          (Math.random() - 0.5) * 1
+        )
       };
       
       scene.add(group);
@@ -125,6 +130,9 @@ export default {
             mousePosition.value.y * 5, 
             0
           );
+          pill.group.rotation.x += pill.rotationSpeed.x;
+          pill.group.rotation.y += pill.rotationSpeed.y;
+          pill.group.rotation.z += pill.rotationSpeed.z;
           
           // Tworzenie wektora kierunku od obiektu do kursora
           const direction = new THREE.Vector3();
@@ -179,7 +187,7 @@ export default {
       
       // Dodawanie tabletek
       const pillsData = [
-      ...Array.from({ length: 100 }, () => {
+      ...Array.from({ length: 220 }, () => {
     const randomX = Math.random() * 10 - 5;
     const randomY = Math.random() * 4 - 2;
     const randomZ = Math.random() * -2 + -0.5;

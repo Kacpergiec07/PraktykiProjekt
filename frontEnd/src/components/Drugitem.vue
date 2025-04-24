@@ -4,25 +4,28 @@
   >
     <div class="flex justify-between items-start">
       <div class="w-2/5">
+        
         <h3 class="text-lg font-semibold">{{ drug.name }}</h3>
         <p class="text-sm text-gray-600">Dawka: {{ drug.dose }}</p>
         <p class="text-sm text-gray-600">Typ: {{ drug.type }}</p>
         <p class="text-sm text-gray-600">Producent: {{ drug.companyName }}</p>
+        <p v-if="showLimitMessage" class="text-sm text-red-600">Przekroczono maksymalną liczbę sztuk w magazynie</p>
       </div>
 
       <div :class="{ 'mt-5': !open, 'mt-2': open }">
+        
         <div class="grid grid-cols-1 gap-2 max-w-xs mx-auto text-center w-full">
           <template v-if="isAdmin">
             <button
               @click.stop="$emit('edit')"
-              class="w-full px-2 py-1 bg-yellow-100 text-yellow-700 rounded hover:bg-yellow-200"
+              class="w-full cursor-pointer px-2 py-1 bg-yellow-100 text-yellow-700 rounded hover:bg-yellow-200"
             >
               Edytuj
             </button>
             <router-link
               :to="`/drugs/${drug.idDrug}`"
               @click.stop
-              class="w-full px-2 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200"
+              class="cursor-pointer w-full px-2 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200"
             >
               Szczegóły
             </router-link>
@@ -36,23 +39,25 @@
           <button
             v-if="drug.amount > 0 && isAuthenticated"
             @click.stop="$emit('order')"
-            class="w-full px-2 py-1 bg-green-100 text-green-700 rounded hover:bg-green-200"
+            class="cursor-pointer px-2 py-1 bg-green-100 text-green-700 rounded hover:bg-green-200"
           >
             Zamów
           </button>
-          <div class="flex flex-col items-end space-y-1 w-full">
+          
             <button
               v-if="drug.amount > 0 && isAuthenticated"
               @click="addToCart"
-              class="px-3 py-1 bg-purple-100 text-indigo-700 rounded hover:bg-indigo-200 w-fit"
+              class="cursor-pointer px-2 py-1 bg-purple-100 text-indigo-700 rounded hover:bg-indigo-200 w-full"
             > 
             Do koszyka
             </button>
+            
         
-          </div>
-          <p v-if="showLimitMessage" class="text-sm text-red-600">Przekroczono maksymalną liczbę sztuk w magazynie</p>
+          
+          
+          
         </div>
-
+        
         <div v-if="open" class="mt-3 text-center">
           <button
             @click.stop="toggleOpen"
