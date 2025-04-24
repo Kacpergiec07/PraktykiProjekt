@@ -3,7 +3,7 @@
     class="bg-white/70 border rounded-lg p-4 hover:shadow-md transition-shadow backdrop-blur-md"
   >
     <div class="flex justify-between items-start">
-      <div class="w-2/5 break-words">
+      <div class="w-2/5">
         <h3 class="text-lg font-semibold">{{ drug.name }}</h3>
         <p class="text-sm text-gray-600">Dawka: {{ drug.dose }}</p>
         <p class="text-sm text-gray-600">Typ: {{ drug.type }}</p>
