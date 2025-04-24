@@ -3,6 +3,7 @@ import auth from "./modules/auth";
 import drugs from "./modules/drugs";
 import orders from "./modules/orders";
 import ai from "./modules/ai"; // Add the AI module
+import cart from "./modules/cart";
 
 export default createStore({
   state: {
@@ -39,6 +40,7 @@ export default createStore({
     auth,
     drugs,
     orders,
+    cart,
     ai, // Add the AI module to the store
   },
 });

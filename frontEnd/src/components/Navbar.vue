@@ -6,6 +6,18 @@
       >
 
       <div class="flex space-x-4">
+        <router-link to="/cart" class="relative hover:text-blue-200 nav-item">
+          
+          <img src="../assets/cart.png" alt="cart" class="w-6 h-6" />
+          <span
+            v-if="totalItems > 0"
+            class="absolute -top-1.5 -right-2 bg-red-600 text-white text-[10px] min-w-[1.25rem] h-5 px-1 rounded-full text-center leading-5 font-semibold transition-all animate-pop"
+          >
+          {{ totalItems }}
+          </span>
+          
+          
+        </router-link>
         <router-link to="/drugs" class="nav-item">Leki</router-link>
 
         <template v-if="isAuthenticated">
@@ -44,6 +56,7 @@ export default {
   name: "NavBar",
   computed: {
     ...mapGetters("auth", ["isAuthenticated", "userPermission"]),
+    ...mapGetters("cart", ["totalItems"]),
     isAdmin() {
       const permission = this.userPermission;
       return permission >= 2;

@@ -9,6 +9,7 @@ import OrderHistoryView from "../views/Orderhistoryview.vue";
 import AdminView from "../views/AdminView.vue";
 import About from "../components/About.vue";
 import Kontakt from "../components/Kontakt.vue";
+import CartView from "../views/Cartview.vue"; 
 import { requireAuth, requireRole } from "../utils/authguard";
 
 const routes = [
@@ -49,6 +50,11 @@ const routes = [
     name: "order-history",
     component: OrderHistoryView,
     beforeEnter: requireAuth,
+  },
+  {
+    path: "/cart",
+    name: "Cart",
+    component: CartView,
   },
   {
     path: "/admin",

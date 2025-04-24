@@ -40,6 +40,17 @@
           >
             Zamów
           </button>
+          <div class="flex flex-col items-end space-y-1 w-full">
+            <button
+              v-if="drug.amount > 0 && isAuthenticated"
+              @click="addToCart"
+              class="px-3 py-1 bg-purple-100 text-indigo-700 rounded hover:bg-indigo-200 w-fit"
+            > 
+            Do koszyka
+            </button>
+        
+          </div>
+          <p v-if="showLimitMessage" class="text-sm text-red-600">Przekroczono maksymalną liczbę sztuk w magazynie</p>
         </div>
 
         <div v-if="open" class="mt-3 text-center">
@@ -70,6 +81,8 @@ export default {
   },
   data() {
     return {
+      cartQuantity: 0,
+      showLimitMessage: false,
       open: false,
       originalDimensions: {
         width: 0,
@@ -117,6 +130,15 @@ export default {
       }
 
       this.open = !this.open;
+    },
+    addToCart() {
+      if (this.cartQuantity < this.drug.amount) {
+        this.cartQuantity++;
+        this.$emit("add-to-cart", this.drug);
+        this.showLimitMessage = false;
+      } else {
+        this.showLimitMessage = true;
+      }
     },
   },
   mounted() {

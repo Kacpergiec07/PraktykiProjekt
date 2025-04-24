@@ -35,6 +35,7 @@
         @order="openOrderModal(drug)"
         @edit="openEditModal(drug)"
         @remove="confirmRemove(drug)"
+        @add-to-cart="addToCart(drug)"
       />
     </div>
 
@@ -578,6 +579,10 @@ export default {
     };
   },
   methods: {
+    addToCart(drug) {
+      console.log("Dodano do koszyka:", drug);
+      this.$store.commit("cart/ADD_TO_CART", drug);
+    },
     ...mapActions("drugs", ["updateDrug", "removeDrug"]),
     ...mapActions("orders", ["orderDrug"]),
 
