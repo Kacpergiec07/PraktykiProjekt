@@ -24,8 +24,8 @@
       </div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-      <div class="bg-white p-6 rounded-lg shadow-md">
+    <div class="main-cards grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <div class="main-block-first bg-white p-6 rounded-lg shadow-md">
         <h2 class="text-xl font-bold mb-4">Przeglądaj leki</h2>
         <p class="mb-4">
           Zobacz dostępne leki w naszej bazie, sprawdź ceny i dostępność.
@@ -35,7 +35,7 @@
         </router-link>
       </div>
 
-      <div class="bg-white p-6 rounded-lg shadow-md">
+      <div class="main-block-second bg-white p-6 rounded-lg shadow-md">
         <h2 class="text-xl font-bold mb-4">Zamów leki</h2>
         <p class="mb-4">Złóż zamówienie na potrzebne leki z naszej oferty.</p>
         <router-link to="/drugs" class="text-blue-600 hover:underline">
@@ -43,7 +43,7 @@
         </router-link>
       </div>
 
-      <div class="bg-white p-6 rounded-lg shadow-md">
+      <div class="main-block-third bg-white p-6 rounded-lg shadow-md">
         <h2 class="text-xl font-bold mb-4">Historia zamówień</h2>
         <p class="mb-4">
           Przeglądaj historię swoich zamówień i śledź ich status.
@@ -56,7 +56,7 @@
 
     <div
       v-if="isAdmin"
-      class="bg-yellow-50 p-6 rounded-lg border border-yellow-200 mb-8"
+      class="main-block-adm bg-yellow-50 p-6 rounded-lg border border-yellow-200 mb-8"
     >
       <h2 class="text-xl font-bold mb-4">Panel administracyjny</h2>
       <p class="mb-4">
