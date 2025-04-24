@@ -5,7 +5,7 @@
     </div>
 
     <!-- Główna treść aplikacji -->
-    <div class="relative z-10 ">
+    <div class="relative z-10">
       <div class="flex justify-between items-center mb-6 mt-10">
         <h1 class="text-2xl font-bold">Dostępne leki</h1>
         <div class="flex space-x-2">
@@ -18,7 +18,6 @@
         </div>
       </div>
 
-<<<<<<< HEAD
       <div v-if="error" class="mb-6 p-4 bg-red-100 text-red-700 rounded">
         {{ error }}
       </div>
@@ -29,18 +28,6 @@
       >
         {{ successMessage }}
       </div>
-=======
-    <div v-if="error" class="mb-6 p-4 bg-red-100 text-red-700 rounded">
-      {{ error }}
-    </div>
-
-    <div
-      v-if="successMessage"
-      class="mb-6 p-4 bg-green-100 text-green-700 rounded"
-    >
-      {{ successMessage }}
-    </div>
->>>>>>> 277295599ff10c4857053e573e5d8e6d7d1865be
 
       <drugs-list
         :drugs="drugs"

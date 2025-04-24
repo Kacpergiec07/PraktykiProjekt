@@ -12,17 +12,11 @@
           <div class="bg-white p-4 rounded-lg shadow-md mb-4">
             <h2 class="text-lg font-semibold mb-3">Menu</h2>
 
-<<<<<<< HEAD
             <!-- Menu z płynną animacją -->
-=======
->>>>>>> 0cf7bfdb860e86d0be3a215a54c9964458bed94f
             <div class="relative">
               <div class="absolute inset-0 bg-gray-50 rounded"></div>
 
-<<<<<<< HEAD
               <!-- Tło animowanego przełącznika -->
-=======
->>>>>>> 0cf7bfdb860e86d0be3a215a54c9964458bed94f
               <div
                 class="absolute rounded bg-indigo-100 transition-all duration-400 ease-out"
                 :style="{
@@ -33,10 +27,7 @@
                 }"
               ></div>
 
-<<<<<<< HEAD
               <!-- Przyciski menu - wszystkie z dokładnie taką samą wysokością -->
-=======
->>>>>>> 0cf7bfdb860e86d0be3a215a54c9964458bed94f
               <div class="relative z-10">
                 <button
                   v-for="(tab, index) in tabs"
@@ -245,10 +236,7 @@ export default {
         { label: "Zarządzanie zamówieniami", value: "orderManagement" },
         { label: "Statystyki przychodów", value: "revenueStats" },
         { label: "Zarządzanie lekami", value: "drugManagement" },
-<<<<<<< HEAD
         { label: "Asystent AI", value: "aiAssistant" }, // New tab for AI assistant configuration
-=======
->>>>>>> 0cf7bfdb860e86d0be3a215a54c9964458bed94f
       ],
     };
   },

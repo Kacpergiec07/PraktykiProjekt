@@ -75,7 +75,6 @@ export default {
       e.currentTarget.style.setProperty("--mouse-y", `${y}px`);
     },
   },
-<<<<<<< HEAD
   mounted() {
     const container = this.$el.querySelector(".magic-border");
     if (container) {
@@ -86,11 +85,6 @@ export default {
     const container = this.$el.querySelector(".magic-border");
     if (container) {
       container.removeEventListener("mousemove", this.setMouseCoords);
-=======
-  created() {
-    if (this.isAuthenticated) {
-      this.$router.push(this.redirect);
->>>>>>> 277295599ff10c4857053e573e5d8e6d7d1865be
     }
   },
 };
@@ -115,7 +109,11 @@ export default {
   position: absolute;
   inset: -2px;
   border-radius: inherit;
-  background: radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(62,180,137, 0.9), transparent 70%);
+  background: radial-gradient(
+    400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(62, 180, 137, 0.9),
+    transparent 70%
+  );
   opacity: 0;
   transition: opacity 0.3s ease;
   z-index: -1;
