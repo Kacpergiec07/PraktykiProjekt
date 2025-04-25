@@ -96,6 +96,22 @@ export default {
       const user = this.getCurrentUser;
       return user && user.permission >= 2;
     },
+    cardStyles() {
+      if (!this.open) return {};
+
+      const maxHeight = Math.min(
+        this.originalDimensions.height * 1.5,
+        window.innerHeight * 0.7
+      );
+
+      return {
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%) scale(1.5)",
+        width: `${this.originalDimensions.width}px`,
+        maxHeight: `${maxHeight}px`,
+      };
+    },
     placeholderStyle() {
       return {
         width: `${this.originalDimensions.width}px`,
