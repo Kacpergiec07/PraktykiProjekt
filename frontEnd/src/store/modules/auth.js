@@ -85,6 +85,7 @@ export default {
         console.error("Logout error:", error);
       } finally {
         commit("CLEAR_AUTH");
+        commit("cart/CLEAR_CART", null, { root: true });
       }
     },
 
@@ -106,6 +107,7 @@ export default {
         return response;
       } catch (error) {
         commit("CLEAR_AUTH");
+        commit("cart/CLEAR_CART", null, { root: true });
         throw error;
       } finally {
         dispatch("setLoading", false, { root: true });
@@ -127,6 +129,7 @@ export default {
           await dispatch("refreshToken");
         } catch (refreshError) {
           commit("CLEAR_AUTH");
+        commit("cart/CLEAR_CART", null, { root: true });
         }
       } finally {
         dispatch("setLoading", false, { root: true });

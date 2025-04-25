@@ -650,13 +650,13 @@ export default {
     },
 
     addToCart() {
-    if (this.cartQuantity < this.drug.amount) {
-      this.cartQuantity++;
-      this.$store.commit("cart/ADD_TO_CART", this.drug);
-      this.showLimitMessage = false;
-    } else {
-      this.showLimitMessage = true;
-    }
+      const currentQty = this.$store.getters["cart/getQuantityById"](this.drug.idDrug);
+      if (currentQty < this.drug.amount) {
+        this.$store.commit("cart/ADD_TO_CART", { drug: this.drug, maxAmount: this.drug.amount });
+        this.showLimitMessage = false;
+      } else {
+        this.showLimitMessage = true;
+      }
     },
     
 

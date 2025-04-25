@@ -1,19 +1,20 @@
 <template>
   <div
     class="bg-white/70 border rounded-lg p-4 hover:shadow-md transition-shadow backdrop-blur-md"
+    ref="card"
   >
     <div class="flex justify-between items-start">
       <div class="w-2/5">
-        
         <h3 class="text-lg font-semibold">{{ drug.name }}</h3>
         <p class="text-sm text-gray-600">Dawka: {{ drug.dose }}</p>
         <p class="text-sm text-gray-600">Typ: {{ drug.type }}</p>
         <p class="text-sm text-gray-600">Producent: {{ drug.companyName }}</p>
-        <p v-if="showLimitMessage" class="text-sm text-red-600">Przekroczono maksymalną liczbę sztuk w magazynie</p>
+        <p v-if="showLimitMessage" class="text-sm text-red-600">
+          Przekroczono maksymalną liczbę sztuk w magazynie
+        </p>
       </div>
 
       <div :class="{ 'mt-5': !open, 'mt-2': open }">
-        
         <div class="grid grid-cols-1 gap-2 max-w-xs mx-auto text-center w-full">
           <template v-if="isAdmin">
             <button
@@ -43,21 +44,15 @@
           >
             Zamów
           </button>
-          
-            <button
-              v-if="drug.amount > 0 && isAuthenticated"
-              @click="addToCart"
-              class="cursor-pointer px-2 py-1 bg-purple-100 text-indigo-700 rounded hover:bg-indigo-200 w-full"
-            > 
+          <button
+            v-if="drug.amount > 0 && isAuthenticated"
+            @click="addToCart"
+            class="cursor-pointer px-2 py-1 bg-purple-100 text-indigo-700 rounded hover:bg-indigo-200 w-full"
+          >
             Do koszyka
-            </button>
-            
-        
-          
-          
-          
+          </button>
         </div>
-        
+
         <div v-if="open" class="mt-3 text-center">
           <button
             @click.stop="toggleOpen"
@@ -74,7 +69,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
 
 export default {
   name: "DrugItem",
@@ -86,7 +81,6 @@ export default {
   },
   data() {
     return {
-      cartQuantity: 0,
       showLimitMessage: false,
       open: false,
       originalDimensions: {
@@ -97,25 +91,10 @@ export default {
   },
   computed: {
     ...mapGetters("auth", ["isAuthenticated", "getCurrentUser"]),
+    ...mapGetters("cart", ["getQuantityById"]),
     isAdmin() {
       const user = this.getCurrentUser;
       return user && user.permission >= 2;
-    },
-    cardStyles() {
-      if (!this.open) return {};
-
-      const maxHeight = Math.min(
-        this.originalDimensions.height * 1.5,
-        window.innerHeight * 0.7
-      );
-
-      return {
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%) scale(1.5)",
-        width: `${this.originalDimensions.width}px`,
-        maxHeight: `${maxHeight}px`,
-      };
     },
     placeholderStyle() {
       return {
@@ -133,13 +112,12 @@ export default {
           height: rect.height,
         };
       }
-
       this.open = !this.open;
     },
     addToCart() {
-      if (this.cartQuantity < this.drug.amount) {
-        this.cartQuantity++;
-        this.$emit("add-to-cart", this.drug);
+      const currentQuantity = this.getQuantityById(this.drug.idDrug);
+      if (currentQuantity < this.drug.amount) {
+        this.$store.commit("cart/ADD_TO_CART", { drug: this.drug, maxAmount: this.drug.amount });
         this.showLimitMessage = false;
       } else {
         this.showLimitMessage = true;
