@@ -1,3 +1,5 @@
+### /frontEnd/src/views/Profileview.vue (poprawiona wersja)
+
 <template>
   <div class="mt-5">
     <h1 class="text-2xl font-bold mb-6">Profil użytkownika</h1>
@@ -8,20 +10,13 @@
 
         <div class="space-y-3">
           <div><span class="font-medium">Imię:</span> {{ user.name }}</div>
-          <div>
-            <span class="font-medium">Nazwisko:</span> {{ user.surname }}
-          </div>
+          <div><span class="font-medium">Nazwisko:</span> {{ user.surname }}</div>
           <div><span class="font-medium">Email:</span> {{ user.email }}</div>
-          <div>
-            <span class="font-medium">Uprawnienia:</span> {{ permissionLabel }}
-          </div>
+          <div><span class="font-medium">Uprawnienia:</span> {{ permissionLabel }}</div>
         </div>
 
         <div class="mt-6">
-          <button
-            @click="handleLogout"
-            class="px-4 py-2 bg-red-100 text-red-700 rounded hover:bg-red-200"
-          >
+          <button @click="handleLogout" class="px-4 py-2 bg-red-100 text-red-700 rounded hover:bg-red-200">
             Wyloguj się
           </button>
         </div>
@@ -36,9 +31,7 @@
         </div>
 
         <div v-if="loading" class="flex justify-center p-4">
-          <div
-            class="animate-spin h-8 w-8 border-4 border-blue-500 border-t-transparent rounded-full"
-          ></div>
+          <div class="animate-spin h-8 w-8 border-4 border-blue-500 border-t-transparent rounded-full"></div>
         </div>
 
         <div v-else-if="orders.length === 0" class="text-center p-4">
@@ -56,11 +49,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr
-                v-for="order in orders.slice(0, 5)"
-                :key="order.id"
-                class="hover:bg-gray-50"
-              >
+              <tr v-for="order in orders.slice(0, 5)" :key="order.id" class="hover:bg-gray-50">
                 <td class="p-3 border">{{ order.name }}</td>
                 <td class="p-3 border">{{ order.companyName }}</td>
                 <td class="p-3 border">{{ order.amount }}</td>
@@ -135,16 +124,19 @@ export default {
     },
 
     async loadOrders() {
+      if (!this.user) return;
+
       this.loading = true;
       try {
         await this.fetchOrderHistory({
-          page: 1,
+          page: 0,
           limit: 5,
+          filter: [{ field: "userId", value: this.user.id }],
           descending: true,
           orderBy: "purchase_date",
         });
       } catch (error) {
-        console.error("Failed to load orders:", error);
+        console.error("Failed to load user orders:", error);
       } finally {
         this.loading = false;
       }
