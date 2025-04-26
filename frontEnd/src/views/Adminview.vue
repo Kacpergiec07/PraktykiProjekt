@@ -18,7 +18,7 @@
 
               <!-- Tło animowanego przełącznika -->
               <div
-                class="absolute rounded bg-indigo-100 transition-all duration-400 ease-out"
+                class="absolute rounded bg-blue-100 transition-all duration-400 ease-out"
                 :style="{
                   height: '40px',
                   width: '100%',
@@ -36,8 +36,8 @@
                   class="w-full text-left px-4 py-2 h-10 mb-0 block transition-colors"
                   :class="
                     currentTab === tab.value
-                      ? 'text-indigo-700 font-medium'
-                      : 'text-gray-700 hover:text-indigo-600'
+                      ? 'text-blue-700 font-medium'
+                      : 'text-gray-700 hover:text-blue-500'
                   "
                 >
                   {{ tab.label }}

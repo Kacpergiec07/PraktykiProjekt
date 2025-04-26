@@ -148,6 +148,13 @@ nav .container a {
   }
 }
 
+.photo:hover {
+  filter: opacity(60%);
+}
+.logout-icon:hover {
+  fill: rgb(214, 43, 43);
+}
+
 .animate-spin {
   animation: spin 1s linear infinite;
 }

@@ -3,17 +3,45 @@
     class="bg-white/70 border rounded-lg p-4 hover:shadow-md transition-shadow backdrop-blur-md"
     ref="card"
   >
+  <div
+    v-if="open"
+    class="fixed inset-0 bg-white/60 backdrop-blur-sm z-40"
+    @click="toggleOpen">
+  </div>
+  <div
+    ref="card"
+    class="border rounded-lg p-4 bg-white transition-all duration-500 ease-in-out transform cursor-pointer h-full flex flex-col justify-between"
+    :class="{
+       'fixed shadow-2xl z-50 bg-white overflow-auto': open,
+       'relative z-10 hover:shadow-md': !open,
+      }"
+      :style="cardStyles"
+      @click="toggleOpen"
+    >  
     <div class="flex justify-between items-start">
       <div class="w-2/5">
         <h3 class="text-lg font-semibold">{{ drug.name }}</h3>
         <p class="text-sm text-gray-600">Dawka: {{ drug.dose }}</p>
         <p class="text-sm text-gray-600">Typ: {{ drug.type }}</p>
-        <p class="text-sm text-gray-600">Producent: {{ drug.companyName }}</p>
+        <p class="text-sm text-gray-600">Producent: {{ drug.companyName }}</p>       
         <p v-if="showLimitMessage" class="text-sm text-red-600">
           Przekroczono maksymalną liczbę sztuk w magazynie
         </p>
       </div>
-
+      <div class="text-right">
+          <p class="text-lg font-bold">{{ drug.price.toFixed(2) }} zł</p>
+          <p
+            class="text-sm"
+            :class="{
+              'text-green-600': drug.amount > 10,
+              'text-yellow-600': drug.amount > 0 && drug.amount <= 10,
+              'text-red-600': drug.amount === 0,
+            }"
+          >
+            Dostępność: {{ drug.amount > 0 ? `${drug.amount}` : "Niedostępne" }}
+          </p>
+        </div>
+    </div>
       <div :class="{ 'mt-5': !open, 'mt-2': open }">
         <div class="grid grid-cols-1 gap-2 max-w-xs mx-auto text-center w-full">
           <template v-if="isAdmin">
