@@ -2,7 +2,7 @@ import { createStore } from "vuex";
 import auth from "./modules/auth";
 import drugs from "./modules/drugs";
 import orders from "./modules/orders";
-import ai from "./modules/ai"; // Add the AI module
+import ai from "./modules/ai";
 import cart from "./modules/cart";
 
 export default createStore({
@@ -41,6 +41,6 @@ export default createStore({
     drugs,
     orders,
     cart,
-    ai, // Add the AI module to the store
+    ai,
   },
 });

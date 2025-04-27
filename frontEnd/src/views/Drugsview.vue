@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- Główna treść aplikacji -->
     <div class="relative z-10">
       <div class="flex justify-between items-center mb-6 mt-10">
         <h1 class="text-2xl font-bold">Dostępne leki</h1>
@@ -81,7 +80,6 @@
         <div
           class="bg-white rounded-lg max-w-lg w-full shadow-xl transform transition-all duration-300"
         >
-          <!-- Modal Header -->
           <div
             class="bg-gradient-to-r from-blue-100 to-blue-200 px-6 py-4 rounded-t-lg border-b border-blue-200"
           >
@@ -104,7 +102,6 @@
             </h3>
           </div>
 
-          <!-- Modal Body -->
           <div class="p-6">
             <form @submit.prevent="performSearch">
               <div class="mb-4">
@@ -226,7 +223,7 @@ export default {
       searchModal: false,
       searchQuery: "",
       searchType: "name",
-      exactMatch: true, // Domyślnie włączone dokładne dopasowanie
+      exactMatch: true,
       isSearchActive: false,
     };
   },
@@ -240,7 +237,6 @@ export default {
       return this.allDrugs;
     },
     searchResultsCount() {
-      // Upewniamy się, że this.drugs to tablica i zwracamy jej długość
       return Array.isArray(this.drugs) ? this.drugs.length : 0;
     },
   },
@@ -260,7 +256,7 @@ export default {
     async changePage(page) {
       try {
         const pageIndex = page - 1;
-        // Jeśli mamy aktywne wyszukiwanie, zachowaj te same parametry przy zmianie strony
+
         if (this.isSearchActive) {
           const query = this.searchQuery.trim();
           const exactMatch = this.exactMatch;
@@ -282,7 +278,6 @@ export default {
 
           await this.fetchDrugs(searchParams);
         } else {
-          // Standardowa zmiana strony bez parametrów wyszukiwania
           await this.fetchDrugs(pageIndex);
         }
 
@@ -302,15 +297,14 @@ export default {
     },
 
     handleKeyDown(event) {
-      // Change from Ctrl+W to Ctrl+F to avoid browser conflicts
       if (event.ctrlKey && event.key === "f") {
-        event.preventDefault(); // Prevent default browser behavior
+        event.preventDefault();
         this.openSearchModal();
       }
     },
     openSearchModal() {
       this.searchModal = true;
-      // Focus on the search input after the modal is shown
+
       this.$nextTick(() => {
         if (this.$refs.searchInput) {
           this.$refs.searchInput.focus();
@@ -329,26 +323,20 @@ export default {
       try {
         const query = this.searchQuery.trim();
 
-        // Initialize search parameters
         const searchParams = {
           page: 0,
           limit: 15,
         };
 
-        // Add exact match or partial match indicator
         const exactMatch = this.exactMatch;
 
-        // Set the appropriate search parameter based on search type
         if (this.searchType === "name") {
-          // Dokładne wyszukiwanie po nazwie leku
           searchParams.exactName = exactMatch ? query : null;
           searchParams.name = !exactMatch ? query : null;
         } else if (this.searchType === "companyName") {
-          // Dokładne wyszukiwanie po producencie
           searchParams.exactCompanyName = exactMatch ? query : null;
           searchParams.companyName = !exactMatch ? query : null;
         } else if (this.searchType === "type") {
-          // Dokładne wyszukiwanie po typie leku
           searchParams.exactType = exactMatch ? query : null;
           searchParams.type = !exactMatch ? query : null;
         }
@@ -358,15 +346,12 @@ export default {
         );
         console.log("Search params:", searchParams);
 
-        // Wywołanie API z nowymi parametrami dokładnego dopasowania
         await this.fetchDrugs(searchParams);
 
         this.isSearchActive = true;
         this.searchModal = false;
 
-        // Check if search returned any results
         if (!this.drugs || this.drugs.length === 0) {
-          // If no results found, show a more descriptive message and apply red styling
           let errorMessage = "";
           const matchType = exactMatch
             ? "dokładnie pasującej do"
@@ -380,20 +365,16 @@ export default {
             errorMessage = `Nie znaleziono leków typu ${matchType} "${query}"`;
           }
 
-          // Show error message in red
           this.error = errorMessage;
 
-          // Clear the error after 5 seconds
           setTimeout(() => {
             this.error = null;
           }, 5000);
         } else {
-          // Add a small delay to make sure the component is updated
           setTimeout(() => {
             this.focusOnSearchResults();
           }, 300);
 
-          // Show success message
           const matchType = exactMatch ? "dokładnie" : "częściowo";
           this.showSuccessMessage(`Wyszukano ${matchType} "${query}"`);
         }
@@ -402,51 +383,38 @@ export default {
         this.error =
           "Błąd podczas wyszukiwania: " + (error.message || "Nieznany błąd");
 
-        // Clear the error after 5 seconds
         setTimeout(() => {
           this.error = null;
         }, 5000);
       }
     },
 
-    // Add a method to focus/zoom on the search results
     focusOnSearchResults() {
-      // Pobierz wyszukiwaną frazę
       const searchQuery = this.searchQuery.trim();
 
-      // Opóźnienie, aby dać czas na renderowanie DOM
       setTimeout(() => {
-        // Pobierz wszystkie elementy kart leków
         const drugItems = document.querySelectorAll(".border.rounded-lg.p-4");
 
-        // Przechowuj znalezione elementy pasujące do wyszukiwania
         let matchingItems = [];
 
         if (drugItems && drugItems.length > 0) {
-          // Dla każdego elementu sprawdź, czy zawiera szukaną frazę w odpowiednim polu
           drugItems.forEach((item) => {
             let matchFound = false;
 
-            // Pobierz tekst z odpowiedniego pola w zależności od typu wyszukiwania
             if (this.searchType === "name") {
-              // Szukaj w nazwie leku (pierwszy element <h3>)
               const nameElement = item.querySelector("h3");
               if (nameElement) {
                 const name = nameElement.textContent.trim();
 
-                // Sprawdź czy nazwa pasuje do wyszukiwanej frazy
                 if (this.exactMatch) {
-                  // Dokładne dopasowanie (case-insensitive)
                   matchFound = name.toLowerCase() === searchQuery.toLowerCase();
                 } else {
-                  // Częściowe dopasowanie
                   matchFound = name
                     .toLowerCase()
                     .includes(searchQuery.toLowerCase());
                 }
               }
             } else if (this.searchType === "companyName") {
-              // Szukaj w producencie (paragraf zawierający "Producent:")
               const companyElements = Array.from(item.querySelectorAll("p"));
               const companyElement = companyElements.find((p) =>
                 p.textContent.includes("Producent:")
@@ -456,20 +424,16 @@ export default {
                 const companyText = companyElement.textContent.trim();
                 const company = companyText.replace("Producent:", "").trim();
 
-                // Sprawdź czy producent pasuje do wyszukiwanej frazy
                 if (this.exactMatch) {
-                  // Dokładne dopasowanie (case-insensitive)
                   matchFound =
                     company.toLowerCase() === searchQuery.toLowerCase();
                 } else {
-                  // Częściowe dopasowanie
                   matchFound = company
                     .toLowerCase()
                     .includes(searchQuery.toLowerCase());
                 }
               }
             } else if (this.searchType === "type") {
-              // Szukaj w typie leku (paragraf zawierający "Typ:")
               const typeElements = Array.from(item.querySelectorAll("p"));
               const typeElement = typeElements.find((p) =>
                 p.textContent.includes("Typ:")
@@ -479,12 +443,9 @@ export default {
                 const typeText = typeElement.textContent.trim();
                 const type = typeText.replace("Typ:", "").trim();
 
-                // Sprawdź czy typ pasuje do wyszukiwanej frazy
                 if (this.exactMatch) {
-                  // Dokładne dopasowanie (case-insensitive)
                   matchFound = type.toLowerCase() === searchQuery.toLowerCase();
                 } else {
-                  // Częściowe dopasowanie
                   matchFound = type
                     .toLowerCase()
                     .includes(searchQuery.toLowerCase());
@@ -492,25 +453,20 @@ export default {
               }
             }
 
-            // Jeśli znaleziono dopasowanie, dodaj element do listy
             if (matchFound) {
               matchingItems.push(item);
             }
           });
 
-          // Jeśli znaleziono pasujące elementy, podświetl je i przewiń do pierwszego
           if (matchingItems.length > 0) {
-            // Podświetl wszystkie pasujące elementy
             matchingItems.forEach((item) => {
               item.classList.add("search-highlight");
 
-              // Usuń podświetlenie po animacji
               setTimeout(() => {
                 item.classList.remove("search-highlight");
               }, 3000);
             });
 
-            // Przewiń do pierwszego pasującego elementu
             matchingItems[0].scrollIntoView({
               behavior: "smooth",
               block: "center",
@@ -525,7 +481,7 @@ export default {
             );
           }
         }
-      }, 500); // Opóźnienie, aby upewnić się, że DOM został zaktualizowany
+      }, 500);
     },
 
     clearSearch() {

@@ -1,5 +1,4 @@
 <template>
-  <!-- Przycisk chatu - zawsze widoczny -->
   <button
     @click="toggleChat"
     class="fixed bottom-4 right-4 bg-mint text-white p-4 rounded-full shadow-lg hover:bg-lightmint transition-colors z-50"
@@ -20,7 +19,7 @@
           d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
         />
       </svg>
-      <!-- Wskaźnik nieprzeczytanych -->
+
       <span
         v-if="unreadCount > 0"
         class="absolute top-0 right-0 -mr-1 -mt-1 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full"
@@ -46,7 +45,6 @@
     </span>
   </button>
 
-  <!-- Modal chatu - widoczny tylko po kliknięciu -->
   <div
     v-if="isOpen"
     class="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50 backdrop-blur-sm"
@@ -59,7 +57,6 @@
         'opacity-100 scale-100': isOpen,
       }"
     >
-      <!-- Nagłówek -->
       <div
         class="bg-mint text-white px-4 py-3 rounded-t-lg flex justify-between items-center"
       >
@@ -81,7 +78,6 @@
           Asystent Apteki
         </h2>
         <div class="flex items-center space-x-2">
-          <!-- Wyczyść historię -->
           <button
             v-if="messages.length > 1"
             @click="clearHistory"
@@ -103,7 +99,7 @@
               />
             </svg>
           </button>
-          <!-- Zamknij -->
+
           <button @click="closeChat" class="text-white hover:text-gray-200">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -123,12 +119,10 @@
         </div>
       </div>
 
-      <!-- Zawartość chatu - wiadomości -->
       <div
         ref="messagesContainer"
         class="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50"
       >
-        <!-- Wiadomości -->
         <div
           v-for="(message, index) in messages"
           :key="index"
@@ -141,10 +135,8 @@
               : 'bg-white border border-gray-200 shadow-sm',
           ]"
         >
-          <!-- Treść wiadomości -->
           <div v-html="formatMessage(message.content)"></div>
 
-          <!-- Wynik narzędzia (jeśli istnieje) -->
           <div
             v-if="message.toolResult"
             class="mt-2 p-2 bg-gray-100 rounded text-sm"
@@ -173,13 +165,11 @@
             </div>
           </div>
 
-          <!-- Czas wysłania -->
           <div class="text-xs text-gray-500 mt-1 text-right">
             {{ formatTime(message.timestamp) }}
           </div>
         </div>
 
-        <!-- Wskaźnik pisania -->
         <div
           v-if="isLoading"
           class="flex items-center space-x-2 p-3 bg-white rounded-lg max-w-[85%]"
@@ -202,7 +192,6 @@
         </div>
       </div>
 
-      <!-- Sugerowane pytania -->
       <div
         v-if="suggestions.length > 0 && !isLoading"
         class="px-4 py-2 border-t border-gray-100 flex space-x-2 overflow-x-auto"
@@ -217,7 +206,6 @@
         </button>
       </div>
 
-      <!-- Formularz wysyłania -->
       <div class="border-t p-4">
         <form @submit.prevent="sendMessage" class="flex">
           <input
@@ -291,7 +279,6 @@ export default {
     const unreadCount = ref(0);
     const suggestions = ref([]);
 
-    // Domyślne sugestie
     const defaultSuggestions = [
       "Jak mogę złożyć zamówienie?",
       "Jakie leki są dostępne?",
@@ -299,12 +286,10 @@ export default {
       "Jaka jest cena Paracetamolu?",
     ];
 
-    // Otwórz chat
     const openChat = () => {
       isOpen.value = true;
       unreadCount.value = 0;
 
-      // Dodaj powitalną wiadomość, jeśli to pierwsza rozmowa
       if (messages.value.length === 0) {
         messages.value.push({
           role: "assistant",
@@ -312,22 +297,18 @@ export default {
           timestamp: new Date(),
         });
 
-        // Ustaw domyślne sugestie
         suggestions.value = defaultSuggestions;
       }
 
-      // Przewiń do ostatniej wiadomości
       nextTick(() => {
         scrollToBottom();
       });
     };
 
-    // Zamknij chat
     const closeChat = () => {
       isOpen.value = false;
     };
 
-    // Przełącz chat (otwórz/zamknij)
     const toggleChat = () => {
       if (isOpen.value) {
         closeChat();
@@ -336,7 +317,6 @@ export default {
       }
     };
 
-    // Przewiń do ostatniej wiadomości
     const scrollToBottom = () => {
       if (messagesContainer.value) {
         messagesContainer.value.scrollTop =
@@ -344,37 +324,30 @@ export default {
       }
     };
 
-    // Wyczyść historię czatu
     const clearHistory = () => {
       if (confirm("Czy na pewno chcesz usunąć całą historię czatu?")) {
         messages.value = [];
 
-        // Dodaj ponownie powitalną wiadomość
         messages.value.push({
           role: "assistant",
           content: "Witaj! Jestem asystentem Apteki. Jak mogę Ci pomóc?",
           timestamp: new Date(),
         });
 
-        // Przywróć domyślne sugestie
         suggestions.value = defaultSuggestions;
 
-        // Zapisz w localStorage
         localStorage.setItem("aiChatMessages", JSON.stringify(messages.value));
       }
     };
 
-    // Formatuj wiadomość (markdown)
     const formatMessage = (content) => {
       if (!content) return "";
 
-      // Konwersja markdown do HTML
       const html = marked.parse(content);
-      // Oczyszczenie HTML dla bezpieczeństwa
+
       return DOMPurify.sanitize(html);
     };
 
-    // Formatuj czas
     const formatTime = (timestamp) => {
       if (!timestamp) return "";
 
@@ -385,7 +358,6 @@ export default {
       });
     };
 
-    // Formatuj cenę
     const formatPrice = (price) => {
       return new Intl.NumberFormat("pl-PL", {
         style: "currency",
@@ -393,13 +365,11 @@ export default {
       }).format(price);
     };
 
-    // Skróć ID
     const shortId = (id) => {
       if (!id) return "";
       return id.substring(0, 8) + "...";
     };
 
-    // Tłumacz status zamówienia
     const translateStatus = (status) => {
       const statusMap = {
         PENDING: "Oczekujące",
@@ -409,19 +379,16 @@ export default {
       return statusMap[status] || status;
     };
 
-    // Zastosuj sugestię
     const applySuggestion = (suggestion) => {
       newMessage.value = suggestion;
     };
 
-    // Aktualizuj sugestie na podstawie kontekstu
     const updateSuggestions = () => {
       if (messages.value.length <= 1) {
         suggestions.value = defaultSuggestions;
         return;
       }
 
-      // Analizuj ostatnie wiadomości
       const lastMessage = messages.value[messages.value.length - 1];
 
       if (lastMessage.role === "assistant") {
@@ -450,11 +417,9 @@ export default {
       }
     };
 
-    // Wyślij wiadomość
     const sendMessage = async () => {
       if (!newMessage.value.trim()) return;
 
-      // Dodaj wiadomość użytkownika
       const userMessage = {
         role: "user",
         content: newMessage.value,
@@ -466,26 +431,21 @@ export default {
       newMessage.value = "";
       isLoading.value = true;
 
-      // Przewiń na dół
       await nextTick();
       scrollToBottom();
 
       try {
-        // Przygotuj historię konwersacji dla API
         const conversationHistory = messages.value.map((msg) => ({
           role: msg.role,
           content: msg.content,
         }));
 
-        // Analizuj zapytanie, aby określić czy potrzebne jest użycie narzędzia
         const queryAnalysis = mistralAiService.analyzeQuery(messageText);
 
-        // Wyślij zapytanie do asystenta
         const aiResponse = await mistralAiService.sendMessage(
           conversationHistory
         );
 
-        // Jeśli analiza wskazała na potrzebę użycia narzędzia i mamy wystarczającą pewność
         let toolResult = null;
         if (queryAnalysis.tool && queryAnalysis.confidence > 0.6) {
           toolResult = await mistralAiService.useTool(
@@ -494,7 +454,6 @@ export default {
           );
         }
 
-        // Dodaj odpowiedź asystenta
         messages.value.push({
           role: "assistant",
           content: aiResponse.content,
@@ -502,12 +461,10 @@ export default {
           timestamp: new Date(),
         });
 
-        // Aktualizuj sugestie
         updateSuggestions();
       } catch (error) {
         console.error("Error sending message:", error);
 
-        // Dodaj wiadomość o błędzie
         messages.value.push({
           role: "system",
           content:
@@ -517,16 +474,13 @@ export default {
       } finally {
         isLoading.value = false;
 
-        // Zapisz wiadomości do localStorage
         localStorage.setItem("aiChatMessages", JSON.stringify(messages.value));
 
-        // Przewiń na dół
         await nextTick();
         scrollToBottom();
       }
     };
 
-    // Załaduj wiadomości z localStorage
     onMounted(() => {
       try {
         const savedMessages = localStorage.getItem("aiChatMessages");
@@ -534,7 +488,6 @@ export default {
           messages.value = JSON.parse(savedMessages);
         }
 
-        // Jeśli nie ma wiadomości, dodaj powitalną
         if (messages.value.length === 0) {
           messages.value.push({
             role: "assistant",
@@ -543,10 +496,8 @@ export default {
           });
         }
 
-        // Ustaw sugestie
         updateSuggestions();
 
-        // Pokaż wskaźnik nieprzeczytanych po jakimś czasie
         setTimeout(() => {
           if (!isOpen.value) {
             unreadCount.value = 1;
@@ -557,12 +508,10 @@ export default {
       }
     });
 
-    // Zapisz wiadomości do localStorage przy zamknięciu
     onBeforeUnmount(() => {
       localStorage.setItem("aiChatMessages", JSON.stringify(messages.value));
     });
 
-    // Śledzenie zmian wiadomości, aby przewijać do dołu
     watch(messages, () => {
       nextTick(() => {
         scrollToBottom();
@@ -595,7 +544,6 @@ export default {
 </script>
 
 <style scoped>
-/* Style dla zawartości markdown */
 :deep(.prose) {
   max-width: 100%;
 }
@@ -633,7 +581,6 @@ export default {
   text-decoration: underline;
 }
 
-/* Animacje */
 @keyframes pulse {
   0%,
   100% {

@@ -1,7 +1,7 @@
 import store from "../store";
 
 /**
- * Navigation guard for routes that require authentication
+ 
  * @param {Object} to - Target route
  * @param {Object} from - Current route
  * @param {Function} next - Function to resolve the hook
@@ -31,7 +31,7 @@ export const requireAuth = async (to, from, next) => {
 };
 
 /**
- * Navigation guard for routes that require specific roles
+ 
  * @param {Array} roles - Array of required roles (ADMIN, PHARMACIST, EMPLOYEE, CUSTOMER)
  * @returns {Function} Navigation guard function
  */

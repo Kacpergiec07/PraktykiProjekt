@@ -6,7 +6,6 @@
     </main>
     <InteractiveFooter />
 
-    <!-- Add the AI Agent component -->
     <AiAgent />
   </div>
 </template>

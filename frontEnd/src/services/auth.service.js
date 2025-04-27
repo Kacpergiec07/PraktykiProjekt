@@ -2,7 +2,7 @@ import api from "./api";
 
 class AuthService {
   /**
-   * Register a new user
+   
    * @param {Object} userData - User registration data
    * @param {string} userData.firstName - User's first name
    * @param {string} userData.lastName - User's last name
@@ -41,7 +41,7 @@ class AuthService {
   }
 
   /**
-   * Login a user
+   
    * @param {Object} credentials - User login credentials
    * @param {string} credentials.email - User's email
    * @param {string} credentials.password - User's password
@@ -71,7 +71,7 @@ class AuthService {
   }
 
   /**
-   * Refresh the access token
+   
    * @returns {Promise} - API response
    */
   refreshToken() {
@@ -93,7 +93,7 @@ class AuthService {
   }
 
   /**
-   * Logout a user
+  
    * @returns {Promise} - API response
    */
   logout() {
@@ -112,7 +112,7 @@ class AuthService {
   }
 
   /**
-   * Get current user information
+   
    * @returns {Promise} - API response
    */
   getUserInfo() {
@@ -135,7 +135,7 @@ class AuthService {
   }
 
   /**
-   * Maps role strings to numeric permission levels for backward compatibility
+   
    * @param {string} role - User role from the new API
    * @returns {number} - Permission level for the frontend
    */

@@ -1,5 +1,5 @@
 /**
- * Simple notification utility
+ 
  */
 class NotificationService {
   constructor() {
@@ -22,7 +22,7 @@ class NotificationService {
   }
 
   /**
-   * Show a success notification
+   
    * @param {string} message - Notification message
    * @param {number} duration - Duration in ms (default: 3000)
    */
@@ -31,7 +31,7 @@ class NotificationService {
   }
 
   /**
-   * Show an error notification
+   
    * @param {string} message - Notification message
    * @param {number} duration - Duration in ms (default: 5000)
    */
@@ -40,7 +40,7 @@ class NotificationService {
   }
 
   /**
-   * Show an info notification
+   
    * @param {string} message - Notification message
    * @param {number} duration - Duration in ms (default: 3000)
    */
@@ -49,7 +49,7 @@ class NotificationService {
   }
 
   /**
-   * Show a warning notification
+   
    * @param {string} message - Notification message
    * @param {number} duration - Duration in ms (default: 4000)
    */
@@ -58,7 +58,7 @@ class NotificationService {
   }
 
   /**
-   * Create and show a notification
+  
    * @param {string} message - Notification message
    * @param {string} type - Notification type (success, error, info, warning)
    * @param {number} duration - Duration in ms
@@ -111,7 +111,6 @@ class NotificationService {
 
     notification.style.cssText = baseStyles + typeStyles;
 
-    // Set content
     notification.innerHTML = `
       <div style="display: flex; align-items: center;">
         <span style="font-weight: bold; margin-right: 8px;">${icon}</span>
@@ -139,7 +138,7 @@ class NotificationService {
   }
 
   /**
-   * Close a notification
+   
    * @param {HTMLElement} notification - Notification element
    * @private
    */

@@ -5,7 +5,6 @@
     <div
       class="group relative z-10 rounded-xl border magic-border border-border bg-background p-0 overflow-hidden"
     >
-      <!-- MagicCard inner -->
       <div class="relative z-10 rounded-xl backdrop-blur-md">
         <auth-form
           :loading="loading"
@@ -39,7 +38,7 @@ export default {
     return {
       loading: false,
       error: "",
-      gradientColor: "#3b82f6", // Tailwind blue-500
+      gradientColor: "#3b82f6",
     };
   },
   computed: {

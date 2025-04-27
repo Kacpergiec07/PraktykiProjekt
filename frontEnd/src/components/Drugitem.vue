@@ -1,13 +1,11 @@
 <template>
   <div class="relative">
-    <!-- Overlay for expanded card -->
     <div
       v-if="open"
       class="fixed inset-0 bg-white/60 backdrop-blur-sm z-40"
       @click="toggleOpen"
     ></div>
 
-    <!-- Drug card -->
     <div
       ref="card"
       class="border rounded-lg bg-white transition-all duration-500 ease-in-out transform cursor-pointer"
@@ -18,9 +16,7 @@
       :style="cardStyles"
       @click="toggleOpen"
     >
-      <!-- Card content -->
       <div class="flex justify-between items-start mb-4">
-        <!-- Drug information -->
         <div class="w-2/5 space-y-2">
           <h3 class="text-lg font-semibold">{{ drug.name }}</h3>
           <p class="text-sm text-gray-600">Dawka: {{ drug.dose }}</p>
@@ -31,7 +27,6 @@
           </p>
         </div>
 
-        <!-- Price and availability -->
         <div class="text-right">
           <p class="text-lg font-bold">{{ drug.price.toFixed(2) }} zł</p>
           <p
@@ -47,14 +42,12 @@
         </div>
       </div>
 
-      <!-- Action buttons with consistent heights -->
       <div class="mt-auto">
         <div class="grid grid-cols-1 gap-2 max-w-xs mx-auto text-center w-full">
-          <!-- Admin buttons -->
           <template v-if="isAdmin">
             <button
               @click.stop="$emit('edit')"
-              class="w-full px-2 py-1 bg-yellow-100 text-yellow-700 rounded hover:bg-yellow-200 "
+              class="w-full px-2 py-1 bg-yellow-100 text-yellow-700 rounded hover:bg-yellow-200"
             >
               Edytuj
             </button>
@@ -67,7 +60,6 @@
             </router-link>
           </template>
 
-          <!-- Delete button -->
           <button
             @click.stop="$emit('remove')"
             class="w-full px-2 py-1 bg-red-100 text-red-700 rounded hover:bg-red-200"
@@ -75,7 +67,6 @@
             Usuń
           </button>
 
-          <!-- Order button or placeholder -->
           <div class="h-8">
             <button
               v-if="drug.amount > 0 && isAuthenticated"
@@ -86,7 +77,6 @@
             </button>
           </div>
 
-          <!-- Add to cart button or placeholder -->
           <div class="h-8">
             <button
               v-if="drug.amount > 0 && isAuthenticated"
@@ -98,7 +88,6 @@
           </div>
         </div>
 
-        <!-- Close button when expanded -->
         <div v-if="open" class="mt-3 text-center">
           <button
             @click.stop="toggleOpen"
@@ -110,7 +99,6 @@
       </div>
     </div>
 
-    <!-- Placeholder to maintain layout when card is expanded -->
     <div v-if="open" class="invisible" :style="placeholderStyle"></div>
   </div>
 </template>
@@ -173,7 +161,6 @@ export default {
       this.open = !this.open;
     },
     handleAddToCart(event) {
-      // Zapobiega propagacji zdarzenia kliknięcia do karty
       event.stopPropagation();
       this.addToCart();
     },

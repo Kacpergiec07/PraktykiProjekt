@@ -33,8 +33,8 @@
           <h1 class="text-2xl font-bold mb-2">{{ drug.name }}</h1>
           <p class="text-gray-600 mb-4">ID leku: {{ drug.idDrug }}</p>
           <p v-if="showLimitMessage" class="text-sm text-red-600">
-                Przekroczono maksymalną liczbę sztuk w magazynie ({{ drug.amount }})
-            </p>
+            Przekroczono maksymalną liczbę sztuk w magazynie ({{ drug.amount }})
+          </p>
         </div>
         <div v-if="isAdmin" class="flex space-x-2">
           <button
@@ -85,7 +85,10 @@
             </p>
           </div>
 
-          <div v-if="drug.amount > 0 && isAuthenticated" class="flex gap-6 mt-6">
+          <div
+            v-if="drug.amount > 0 && isAuthenticated"
+            class="flex gap-6 mt-6"
+          >
             <button
               @click="openOrderModal"
               class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
@@ -95,12 +98,12 @@
             <button
               v-if="drug.amount > 0 && isAuthenticated"
               @click="addToCart"
-              class="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700">
+              class="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700"
+            >
               Do koszyka
             </button>
           </div>
-          <br>
-            
+          <br />
         </div>
       </div>
     </div>
@@ -650,15 +653,19 @@ export default {
     },
 
     addToCart() {
-      const currentQty = this.$store.getters["cart/getQuantityById"](this.drug.idDrug);
+      const currentQty = this.$store.getters["cart/getQuantityById"](
+        this.drug.idDrug
+      );
       if (currentQty < this.drug.amount) {
-        this.$store.commit("cart/ADD_TO_CART", { drug: this.drug, maxAmount: this.drug.amount });
+        this.$store.commit("cart/ADD_TO_CART", {
+          drug: this.drug,
+          maxAmount: this.drug.amount,
+        });
         this.showLimitMessage = false;
       } else {
         this.showLimitMessage = true;
       }
     },
-    
 
     getFieldCurrentValue() {
       const value = this.drug[this.editField];

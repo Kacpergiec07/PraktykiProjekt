@@ -2,7 +2,7 @@ import api from "./api";
 
 class OrderService {
   /**
-   * Create a new order
+   
    * @param {string} drugId - Drug ID
    * @param {number} quantity - Quantity to order
    * @returns {Promise} - API response
@@ -21,7 +21,7 @@ class OrderService {
   }
 
   /**
-   * Get user's order history
+   
    * @param {number} page - Page number
    * @param {number} limit - Results per page
    * @param {Array} filter - Array of filter objects
@@ -88,7 +88,7 @@ class OrderService {
   }
 
   /**
-   * Get order by ID
+   
    * @param {string} id - Order ID
    * @returns {Promise} - API response
    */
@@ -97,7 +97,7 @@ class OrderService {
   }
 
   /**
-   * Cancel an order
+   
    * @param {string} id - Order ID
    * @returns {Promise} - API response
    */
@@ -106,7 +106,7 @@ class OrderService {
   }
 
   /**
-   * Get all orders (admin/pharmacist only)
+   
    * @param {number} page - Page number
    * @param {number} limit - Results per page
    * @param {Array} filter - Array of filter objects
@@ -174,7 +174,7 @@ class OrderService {
   }
 
   /**
-   * Update order status (admin only)
+   
    * @param {string} id - Order ID
    * @param {string} status - New status
    * @returns {Promise} - API response
@@ -184,7 +184,7 @@ class OrderService {
   }
 
   /**
-   * Get revenue statistics (admin only)
+   
    * @param {string} fromDate - Start date (YYYY-MM-DD)
    * @param {string} toDate - End date (YYYY-MM-DD)
    * @returns {Promise} - API response with total revenue
@@ -198,7 +198,7 @@ class OrderService {
   }
 
   /**
-   * Maps old sort field names to new API field names
+   
    * @param {string} field - Old field name
    * @returns {string} - New field name
    */

@@ -29,7 +29,6 @@
     </div>
 
     <div v-else>
-      <!-- Enable/Disable Agent -->
       <div class="mb-6 p-4 bg-gray-50 rounded border">
         <div class="flex justify-between items-center">
           <div>
@@ -52,7 +51,6 @@
         </div>
       </div>
 
-      <!-- AI Model Settings -->
       <div class="mb-6 p-4 bg-gray-50 rounded border">
         <h3 class="font-medium text-lg mb-3">Model AI</h3>
 
@@ -94,7 +92,6 @@
         </div>
       </div>
 
-      <!-- User Experience Settings -->
       <div class="mb-6 p-4 bg-gray-50 rounded border">
         <h3 class="font-medium text-lg mb-3">Ustawienia interfejsu</h3>
 
@@ -166,7 +163,6 @@
         </div>
       </div>
 
-      <!-- API Usage and Tools -->
       <div class="mb-6 p-4 bg-gray-50 rounded border">
         <h3 class="font-medium text-lg mb-3">Wykorzystanie API i narzędzia</h3>
 
@@ -216,7 +212,6 @@
         </div>
       </div>
 
-      <!-- Actions -->
       <div class="flex justify-between">
         <button
           @click="resetToDefaults"
@@ -251,7 +246,6 @@ export default {
     const error = ref(null);
     const isSaving = ref(false);
 
-    // Settings from store with defaults
     const settings = reactive({
       isEnabled: true,
       modelType: "mistral-medium",
@@ -261,36 +255,29 @@ export default {
       voiceEnabled: false,
     });
 
-    // Available tools from API
     const availableTools = ref([]);
     const enabledTools = reactive({});
 
-    // API usage statistics (mock)
     const apiUsage = reactive({
       current: 847,
       limit: 10000,
     });
 
-    // Load settings from store or localStorage
     const loadSettings = async () => {
       isLoading.value = true;
       try {
-        // Get settings from store
         const storeSettings = store.getters["ai/getSettings"];
 
-        // Update local settings
         Object.assign(settings, {
           isEnabled: store.getters["ai/isEnabled"],
           ...storeSettings,
         });
 
-        // Fetch available tools
         await store.dispatch("ai/fetchAvailableTools");
         availableTools.value = store.getters["ai/getAvailableTools"];
 
-        // Initialize enabled tools
         availableTools.value.forEach((tool) => {
-          enabledTools[tool.name] = tool.enabled !== false; // Default to enabled
+          enabledTools[tool.name] = tool.enabled !== false;
         });
       } catch (err) {
         error.value = "Nie udało się załadować ustawień: " + err.message;
@@ -300,43 +287,32 @@ export default {
       }
     };
 
-    // Update a single setting
     const updateSetting = (key, value) => {
-      // Update local state
       settings[key] = value;
 
-      // Save to store
       if (key === "isEnabled") {
-        // Special case for the enable/disable toggle
         store.dispatch("ai/toggleAiAgent");
       } else {
-        // Other settings
         store.dispatch("ai/updateSettings", { [key]: value });
       }
 
-      // Show notification
       notification.info(`Ustawienie "${key}" zostało zaktualizowane`);
     };
 
-    // Update tool status
     const updateToolStatus = (toolName, enabled) => {
-      // Update local state
       enabledTools[toolName] = enabled;
 
-      // In a real implementation, you would save this to the backend
       notification.info(
         `Narzędzie "${toolName}" zostało ${enabled ? "włączone" : "wyłączone"}`
       );
     };
 
-    // Reset to default settings
     const resetToDefaults = () => {
       if (
         confirm(
           "Czy na pewno chcesz przywrócić wszystkie ustawienia do wartości domyślnych?"
         )
       ) {
-        // Reset local settings
         Object.assign(settings, {
           isEnabled: true,
           modelType: "mistral-medium",
@@ -346,12 +322,10 @@ export default {
           voiceEnabled: false,
         });
 
-        // Reset tool enablement
         Object.keys(enabledTools).forEach((toolName) => {
           enabledTools[toolName] = true;
         });
 
-        // Save to store
         store.dispatch("ai/updateSettings", {
           modelType: settings.modelType,
           temperature: settings.temperature,
@@ -370,12 +344,10 @@ export default {
       }
     };
 
-    // Save all settings at once
     const saveAllSettings = async () => {
       isSaving.value = true;
 
       try {
-        // Update all settings in the store
         await store.dispatch("ai/updateSettings", {
           modelType: settings.modelType,
           temperature: settings.temperature,
@@ -384,14 +356,10 @@ export default {
           voiceEnabled: settings.voiceEnabled,
         });
 
-        // Ensure isEnabled setting is correct
         const currentEnabled = store.getters["ai/isEnabled"];
         if (currentEnabled !== settings.isEnabled) {
           await store.dispatch("ai/toggleAiAgent");
         }
-
-        // In a real implementation, you would also save tool enablement to the backend
-        // For now, we'll just show a success message
 
         notification.success("Wszystkie ustawienia zostały zapisane pomyślnie");
       } catch (err) {
@@ -403,7 +371,6 @@ export default {
       }
     };
 
-    // Load settings on component mount
     onMounted(() => {
       loadSettings();
     });

@@ -1,11 +1,11 @@
 import api from "./api";
 
 /**
- * Serwis do komunikacji z asystentem Mistral AI
+ 
  */
 class MistralAiService {
   /**
-   * Wysyła wiadomość do asystenta AI
+   
    * @param {Array} messages - Historia wiadomości w formacie [{role: 'user|assistant|system', content: 'treść'}]
    * @returns {Promise} - Odpowiedź od asystenta
    */
@@ -27,13 +27,12 @@ class MistralAiService {
   }
 
   /**
-   * Pobiera dane o lekach na podstawie zapytania
+   
    * @param {string} query - Zapytanie o lek
    * @returns {Promise} - Dane o lekach
    */
   async searchDrugs(query) {
     try {
-      // Próba wyodrębnienia nazwy leku z zapytania
       const drugName = this.extractDrugName(query);
 
       const response = await api.get("/drugs", {
@@ -55,7 +54,7 @@ class MistralAiService {
   }
 
   /**
-   * Pobiera dane o zamówieniach użytkownika
+   
    * @returns {Promise} - Dane o zamówieniach
    */
   async getUserOrders() {
@@ -74,14 +73,13 @@ class MistralAiService {
   }
 
   /**
-   * Analizuje zapytanie, żeby określić czy należy użyć narzędzia
+   
    * @param {string} query - Zapytanie użytkownika
    * @returns {Object} - Informacja o narzędziu do użycia
    */
   analyzeQuery(query) {
     const lowerQuery = query.toLowerCase();
 
-    // Sprawdź czy zapytanie dotyczy leków
     if (
       lowerQuery.includes("lek") ||
       lowerQuery.includes("leki") ||
@@ -93,7 +91,6 @@ class MistralAiService {
       return { tool: "drugs", confidence: 0.8 };
     }
 
-    // Sprawdź czy zapytanie dotyczy zamówień
     if (
       lowerQuery.includes("zamówienie") ||
       lowerQuery.includes("zamówiłem") ||
@@ -103,12 +100,11 @@ class MistralAiService {
       return { tool: "orders", confidence: 0.7 };
     }
 
-    // Brak konkretnego narzędzia
     return { tool: null, confidence: 0 };
   }
 
   /**
-   * Pobiera informacje przy użyciu odpowiedniego narzędzia
+ 
    * @param {string} tool - Nazwa narzędzia do użycia
    * @param {string} query - Treść zapytania
    * @returns {Promise} - Wynik działania narzędzia
@@ -133,17 +129,11 @@ class MistralAiService {
   }
 
   /**
-   * Wyciąga nazwę leku z zapytania
+   
    * @param {string} query - Zapytanie użytkownika
    * @returns {string} - Wyodrębniona nazwa leku
    */
   extractDrugName(query) {
-    // Proste wyrażenie regularne do wyodrębnienia nazwy leku
-    // Przykłady:
-    // "ile kosztuje Paracetamol?" -> "Paracetamol"
-    // "masz lek na ból głowy?" -> "ból głowy"
-    // "czy są jakieś leki przeciwbólowe?" -> "przeciwbólowe"
-
     const patterns = [
       /lek(?:i|u|ów)?\s+(?:na\s+)?(.+?)(?:\?|\.|\s+jest|\s+są|$)/i,
       /(?:ile kosztuje|cena|cenę)\s+(.+?)(?:\?|\.|\s+jest|\s+są|$)/i,
@@ -157,7 +147,6 @@ class MistralAiService {
       }
     }
 
-    // Jeśli nie znaleziono dopasowania, zwróć pusty ciąg
     return "";
   }
 }

@@ -1,5 +1,4 @@
 <template>
-  <!-- Floating Chat Button -->
   <button
     @click="toggleChat"
     class="fixed bottom-4 right-4 bg-mint text-white rounded-full p-4 shadow-lg hover:bg-lightmint transition-colors z-50 flex items-center justify-center"
@@ -44,7 +43,6 @@
     </span>
   </button>
 
-  <!-- Chat Modal -->
   <div
     v-if="isOpen"
     class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
@@ -53,7 +51,6 @@
     <div
       class="bg-white rounded-lg shadow-xl w-full max-w-lg h-[600px] flex flex-col overflow-hidden"
     >
-      <!-- Modal Header -->
       <div
         class="bg-mint text-white px-4 py-3 rounded-t-lg flex justify-between items-center"
       >
@@ -118,7 +115,6 @@
         </div>
       </div>
 
-      <!-- Chat Messages -->
       <div
         ref="messagesContainer"
         class="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50"
@@ -135,13 +131,11 @@
               : 'bg-white border border-gray-200 shadow-sm',
           ]"
         >
-          <!-- Message content -->
           <div
             class="prose prose-sm"
             v-html="formatMessage(message.content)"
           ></div>
 
-          <!-- Tool result display (if any) -->
           <div
             v-if="message.toolResult"
             class="mt-2 p-2 bg-gray-100 rounded text-xs"
@@ -163,13 +157,11 @@
             </div>
           </div>
 
-          <!-- Message timestamp -->
           <div class="text-xs text-gray-500 mt-1 text-right">
             {{ formatTime(message.timestamp) }}
           </div>
         </div>
 
-        <!-- Loading indicator -->
         <div
           v-if="isLoading"
           class="flex items-center space-x-2 p-3 bg-white rounded-lg border border-gray-200 shadow-sm"
@@ -191,7 +183,6 @@
           <div class="text-sm text-gray-500">Asystent pisze...</div>
         </div>
 
-        <!-- Error message -->
         <div
           v-if="error"
           class="bg-red-100 text-red-700 p-3 rounded-lg border border-red-200"
@@ -207,7 +198,6 @@
         </div>
       </div>
 
-      <!-- Suggested questions/actions -->
       <div
         v-if="suggestions.length > 0 && !isLoading"
         class="px-4 py-2 border-t border-gray-200 flex overflow-x-auto space-x-2"
@@ -222,7 +212,6 @@
         </button>
       </div>
 
-      <!-- Input Area -->
       <div class="border-t p-4 bg-white">
         <form @submit.prevent="sendMessage" class="flex items-center">
           <input
@@ -301,7 +290,6 @@ export default {
     const userHasInteracted = ref(false);
     const inactivityTimer = ref(null);
 
-    // Predefined suggestions based on common user inquiries
     const defaultSuggestions = [
       "Jakie leki są dostępne?",
       "Jak złożyć zamówienie?",
@@ -310,27 +298,17 @@ export default {
       "Jaka jest cena Paracetamolu?",
     ];
 
-    // Refresh suggestions
     const refreshSuggestions = () => {
-      // If we already have messages, we can generate contextual suggestions
       if (messages.value.length > 1) {
-        // In a real implementation, you could analyze the conversation to
-        // provide more relevant suggestions, or even request suggestions from the AI
         suggestions.value = getContextualSuggestions();
       } else {
-        // Otherwise use default suggestions
         suggestions.value = defaultSuggestions;
       }
     };
 
-    // Generate contextual suggestions based on conversation history
     const getContextualSuggestions = () => {
       const history = messages.value;
 
-      // This is a simple implementation - in a real app, you might use
-      // more sophisticated logic or even ask the AI for suggested next questions
-
-      // Check if user has asked about drugs
       if (
         history.some(
           (msg) =>
@@ -346,7 +324,6 @@ export default {
         ];
       }
 
-      // Check if user has asked about orders
       if (
         history.some(
           (msg) =>
@@ -362,7 +339,6 @@ export default {
         ];
       }
 
-      // Default contextual suggestions
       return [
         "Powiedz mi więcej o waszej aptece",
         "Jak mogę skontaktować się z farmaceutą?",
@@ -371,24 +347,21 @@ export default {
       ];
     };
 
-    // Apply a suggestion to the input field
     const applySuggestion = (suggestion) => {
       newMessage.value = suggestion;
-      // Focus the input
+
       setTimeout(() => {
         document.querySelector('input[type="text"]').focus();
       }, 100);
     };
 
-    // Format message content with markdown
     const formatMessage = (content) => {
       if (!content) return "";
-      // Convert markdown to HTML and sanitize
+
       const html = marked(content);
       return DOMPurify.sanitize(html);
     };
 
-    // Format timestamp
     const formatTime = (timestamp) => {
       if (!timestamp) return "";
       const date = new Date(timestamp);
@@ -398,7 +371,6 @@ export default {
       });
     };
 
-    // Translate order status
     const translateStatus = (status) => {
       const statusMap = {
         PENDING: "Oczekujące",
@@ -408,12 +380,10 @@ export default {
       return statusMap[status] || status;
     };
 
-    // Open the chat modal
     const openChat = () => {
       isOpen.value = true;
-      unreadCount.value = 0; // Reset unread count when opening chat
+      unreadCount.value = 0;
 
-      // Add system welcome message if this is the first time opening
       if (messages.value.length === 0) {
         messages.value.push({
           role: "assistant",
@@ -422,23 +392,19 @@ export default {
           timestamp: new Date(),
         });
 
-        // Set default suggestions
         refreshSuggestions();
       }
 
-      // Focus the input field
       setTimeout(() => {
         const inputField = document.querySelector('input[type="text"]');
         if (inputField) inputField.focus();
       }, 300);
     };
 
-    // Close the chat modal
     const closeChat = () => {
       isOpen.value = false;
     };
 
-    // Toggle the chat modal
     const toggleChat = () => {
       if (isOpen.value) {
         closeChat();
@@ -447,12 +413,10 @@ export default {
       }
     };
 
-    // Clear chat history
     const clearChat = () => {
       if (confirm("Czy na pewno chcesz wyczyścić historię czatu?")) {
         messages.value = [];
 
-        // Add welcome message back
         messages.value.push({
           role: "assistant",
           content:
@@ -460,23 +424,19 @@ export default {
           timestamp: new Date(),
         });
 
-        // Reset suggestions
         refreshSuggestions();
       }
     };
 
-    // Send a message to Mistral AI
     const sendMessage = async () => {
       if (!newMessage.value.trim()) return;
 
       userHasInteracted.value = true;
 
-      // Reset inactivity timer if it exists
       if (inactivityTimer.value) {
         clearTimeout(inactivityTimer.value);
       }
 
-      // Add user message to chat
       const userMessage = {
         role: "user",
         content: newMessage.value,
@@ -490,11 +450,9 @@ export default {
       isLoading.value = true;
       error.value = null;
 
-      // Scroll to bottom
       await scrollToBottom();
 
       try {
-        // Check if user is authenticated
         const token = localStorage.getItem("token");
         const isAuthenticated = !!token;
 
@@ -502,7 +460,6 @@ export default {
           !isAuthenticated &&
           userInput.toLowerCase().includes("zamówienie")
         ) {
-          // If user is asking about orders but is not authenticated
           messages.value.push({
             role: "assistant",
             content:
@@ -519,7 +476,6 @@ export default {
           return;
         }
 
-        // Send request to our backend (which proxies to Mistral)
         const response = await mistralAiService.sendChatCompletion(
           messages.value.map((msg) => ({
             role: msg.role,
@@ -527,17 +483,14 @@ export default {
           }))
         );
 
-        // Check if the response indicates we should use a tool
         const shouldUseTool = detectToolNeed(userInput, response.content);
 
         if (shouldUseTool) {
-          // If a tool should be used, call the appropriate endpoint
           const toolResponse = await executeRelevantTool(
             userInput,
             response.content
           );
 
-          // Add AI response with tool result
           messages.value.push({
             role: "assistant",
             content: toolResponse.interpretation.content,
@@ -548,7 +501,6 @@ export default {
             timestamp: new Date(),
           });
         } else {
-          // Add standard AI response to chat
           messages.value.push({
             role: "assistant",
             content: response.content,
@@ -556,10 +508,8 @@ export default {
           });
         }
 
-        // Update suggestions based on the new context
         refreshSuggestions();
 
-        // Set inactivity timer for 3 minutes
         inactivityTimer.value = setTimeout(() => {
           if (isOpen.value && userHasInteracted.value) {
             messages.value.push({
@@ -580,12 +530,10 @@ export default {
       }
     };
 
-    // Detect if we need to use a tool based on the request and AI response
     const detectToolNeed = (userInput, aiResponse) => {
       const userLower = userInput.toLowerCase();
       const aiLower = aiResponse.toLowerCase();
 
-      // Check for keywords that might indicate we need drug information
       if (
         (userLower.includes("lek") ||
           userLower.includes("leki") ||
@@ -596,7 +544,6 @@ export default {
         return true;
       }
 
-      // Check for order-related queries
       if (
         userLower.includes("zamówienie") ||
         userLower.includes("zamówić") ||
@@ -605,7 +552,6 @@ export default {
         return true;
       }
 
-      // Check if AI response indicates missing information that might be in our database
       if (
         aiLower.includes("nie mam informacji") ||
         aiLower.includes("nie posiadam danych") ||
@@ -617,27 +563,22 @@ export default {
       return false;
     };
 
-    // Execute the relevant tool based on the query
     const executeRelevantTool = async (userInput, aiResponse) => {
       const userLower = userInput.toLowerCase();
 
       try {
-        // Get user authentication status
         const token = localStorage.getItem("token");
 
-        // If user is querying about drugs
         if (
           userLower.includes("lek") ||
           userLower.includes("leki") ||
           userLower.includes("medykament")
         ) {
-          // Extract potential drug name (simple implementation)
           const drugNameMatch = userInput.match(
             /lek(?:i|u|ów)?\s+(?:na\s+)?(.+?)(?:\?|\.|\s+jest|\s+są|$)/i
           );
           const drugName = drugNameMatch ? drugNameMatch[1].trim() : "";
 
-          // Query our API for drugs
           const response = await api.get("/drugs", {
             params: {
               name: drugName || undefined,
@@ -650,10 +591,8 @@ export default {
             response.data.status === "success" &&
             response.data.data.length > 0
           ) {
-            // We found drugs, focus on the first one for simplicity
             const firstDrug = response.data.data[0];
 
-            // Use Mistral to interpret the result
             const interpretation = await mistralAiService.sendChatCompletion([
               {
                 role: "system",
@@ -672,13 +611,11 @@ export default {
           }
         }
 
-        // If user is querying about their orders
         if (
           userLower.includes("zamówienie") ||
           userLower.includes("zamówić") ||
           userLower.includes("historia")
         ) {
-          // Only proceed if user is authenticated
           if (!token) {
             return {
               toolType: "auth",
@@ -690,7 +627,6 @@ export default {
             };
           }
 
-          // Get user's orders
           const response = await api.get("/orders", {
             headers: { Authorization: `Bearer ${token}` },
           });
@@ -699,10 +635,8 @@ export default {
             response.data.status === "success" &&
             response.data.data.length > 0
           ) {
-            // We found orders
             const orders = response.data.data;
 
-            // Use Mistral to interpret the result
             const interpretation = await mistralAiService.sendChatCompletion([
               {
                 role: "system",
@@ -715,11 +649,10 @@ export default {
 
             return {
               toolType: "order",
-              toolResult: orders[0], // Just return the first order for simplicity
+              toolResult: orders[0],
               interpretation,
             };
           } else {
-            // No orders found
             return {
               toolType: "order",
               toolResult: { empty: true },
@@ -731,7 +664,6 @@ export default {
           }
         }
 
-        // Default case - if we couldn't determine a specific tool to use
         return {
           toolType: "none",
           toolResult: null,
@@ -750,12 +682,10 @@ export default {
       }
     };
 
-    // Handle input focus (mark messages as read)
     const handleInputFocus = () => {
       unreadCount.value = 0;
     };
 
-    // Scroll to bottom of messages container
     const scrollToBottom = async () => {
       await nextTick();
       if (messagesContainer.value) {
@@ -764,19 +694,16 @@ export default {
       }
     };
 
-    // Watch for messages changes to scroll to bottom
     watch(messages, async () => {
       await scrollToBottom();
     });
 
-    // Watch for chat open/close to update unread count
     watch(isOpen, (newVal) => {
       if (newVal === true) {
         unreadCount.value = 0;
       }
     });
 
-    // Save messages to localStorage when component unmounts
     onBeforeUnmount(() => {
       localStorage.setItem("aiChatMessages", JSON.stringify(messages.value));
       if (inactivityTimer.value) {
@@ -784,7 +711,6 @@ export default {
       }
     });
 
-    // Load messages from localStorage on mount
     onMounted(() => {
       const savedMessages = localStorage.getItem("aiChatMessages");
       if (savedMessages) {
@@ -797,7 +723,6 @@ export default {
 
       refreshSuggestions();
 
-      // Show a welcome notification after a short delay if the user hasn't opened the chat
       setTimeout(() => {
         if (!isOpen.value && messages.value.length === 0) {
           unreadCount.value = 1;
@@ -831,7 +756,6 @@ export default {
 </script>
 
 <style scoped>
-/* Add specific styles here if needed */
 .prose h1 {
   font-size: 1.25rem;
   font-weight: 600;
@@ -865,7 +789,6 @@ export default {
   text-decoration: underline;
 }
 
-/* Custom scrollbar for messages container */
 .prose::-webkit-scrollbar {
   width: 6px;
 }

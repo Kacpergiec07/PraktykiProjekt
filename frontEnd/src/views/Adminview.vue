@@ -12,11 +12,9 @@
           <div class="bg-white p-4 rounded-lg shadow-md mb-4">
             <h2 class="text-lg font-semibold mb-3">Menu</h2>
 
-            <!-- Menu z płynną animacją -->
             <div class="relative">
               <div class="absolute inset-0 bg-gray-50 rounded"></div>
 
-              <!-- Tło animowanego przełącznika -->
               <div
                 class="absolute rounded bg-blue-100 transition-all duration-400 ease-out"
                 :style="{
@@ -27,7 +25,6 @@
                 }"
               ></div>
 
-              <!-- Przyciski menu - wszystkie z dokładnie taką samą wysokością -->
               <div class="relative z-10">
                 <button
                   v-for="(tab, index) in tabs"
@@ -191,7 +188,6 @@
           </div>
         </div>
 
-        <!-- AI Assistant Config Tab -->
         <div v-else-if="currentTab === 'aiAssistant'">
           <ai-agent-config />
         </div>
@@ -237,7 +233,7 @@ export default {
         { label: "Zarządzanie zamówieniami", value: "orderManagement" },
         { label: "Statystyki przychodów", value: "revenueStats" },
         { label: "Zarządzanie lekami", value: "drugManagement" },
-        { label: "Asystent AI", value: "aiAssistant" }, // New tab for AI assistant configuration
+        { label: "Asystent AI", value: "aiAssistant" },
       ],
     };
   },
@@ -306,7 +302,7 @@ export default {
     async changePage(page) {
       try {
         const pageIndex = page - 1;
-        // Jeśli mamy aktywne wyszukiwanie, zachowaj te same parametry przy zmianie strony
+
         if (this.isSearchActive) {
           const query = this.searchQuery.trim();
           const exactMatch = this.exactMatch;
@@ -315,7 +311,6 @@ export default {
             limit: 15,
           };
         } else {
-          // Standardowa zmiana strony bez parametrów wyszukiwania
           await this.fetchDrugs(pageIndex);
         }
 

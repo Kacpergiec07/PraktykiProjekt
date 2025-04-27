@@ -82,7 +82,7 @@ export default {
     ...mapGetters("auth", ["isAuthenticated", "getCurrentUser"]),
     isAdmin() {
       const user = this.getCurrentUser;
-      return user && user.permission >= 2; // Pharmacist or admin
+      return user && user.permission >= 2;
     },
   },
 };

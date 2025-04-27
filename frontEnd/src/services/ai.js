@@ -1,22 +1,20 @@
 import mistralAiService from "../../services/mistralAi.service";
 
-// Initial state
 const initialState = {
-  isEnabled: true, // Whether the AI agent is enabled
-  chatHistory: [], // Chat history
-  unreadCount: 0, // Number of unread messages
+  isEnabled: true,
+  chatHistory: [],
+  unreadCount: 0,
   settings: {
-    autoSuggest: true, // Whether to show auto-suggestions
-    notificationsEnabled: true, // Whether to show notifications
-    voiceEnabled: false, // Whether to enable voice interactions (future feature)
-    modelType: "mistral-medium", // AI model to use
+    autoSuggest: true,
+    notificationsEnabled: true,
+    voiceEnabled: false,
+    modelType: "mistral-medium",
   },
-  availableTools: [], // Tools available to the AI
-  isLoading: false, // Loading state
-  error: null, // Error state
+  availableTools: [],
+  isLoading: false,
+  error: null,
 };
 
-// Define store module
 export default {
   namespaced: true,
   state: { ...initialState },
@@ -68,25 +66,21 @@ export default {
   },
 
   actions: {
-    // Toggle AI agent on/off
     toggleAiAgent({ commit, state }) {
       commit("SET_ENABLED", !state.isEnabled);
     },
 
-    // Add a message to chat history
     addMessage({ commit, state }, message) {
       commit("ADD_MESSAGE", {
         ...message,
         timestamp: new Date(),
       });
 
-      // If message is from assistant and the user might not have seen it
       if (message.role === "assistant" && !state.isActive) {
         commit("INCREMENT_UNREAD");
       }
     },
 
-    // Load chat history from localStorage
     loadChatHistory({ commit }) {
       try {
         const savedHistory = localStorage.getItem("aiChatHistory");
@@ -98,7 +92,6 @@ export default {
       }
     },
 
-    // Save chat history to localStorage
     saveChatHistory({ state }) {
       try {
         localStorage.setItem(
@@ -110,23 +103,19 @@ export default {
       }
     },
 
-    // Clear chat history
     clearChatHistory({ commit }) {
       commit("CLEAR_CHAT_HISTORY");
       localStorage.removeItem("aiChatHistory");
     },
 
-    // Mark messages as read
     markAsRead({ commit }) {
       commit("RESET_UNREAD");
     },
 
-    // Update AI agent settings
     updateSettings({ commit }, settings) {
       commit("UPDATE_SETTINGS", settings);
     },
 
-    // Fetch available tools from backend
     async fetchAvailableTools({ commit }) {
       commit("SET_LOADING", true);
       commit("CLEAR_ERROR");
@@ -142,13 +131,11 @@ export default {
       }
     },
 
-    // Send a message to the AI
     async sendMessage({ commit, state, dispatch }, message) {
       commit("SET_LOADING", true);
       commit("CLEAR_ERROR");
 
       try {
-        // Add user message to history
         const userMessage = {
           role: "user",
           content: message,
@@ -156,24 +143,20 @@ export default {
 
         dispatch("addMessage", userMessage);
 
-        // Prepare message history for API
         const messageHistory = state.chatHistory.map((msg) => ({
           role: msg.role,
           content: msg.content,
         }));
 
-        // Send to Mistral AI
         const response = await mistralAiService.sendChatCompletion(
           messageHistory
         );
 
-        // Add AI response to history
         dispatch("addMessage", {
           role: "assistant",
           content: response.content,
         });
 
-        // Save updated history
         dispatch("saveChatHistory");
 
         return response;
@@ -186,7 +169,6 @@ export default {
       }
     },
 
-    // Execute a tool
     async executeTool(
       { commit, state, dispatch },
       { toolName, parameters, messageContext }
@@ -195,7 +177,6 @@ export default {
       commit("CLEAR_ERROR");
 
       try {
-        // Prepare message context if not provided
         const context =
           messageContext ||
           state.chatHistory.map((msg) => ({
@@ -203,14 +184,12 @@ export default {
             content: msg.content,
           }));
 
-        // Execute the tool
         const result = await mistralAiService.executeTool(
           toolName,
           parameters,
           context
         );
 
-        // Add result to chat history
         if (result.interpretation) {
           dispatch("addMessage", {
             role: "assistant",
@@ -221,7 +200,6 @@ export default {
             },
           });
 
-          // Save updated history
           dispatch("saveChatHistory");
         }
 

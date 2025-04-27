@@ -2,7 +2,7 @@ import api from "./api";
 
 class DrugService {
   /**
-   * Get all drugs with pagination
+  
    * @param {number} page - Page number (starts from 0)
    * @param {number} limit - Results per page
    * @param {string} name - Filter by name
@@ -65,7 +65,7 @@ class DrugService {
   }
 
   /**
-   * Get a drug by ID
+   
    * @param {string} id - Drug ID
    * @returns {Promise} - API response
    */
@@ -92,7 +92,7 @@ class DrugService {
   }
 
   /**
-   * Add a new drug
+   
    * @param {Object} drugData - Drug data
    * @returns {Promise} - API response
    */
@@ -101,7 +101,7 @@ class DrugService {
   }
 
   /**
-   * Update a drug
+   
    * @param {string} id - Drug ID
    * @param {string} field - Field to update
    * @param {any} value - New value
@@ -115,7 +115,7 @@ class DrugService {
   }
 
   /**
-   * Remove a drug
+   
    * @param {string} id - Drug ID
    * @returns {Promise} - API response
    */
