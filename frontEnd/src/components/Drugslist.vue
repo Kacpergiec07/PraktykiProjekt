@@ -1,5 +1,5 @@
 <template>
-  <div class=" from-blue-50 to-indigo-100 p-6 rounded-x1 mb-20">
+  <div class="from-blue-50 to-indigo-100 p-6 rounded-x1 mb-20">
     <!-- Loading state -->
     <div v-if="loading" class="flex justify-center p-12">
       <div class="animate-spin h-12 w-12 rounded-full shadow-lg"></div>
@@ -47,7 +47,7 @@
           @click="$emit('page-change', page)"
           class="relative inline-flex items-center justify-center px-4 py-2 text-sm font-medium transition-all duration-300 border"
           :class="[
-            currentPage === page
+            currentPage === page - 1
               ? 'bg-blue-600 text-white border-blue-600 shadow-md z-10'
               : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-50',
             page === 1 ? 'rounded-l-md' : '',
