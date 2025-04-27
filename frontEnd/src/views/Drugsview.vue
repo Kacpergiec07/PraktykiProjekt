@@ -210,7 +210,7 @@
 
 <script>
 import { mapGetters, mapActions, mapState } from "vuex";
-import DrugsList from "../components/DrugsList.vue";
+import DrugsList from "../components/Drugslist.vue";
 import ThreeBackground from "../components/ThreeBackground.vue";
 
 export default {

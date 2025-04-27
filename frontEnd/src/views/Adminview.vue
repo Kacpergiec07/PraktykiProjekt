@@ -181,10 +181,11 @@
               <drugs-list
                 :drugs="drugs"
                 :loading="drugsLoading"
-                :total-pages="drugsTotalPages"
-                :current-page="drugsCurrentPage"
-                @refresh="loadDrugs"
-                @page-change="changeDrugsPage"
+                :total-pages="totalPages"
+                :current-page="currentPage"
+                @refresh="refresh"
+                @page-change="changePage"
+                class="bg-opacity-65"
               />
             </div>
           </div>
@@ -302,15 +303,25 @@ export default {
       }
     },
 
-    async changeDrugsPage(page) {
-      this.drugsLoading = true;
+    async changePage(page) {
       try {
-        await this.fetchDrugs(page);
+        const pageIndex = page - 1;
+        // Jeśli mamy aktywne wyszukiwanie, zachowaj te same parametry przy zmianie strony
+        if (this.isSearchActive) {
+          const query = this.searchQuery.trim();
+          const exactMatch = this.exactMatch;
+          const searchParams = {
+            page: pageIndex,
+            limit: 15,
+          };
+        } else {
+          // Standardowa zmiana strony bez parametrów wyszukiwania
+          await this.fetchDrugs(pageIndex);
+        }
+
         window.scrollTo({ top: 0, behavior: "smooth" });
       } catch (error) {
         console.error("Failed to change page:", error);
-      } finally {
-        this.drugsLoading = false;
       }
     },
 

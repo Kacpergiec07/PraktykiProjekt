@@ -11,9 +11,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <div>
             <label class="block mb-1">Sortuj według</label>
-            <select 
-             v-model="orderBy"
-             class="w-full px-3 py-2 border rounded ">
+            <select v-model="orderBy" class="w-full px-3 py-2 border rounded">
               <option value="orderDate">Data zamowienia</option>
               <option value="status">Status</option>
               <option value="createdAt">Data utworzenia</option>
@@ -106,7 +104,7 @@
     </div>
 
     <div v-else>
-      <div class="overflow-x-auto mb-10">
+      <div class="overflow-x-auto mb-8">
         <table class="w-full border-collapse">
           <thead>
             <tr class="bg-gray-100">
@@ -135,7 +133,7 @@
         </table>
       </div>
 
-      <div v-if="totalPages > 1" class="flex justify-center mt-6">
+      <div v-if="totalPages > 1" class="flex justify-center my-8">
         <div class="flex space-x-1">
           <button
             v-for="page in totalPages"
@@ -143,7 +141,7 @@
             @click="changePage(page)"
             class="px-3 py-1 rounded"
             :class="
-              currentPage === page
+              currentPage === page - 1
                 ? 'bg-blue-600 text-white'
                 : 'bg-gray-200 hover:bg-gray-300'
             "
@@ -225,12 +223,13 @@ export default {
     },
 
     changePage(page) {
+      const pageIndex = page - 1;
       const filterArray = this.filters
         .filter((f) => f.value.trim() !== "")
         .map((f) => ({ [f.field]: f.value.trim() }));
 
       this.$emit("filter-change", {
-        page,
+        page: pageIndex,
         limit: this.limit,
         orderBy: this.orderBy,
         descending: this.descending,

@@ -121,7 +121,7 @@
             @click="changePage(page)"
             class="px-3 py-1 rounded"
             :class="
-              currentPage === page
+              currentPage === page - 1
                 ? 'bg-blue-600 text-white'
                 : 'bg-gray-200 hover:bg-gray-300'
             "
