@@ -178,3 +178,6 @@ nav .container a {
 .animate-pop {
   animation: pop 0.3s ease-out;
 }
+button {
+  cursor: pointer;
+}
