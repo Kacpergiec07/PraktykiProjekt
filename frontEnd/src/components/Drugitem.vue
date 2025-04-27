@@ -54,7 +54,7 @@
           <template v-if="isAdmin">
             <button
               @click.stop="$emit('edit')"
-              class="w-full px-2 py-1 bg-yellow-100 text-yellow-700 rounded hover:bg-yellow-200"
+              class="w-full px-2 py-1 bg-yellow-100 text-yellow-700 rounded hover:bg-yellow-200 "
             >
               Edytuj
             </button>
@@ -90,8 +90,8 @@
           <div class="h-8">
             <button
               v-if="drug.amount > 0 && isAuthenticated"
-              @click.stop="handleAddToCart"
-              class="w-full px-2 py-1 bg-purple-100 text-indigo-700 rounded hover:bg-indigo-200"
+              @click.stop="$emit('add-to-cart')"
+              class="w-full px-2 py-1 bg-purple-100 text-indigo-700 rounded hover:bg-indigo-200 active:text-700 active:bg-indigo-300"
             >
               Do koszyka
             </button>
