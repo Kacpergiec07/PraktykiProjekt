@@ -51,21 +51,22 @@
             >
               Edytuj
             </button>
-            <router-link
+            <button
+              @click.stop="$emit('remove')"
+              class="w-full px-2 py-1 bg-red-100 text-red-700 rounded hover:bg-red-200"
+              >
+              Usuń
+          </button>
+            
+          </template>
+          <router-link
               :to="`/drugs/${drug.idDrug}`"
               @click.stop
               class="block w-full px-2 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 text-center"
             >
               Szczegóły
             </router-link>
-          </template>
-
-          <button
-            @click.stop="$emit('remove')"
-            class="w-full px-2 py-1 bg-red-100 text-red-700 rounded hover:bg-red-200"
-          >
-            Usuń
-          </button>
+          
 
           <div class="h-8">
             <button

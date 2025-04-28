@@ -85,7 +85,7 @@ export default {
 
   try {
     for (const item of [...this.cartItems]) {
-      await this.orderDrug({ id: item.id, amount: item.quantity }); // <-- ważne: await
+      await this.orderDrug({ id: item.id, amount: item.quantity }); 
       this.REMOVE_FROM_CART(item.id);
     }
     alert("Zamówienie zostało złożone i ilości leków zostały zaktualizowane.");
