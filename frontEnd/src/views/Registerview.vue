@@ -73,6 +73,12 @@ export default {
       e.currentTarget.style.setProperty("--mouse-y", `${y}px`);
     },
   },
+  created() {
+    
+    if (this.isAuthenticated) {
+      this.$router.push(this.redirect);
+    }
+  },
   mounted() {
     const container = this.$el.querySelector(".magic-border");
     if (container) {
